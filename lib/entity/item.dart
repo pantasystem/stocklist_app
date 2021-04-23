@@ -12,8 +12,7 @@ class Item with _$Item{
     required String name,
     required String imagePath,
     required int homeId,
-    int? itemId,
+    int? nodeId,
     List<User>? owners,
-    required NodeType nodeType
   }) = _Item;
 }

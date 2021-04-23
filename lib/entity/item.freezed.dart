@@ -21,17 +21,15 @@ class _$ItemTearOff {
       required String name,
       required String imagePath,
       required int homeId,
-      int? itemId,
-      List<User>? owners,
-      required NodeType nodeType}) {
+      int? nodeId,
+      List<User>? owners}) {
     return _Item(
       id: id,
       name: name,
       imagePath: imagePath,
       homeId: homeId,
-      itemId: itemId,
+      nodeId: nodeId,
       owners: owners,
-      nodeType: nodeType,
     );
   }
 }
@@ -45,9 +43,8 @@ mixin _$Item {
   String get name => throw _privateConstructorUsedError;
   String get imagePath => throw _privateConstructorUsedError;
   int get homeId => throw _privateConstructorUsedError;
-  int? get itemId => throw _privateConstructorUsedError;
+  int? get nodeId => throw _privateConstructorUsedError;
   List<User>? get owners => throw _privateConstructorUsedError;
-  NodeType get nodeType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
@@ -62,9 +59,8 @@ abstract class $ItemCopyWith<$Res> {
       String name,
       String imagePath,
       int homeId,
-      int? itemId,
-      List<User>? owners,
-      NodeType nodeType});
+      int? nodeId,
+      List<User>? owners});
 }
 
 /// @nodoc
@@ -81,9 +77,8 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
     Object? name = freezed,
     Object? imagePath = freezed,
     Object? homeId = freezed,
-    Object? itemId = freezed,
+    Object? nodeId = freezed,
     Object? owners = freezed,
-    Object? nodeType = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -102,18 +97,14 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
           ? _value.homeId
           : homeId // ignore: cast_nullable_to_non_nullable
               as int,
-      itemId: itemId == freezed
-          ? _value.itemId
-          : itemId // ignore: cast_nullable_to_non_nullable
+      nodeId: nodeId == freezed
+          ? _value.nodeId
+          : nodeId // ignore: cast_nullable_to_non_nullable
               as int?,
       owners: owners == freezed
           ? _value.owners
           : owners // ignore: cast_nullable_to_non_nullable
               as List<User>?,
-      nodeType: nodeType == freezed
-          ? _value.nodeType
-          : nodeType // ignore: cast_nullable_to_non_nullable
-              as NodeType,
     ));
   }
 }
@@ -128,9 +119,8 @@ abstract class _$ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String name,
       String imagePath,
       int homeId,
-      int? itemId,
-      List<User>? owners,
-      NodeType nodeType});
+      int? nodeId,
+      List<User>? owners});
 }
 
 /// @nodoc
@@ -148,9 +138,8 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
     Object? name = freezed,
     Object? imagePath = freezed,
     Object? homeId = freezed,
-    Object? itemId = freezed,
+    Object? nodeId = freezed,
     Object? owners = freezed,
-    Object? nodeType = freezed,
   }) {
     return _then(_Item(
       id: id == freezed
@@ -169,18 +158,14 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
           ? _value.homeId
           : homeId // ignore: cast_nullable_to_non_nullable
               as int,
-      itemId: itemId == freezed
-          ? _value.itemId
-          : itemId // ignore: cast_nullable_to_non_nullable
+      nodeId: nodeId == freezed
+          ? _value.nodeId
+          : nodeId // ignore: cast_nullable_to_non_nullable
               as int?,
       owners: owners == freezed
           ? _value.owners
           : owners // ignore: cast_nullable_to_non_nullable
               as List<User>?,
-      nodeType: nodeType == freezed
-          ? _value.nodeType
-          : nodeType // ignore: cast_nullable_to_non_nullable
-              as NodeType,
     ));
   }
 }
@@ -193,9 +178,8 @@ class _$_Item implements _Item {
       required this.name,
       required this.imagePath,
       required this.homeId,
-      this.itemId,
-      this.owners,
-      required this.nodeType});
+      this.nodeId,
+      this.owners});
 
   @override
   final int id;
@@ -206,15 +190,13 @@ class _$_Item implements _Item {
   @override
   final int homeId;
   @override
-  final int? itemId;
+  final int? nodeId;
   @override
   final List<User>? owners;
-  @override
-  final NodeType nodeType;
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, itemId: $itemId, owners: $owners, nodeType: $nodeType)';
+    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, nodeId: $nodeId, owners: $owners)';
   }
 
   @override
@@ -230,13 +212,10 @@ class _$_Item implements _Item {
                     .equals(other.imagePath, imagePath)) &&
             (identical(other.homeId, homeId) ||
                 const DeepCollectionEquality().equals(other.homeId, homeId)) &&
-            (identical(other.itemId, itemId) ||
-                const DeepCollectionEquality().equals(other.itemId, itemId)) &&
+            (identical(other.nodeId, nodeId) ||
+                const DeepCollectionEquality().equals(other.nodeId, nodeId)) &&
             (identical(other.owners, owners) ||
-                const DeepCollectionEquality().equals(other.owners, owners)) &&
-            (identical(other.nodeType, nodeType) ||
-                const DeepCollectionEquality()
-                    .equals(other.nodeType, nodeType)));
+                const DeepCollectionEquality().equals(other.owners, owners)));
   }
 
   @override
@@ -246,9 +225,8 @@ class _$_Item implements _Item {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(imagePath) ^
       const DeepCollectionEquality().hash(homeId) ^
-      const DeepCollectionEquality().hash(itemId) ^
-      const DeepCollectionEquality().hash(owners) ^
-      const DeepCollectionEquality().hash(nodeType);
+      const DeepCollectionEquality().hash(nodeId) ^
+      const DeepCollectionEquality().hash(owners);
 
   @JsonKey(ignore: true)
   @override
@@ -262,9 +240,8 @@ abstract class _Item implements Item {
       required String name,
       required String imagePath,
       required int homeId,
-      int? itemId,
-      List<User>? owners,
-      required NodeType nodeType}) = _$_Item;
+      int? nodeId,
+      List<User>? owners}) = _$_Item;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -275,11 +252,9 @@ abstract class _Item implements Item {
   @override
   int get homeId => throw _privateConstructorUsedError;
   @override
-  int? get itemId => throw _privateConstructorUsedError;
+  int? get nodeId => throw _privateConstructorUsedError;
   @override
   List<User>? get owners => throw _privateConstructorUsedError;
-  @override
-  NodeType get nodeType => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemCopyWith<_Item> get copyWith => throw _privateConstructorUsedError;
