@@ -16,11 +16,16 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$NodeTearOff {
   const _$NodeTearOff();
 
-  _Node call({required int id, required String name, required String path}) {
+  _Node call(
+      {required int id,
+      required String name,
+      required String path,
+      required NodeType type}) {
     return _Node(
       id: id,
       name: name,
       path: path,
+      type: type,
     );
   }
 }
@@ -33,6 +38,7 @@ mixin _$Node {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
+  NodeType get type => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NodeCopyWith<Node> get copyWith => throw _privateConstructorUsedError;
@@ -42,7 +48,9 @@ mixin _$Node {
 abstract class $NodeCopyWith<$Res> {
   factory $NodeCopyWith(Node value, $Res Function(Node) then) =
       _$NodeCopyWithImpl<$Res>;
-  $Res call({int id, String name, String path});
+  $Res call({int id, String name, String path, NodeType type});
+
+  $NodeTypeCopyWith<$Res> get type;
 }
 
 /// @nodoc
@@ -58,6 +66,7 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? path = freezed,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -72,7 +81,18 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NodeType,
     ));
+  }
+
+  @override
+  $NodeTypeCopyWith<$Res> get type {
+    return $NodeTypeCopyWith<$Res>(_value.type, (value) {
+      return _then(_value.copyWith(type: value));
+    });
   }
 }
 
@@ -81,7 +101,10 @@ abstract class _$NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
   factory _$NodeCopyWith(_Node value, $Res Function(_Node) then) =
       __$NodeCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, String path});
+  $Res call({int id, String name, String path, NodeType type});
+
+  @override
+  $NodeTypeCopyWith<$Res> get type;
 }
 
 /// @nodoc
@@ -98,6 +121,7 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? path = freezed,
+    Object? type = freezed,
   }) {
     return _then(_Node(
       id: id == freezed
@@ -112,6 +136,10 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NodeType,
     ));
   }
 }
@@ -119,7 +147,11 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Node implements _Node {
-  _$_Node({required this.id, required this.name, required this.path});
+  _$_Node(
+      {required this.id,
+      required this.name,
+      required this.path,
+      required this.type});
 
   @override
   final int id;
@@ -127,10 +159,12 @@ class _$_Node implements _Node {
   final String name;
   @override
   final String path;
+  @override
+  final NodeType type;
 
   @override
   String toString() {
-    return 'Node(id: $id, name: $name, path: $path)';
+    return 'Node(id: $id, name: $name, path: $path, type: $type)';
   }
 
   @override
@@ -142,7 +176,9 @@ class _$_Node implements _Node {
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.path, path) ||
-                const DeepCollectionEquality().equals(other.path, path)));
+                const DeepCollectionEquality().equals(other.path, path)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
   }
 
   @override
@@ -150,7 +186,8 @@ class _$_Node implements _Node {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(path);
+      const DeepCollectionEquality().hash(path) ^
+      const DeepCollectionEquality().hash(type);
 
   @JsonKey(ignore: true)
   @override
@@ -159,8 +196,11 @@ class _$_Node implements _Node {
 }
 
 abstract class _Node implements Node {
-  factory _Node({required int id, required String name, required String path}) =
-      _$_Node;
+  factory _Node(
+      {required int id,
+      required String name,
+      required String path,
+      required NodeType type}) = _$_Node;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -168,6 +208,8 @@ abstract class _Node implements Node {
   String get name => throw _privateConstructorUsedError;
   @override
   String get path => throw _privateConstructorUsedError;
+  @override
+  NodeType get type => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$NodeCopyWith<_Node> get copyWith => throw _privateConstructorUsedError;

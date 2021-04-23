@@ -105,15 +105,7 @@ class HomeScreen extends HookWidget {
   }
 }
 
-class ItemsScreen extends HookWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text("Items"),
-    );
 
-  }
-}
 
 class SearchScreen extends HookWidget {
   @override

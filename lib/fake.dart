@@ -1,5 +1,6 @@
 
 import 'package:stocklist_app/entity/node.dart';
+import 'package:stocklist_app/entity/node_type.dart';
 
 import 'entity/item.dart';
 
@@ -17,7 +18,13 @@ List<Node> makeNodes({int level = 3, int count = 4,List<Node>? list, Node? curre
   list = list?? [];
   final List<Node> newItems = [];
   for(int i = list.length; i < list.length + count; i ++) {
-    newItems.add(Node(id: i, name: "node-name:" + i.toString(), path: (currentNode?.path?? "") + "/" + i.toString()));
+    final type;
+    if(i <= count) {
+      type = makeNodeType(id: 1, name: "room");
+    }else{
+      type = makeNodeType(id: 2, name: "box");
+    }
+    newItems.add(Node(id: i, name: "node-name:" + i.toString(), path: (currentNode?.path?? "") + "/" + i.toString(), type: type));
   }
   list.addAll(newItems);
 
@@ -25,4 +32,8 @@ List<Node> makeNodes({int level = 3, int count = 4,List<Node>? list, Node? curre
     makeNodes(level: level - 1, count: count, list: list, currentNode: element);
   });
   return list;
+}
+
+NodeType makeNodeType({int id = 1, String name = "room"}) {
+  return NodeType(id: id, name: name, homeId: 1, createdAt: DateTime.now());
 }
