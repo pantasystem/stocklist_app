@@ -24,28 +24,55 @@ class StocklistApp extends StatelessWidget {
     final items = makeItems(homeId: 1, count: 20);
 
     return MaterialApp(
-      home: Scaffold(
-        body: ItemListView(items: items,),
-      )
+      home: MainScreen()
     );
 
   }
 }
 
 class MainScreen extends HookWidget {
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  final List<Widget> screens = [
+    HomeScreen(),
+    SearchScreen(),
+    BoxScreen(),
+    CategoryScreen()
+  ];
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    final selectedIndex = useState(0);
+    return Scaffold(
+      body: screens[selectedIndex.value],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "ホーム"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "探す"),
+          BottomNavigationBarItem(icon: Icon(Icons.storage), label: "収納"),
+          BottomNavigationBarItem(icon: Icon(Icons.category), label: "カテゴリー")
+        ],
+        onTap: (index){
+          selectedIndex.value = index;
+        },
+        currentIndex: selectedIndex.value,
+        selectedItemColor: Theme.of(context).primaryColor
+      ),
+    );
   }
+
+
 }
 
 class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("ホーム"),
+      ),
+      body: Center(child: Text("未実装"),),
+    );
   }
 }
 
@@ -62,8 +89,9 @@ class ItemsScreen extends HookWidget {
 class SearchScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      body: Center(child: Text("未実装"),),
+    );
   }
 }
 
@@ -71,11 +99,19 @@ class CategoryScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      body: Center(child: Text("未実装"),),
+    );
   }
 }
 
-
+class BoxScreen extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: Text("未実装"),),
+    );
+  }
+}
 
 
