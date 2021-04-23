@@ -7,6 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/item_widget.dart';
+import 'package:stocklist_app/screen/category_screen.dart';
+import 'package:stocklist_app/screen/search_screen.dart';
 import 'package:stocklist_app/store/item_store.dart';
 
 final displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
@@ -105,26 +107,6 @@ class HomeScreen extends HookWidget {
   }
 }
 
-
-
-class SearchScreen extends HookWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text("未実装"),),
-    );
-  }
-}
-
-class CategoryScreen extends HookWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text("未実装"),),
-    );
-  }
-}
 
 class BoxScreen extends HookWidget {
   @override
