@@ -117,6 +117,7 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$_Node implements _Node {
   _$_Node({required this.id, required this.name, required this.path});
 

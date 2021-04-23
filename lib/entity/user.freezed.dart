@@ -117,6 +117,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$_User implements _User {
   _$_User({required this.id, required this.homeId, required this.name});
 

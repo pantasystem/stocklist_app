@@ -145,6 +145,7 @@ class __$NodeDTOCopyWithImpl<$Res> extends _$NodeDTOCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$_NodeDTO implements _NodeDTO {
   _$_NodeDTO(
       {required this.id,

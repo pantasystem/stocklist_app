@@ -198,6 +198,7 @@ class __$ItemDTOCopyWithImpl<$Res> extends _$ItemDTOCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$_ItemDTO implements _ItemDTO {
   _$_ItemDTO(
       {required this.id,

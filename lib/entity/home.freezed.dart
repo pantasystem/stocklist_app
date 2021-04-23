@@ -105,6 +105,7 @@ class __$HomeCopyWithImpl<$Res> extends _$HomeCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 class _$_Home implements _Home {
   _$_Home({required this.id, required this.name});
 
