@@ -42,21 +42,50 @@ class MainScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState(0);
+
+    final selected = (int index) {
+      selectedIndex.value = index;
+    };
     return Scaffold(
       body: screens[selectedIndex.value],
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "ホーム"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "探す"),
-          BottomNavigationBarItem(icon: Icon(Icons.storage), label: "収納"),
-          BottomNavigationBarItem(icon: Icon(Icons.category), label: "カテゴリー")
-        ],
-        onTap: (index){
-          selectedIndex.value = index;
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO 投稿画面を表示する。
         },
-        currentIndex: selectedIndex.value,
-        selectedItemColor: Theme.of(context).primaryColor
+        child: Container(
+          margin: EdgeInsets.all(15.0),
+          child: Icon(Icons.add),
+        ),
+        elevation: 4.0,
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          margin: EdgeInsets.only(left: 12.0, right: 12.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildItem(icon: Icons.home, onPressed: selected, index: 0, currentIndex: selectedIndex.value),
+              buildItem(icon: Icons.search, onPressed: selected, index: 1, currentIndex: selectedIndex.value),
+              SizedBox(width: 50.0),
+              buildItem(icon: Icons.storage, onPressed: selected, index: 2, currentIndex: selectedIndex.value),
+              buildItem(icon: Icons.category, onPressed: selected, index: 3, currentIndex: selectedIndex.value)
+            ],
+          )
+        ),
+        shape: CircularNotchedRectangle(),
+        color: Colors.white
+      )
+    );
+  }
+
+  Widget buildItem({required IconData icon, required onPressed, required int index, required int currentIndex}) {
+    final isSelected = index == currentIndex;
+    return IconButton(onPressed: (){
+      onPressed(index);
+    },
+      icon: Icon(icon, color: isSelected ? Colors.blue.shade900 : Colors.blue.shade400,),
     );
   }
 
