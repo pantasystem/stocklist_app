@@ -7,6 +7,7 @@ import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/item_widget.dart';
 import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/widget/display_type.dart';
 
 class CategoryScreen extends HookWidget {
 
@@ -45,13 +46,11 @@ class CategoryScreen extends HookWidget {
                 Container(child: Text("カテゴリー", style: TextStyle(fontSize: 20.0),), padding: EdgeInsets.fromLTRB(8, 0, 0, 0),),
                 for(int i = 0; i < 2; i ++)
                   ListTile(title: Text("category" + i.toString()), leading: Icon(Icons.arrow_forward_ios),),
-
               ],
             ),
           ),
           SizedBox(height: 8),
           Card(
-
             elevation: 2.0,
             child: Container(
               padding: EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 4.0),
@@ -62,7 +61,7 @@ class CategoryScreen extends HookWidget {
                     child: Row(
                       children: [
                         Text("物一覧", style: TextStyle(fontSize: 20.0),),
-                        buildDisplayTypeButton(
+                        DisplayTypeIconButton(
                           type,
                           () {
                             context.read(displayType.notifier).toggle();
@@ -72,7 +71,7 @@ class CategoryScreen extends HookWidget {
                     ),
                     padding: EdgeInsets.fromLTRB(8, 0, 0, 8),
                   ),
-                  buildItemsView(itemsState.value)
+                  buildItemsView(itemsState.value, type)
                 ],
 
               )
@@ -83,22 +82,23 @@ class CategoryScreen extends HookWidget {
     );
   }
 
-  Widget buildItemsView(List<Item> items) {
-    return ListView.builder(itemBuilder: (builder, int index){
-      return ItemListTileWidget(item: items[index]);
-    },
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      itemCount: items.length,
-    );
+  Widget buildItemsView(List<Item> items, DisplayType type) {
+    if(type == DisplayType.LIST) {
+      return ItemListView(
+        items: items,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      );
+    }else{
+      return ItemsGridView(
+        items: items,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      );
+    }
+
   }
 
-  Widget buildDisplayTypeButton(DisplayType type, VoidCallback onTap) {
-    if(type == DisplayType.GRID) {
-      return IconButton(onPressed: onTap, icon: Icon(Icons.grid_view));
-    }else {
-      return IconButton(onPressed: onTap, icon: Icon(Icons.list));
-    }
-  }
+
 
 }
