@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/fake.dart';
-import 'package:stocklist_app/item_widget.dart';
+import 'package:stocklist_app/widget/item_widget.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/widget/display_type.dart';
 

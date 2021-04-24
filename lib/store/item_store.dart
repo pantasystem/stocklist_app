@@ -31,6 +31,10 @@ class ItemMutation extends StateNotifier<List<Item>> {
     return this.state.where((element) => sets.contains(element.id)).toSet();
   }
 
+  List<Item> filterByNodeId(int? nodeId) {
+    return this.state.where((element) => element.nodeId == nodeId).toList();
+  }
+
 }
 
 class ItemAction {

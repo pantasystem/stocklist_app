@@ -1,15 +1,13 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/fake.dart';
-import 'package:stocklist_app/item_widget.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/search_screen.dart';
 import 'package:stocklist_app/store/item_store.dart';
+import 'package:stocklist_app/widget/node_and_item.dart';
 
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemMutation([]));
@@ -111,8 +109,22 @@ class HomeScreen extends HookWidget {
 class BoxScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final nodes = makeNodes(count: 5, );
+    final first = nodes[5];
+    final filtered = nodes.where((element) => element.path.startsWith(first.path)).toList();
+    print(first);
+    final path = first.path.split("/").where((element) => element.isNotEmpty).map((e) => int.parse(e)).toList().map((e) => nodes.firstWhere((element) => e == element.id)).toList();
+    print(path);
+
+
     return Scaffold(
-      body: Center(child: Text("未実装"),),
+      appBar: AppBar(
+        title: Text("収納別"),
+      ),
+      body: NodeAndItemListView(
+        items: makeItems(homeId: 1, nodeId: first.id, count: 20),
+        nodes: filtered,
+      )
     );
   }
 }
