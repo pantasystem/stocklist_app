@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/item_widget.dart';
+import 'package:stocklist_app/main.dart';
 
 class CategoryScreen extends HookWidget {
+
   @override
   Widget build(BuildContext context) {
     final itemsState = useState<List<Item>>([]);
+    final type = useProvider(displayType);
+
+
     itemsState.value = makeItems(homeId: 1, count: 20);
     return Scaffold(
       appBar: AppBar(
@@ -36,8 +43,9 @@ class CategoryScreen extends HookWidget {
               physics: ClampingScrollPhysics(),
               children: [
                 Container(child: Text("カテゴリー", style: TextStyle(fontSize: 20.0),), padding: EdgeInsets.fromLTRB(8, 0, 0, 0),),
-                ListTile(title: Text("category10"),leading: Icon(Icons.arrow_forward_ios),),
-                ListTile(title: Text("category11"),leading: Icon(Icons.arrow_forward_ios),),
+                for(int i = 0; i < 2; i ++)
+                  ListTile(title: Text("category" + i.toString()), leading: Icon(Icons.arrow_forward_ios),),
+
               ],
             ),
           ),
@@ -50,14 +58,21 @@ class CategoryScreen extends HookWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(child: Text("物一覧", style: TextStyle(fontSize: 20.0),), padding: EdgeInsets.fromLTRB(8, 0, 0, 8),),
-                  ListView.builder(itemBuilder: (builder, int index){
-                    return ItemListTileWidget(item: itemsState.value[index]);
-                  },
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: itemsState.value.length,
+                  Container(
+                    child: Row(
+                      children: [
+                        Text("物一覧", style: TextStyle(fontSize: 20.0),),
+                        buildDisplayTypeButton(
+                          type,
+                          () {
+                            context.read(displayType.notifier).toggle();
+                          })
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    padding: EdgeInsets.fromLTRB(8, 0, 0, 8),
                   ),
+                  buildItemsView(itemsState.value)
                 ],
 
               )
@@ -66,6 +81,24 @@ class CategoryScreen extends HookWidget {
 
       ],),
     );
+  }
+
+  Widget buildItemsView(List<Item> items) {
+    return ListView.builder(itemBuilder: (builder, int index){
+      return ItemListTileWidget(item: items[index]);
+    },
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      itemCount: items.length,
+    );
+  }
+
+  Widget buildDisplayTypeButton(DisplayType type, VoidCallback onTap) {
+    if(type == DisplayType.GRID) {
+      return IconButton(onPressed: onTap, icon: Icon(Icons.grid_view));
+    }else {
+      return IconButton(onPressed: onTap, icon: Icon(Icons.list));
+    }
   }
 
 }

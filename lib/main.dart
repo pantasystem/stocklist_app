@@ -11,11 +11,11 @@ import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/search_screen.dart';
 import 'package:stocklist_app/store/item_store.dart';
 
-final displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
+final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemMutation([]));
 
 void main() {
-  runApp(StocklistApp());
+  runApp(ProviderScope(child: StocklistApp()));
 }
 
 
