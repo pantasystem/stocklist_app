@@ -34,6 +34,10 @@ dependencies:
   freezed: ^0.14.1+2
   build_runner:
   freezed_annotation: ^0.14.1
+  http: ^0.13.1
+  flutter_hooks: ^0.16.0
+  flutter_search_bar: ^2.1.0
+  flutter_breadcrumb: ^1.0.1
 
 dev_dependencies:
   flutter_test:

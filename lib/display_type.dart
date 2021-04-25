@@ -16,4 +16,12 @@ class DisplayTypeState extends StateNotifier<DisplayType> {
     state = DisplayType.LIST;
   }
 
+  void toggle() {
+    if(state == DisplayType.LIST) {
+      changeToGrid();
+    }else{
+      changeToList();
+    }
+  }
+
 }
