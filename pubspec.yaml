@@ -38,6 +38,7 @@ dependencies:
   flutter_hooks: ^0.16.0
   flutter_search_bar: ^2.1.0
   flutter_breadcrumb: ^1.0.1
+  image_picker: ^0.7.4
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +56,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

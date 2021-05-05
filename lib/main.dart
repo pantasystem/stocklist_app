@@ -5,9 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
+import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/search_screen.dart';
 import 'package:stocklist_app/store/item_store.dart';
-import 'package:stocklist_app/widget/node_and_item.dart';
+import 'package:stocklist_app/widget/box_and_item.dart';
 
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemMutation([]));
@@ -24,7 +25,11 @@ class StocklistApp extends StatelessWidget {
     final items = makeItems(homeId: 1, count: 20);
 
     return MaterialApp(
-      home: MainScreen()
+      initialRoute: '/home',
+      routes: <String, WidgetBuilder> {
+        '/home': (BuildContext context) => MainScreen(),
+        '/items/create': (BuildContext context) => ItemEditorScreen()
+      }
     );
 
   }
@@ -51,7 +56,7 @@ class MainScreen extends HookWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO 投稿画面を表示する。
+          Navigator.of(context).pushNamed("/items/create");
         },
         child: Container(
           margin: EdgeInsets.all(15.0),
@@ -109,21 +114,18 @@ class HomeScreen extends HookWidget {
 class BoxScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final nodes = makeNodes(count: 5, );
-    final first = nodes[5];
-    final filtered = nodes.where((element) => element.path.startsWith(first.path)).toList();
-    print(first);
-    final path = first.path.split("/").where((element) => element.isNotEmpty).map((e) => int.parse(e)).toList().map((e) => nodes.firstWhere((element) => e == element.id)).toList();
-    print(path);
+    final boxes = makeBoxes();
+
+
 
 
     return Scaffold(
       appBar: AppBar(
         title: Text("収納別"),
       ),
-      body: NodeAndItemListView(
-        items: makeItems(homeId: 1, nodeId: first.id, count: 20),
-        nodes: filtered,
+      body: BoxAndItemListView(
+        items: List.empty(),
+        boxes: boxes,
       )
     );
   }

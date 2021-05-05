@@ -3,19 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:stocklist_app/entity/category.dart';
-import 'package:stocklist_app/entity/node.dart';
 
 class SearchScreen extends HookWidget {
 
   final Category? initialCurrentCategory;
-  final Node? initialCurrentNode;
-  SearchScreen({this.initialCurrentCategory, this.initialCurrentNode});
+  //final Node? initialCurrentNode;
+  SearchScreen({this.initialCurrentCategory, });
 
   @override
   Widget build(BuildContext context) {
 
     final currentCategoryState = useState(initialCurrentCategory);
-    final currentNodeState = useState(initialCurrentNode);
+    //final currentNodeState = useState(initialCurrentNode);
     return Scaffold(
       appBar: AppBar(
         title: Text("検索"),
