@@ -22,8 +22,7 @@ class _$ItemDTOTearOff {
       required String imagePath,
       required int homeId,
       int? itemId,
-      List<User>? owners,
-      required NodeType nodeType}) {
+      List<User>? owners}) {
     return _ItemDTO(
       id: id,
       name: name,
@@ -31,7 +30,6 @@ class _$ItemDTOTearOff {
       homeId: homeId,
       itemId: itemId,
       owners: owners,
-      nodeType: nodeType,
     );
   }
 }
@@ -47,7 +45,6 @@ mixin _$ItemDTO {
   int get homeId => throw _privateConstructorUsedError;
   int? get itemId => throw _privateConstructorUsedError;
   List<User>? get owners => throw _privateConstructorUsedError;
-  NodeType get nodeType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ItemDTOCopyWith<ItemDTO> get copyWith => throw _privateConstructorUsedError;
@@ -63,8 +60,7 @@ abstract class $ItemDTOCopyWith<$Res> {
       String imagePath,
       int homeId,
       int? itemId,
-      List<User>? owners,
-      NodeType nodeType});
+      List<User>? owners});
 }
 
 /// @nodoc
@@ -83,7 +79,6 @@ class _$ItemDTOCopyWithImpl<$Res> implements $ItemDTOCopyWith<$Res> {
     Object? homeId = freezed,
     Object? itemId = freezed,
     Object? owners = freezed,
-    Object? nodeType = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -110,10 +105,6 @@ class _$ItemDTOCopyWithImpl<$Res> implements $ItemDTOCopyWith<$Res> {
           ? _value.owners
           : owners // ignore: cast_nullable_to_non_nullable
               as List<User>?,
-      nodeType: nodeType == freezed
-          ? _value.nodeType
-          : nodeType // ignore: cast_nullable_to_non_nullable
-              as NodeType,
     ));
   }
 }
@@ -129,8 +120,7 @@ abstract class _$ItemDTOCopyWith<$Res> implements $ItemDTOCopyWith<$Res> {
       String imagePath,
       int homeId,
       int? itemId,
-      List<User>? owners,
-      NodeType nodeType});
+      List<User>? owners});
 }
 
 /// @nodoc
@@ -150,7 +140,6 @@ class __$ItemDTOCopyWithImpl<$Res> extends _$ItemDTOCopyWithImpl<$Res>
     Object? homeId = freezed,
     Object? itemId = freezed,
     Object? owners = freezed,
-    Object? nodeType = freezed,
   }) {
     return _then(_ItemDTO(
       id: id == freezed
@@ -177,10 +166,6 @@ class __$ItemDTOCopyWithImpl<$Res> extends _$ItemDTOCopyWithImpl<$Res>
           ? _value.owners
           : owners // ignore: cast_nullable_to_non_nullable
               as List<User>?,
-      nodeType: nodeType == freezed
-          ? _value.nodeType
-          : nodeType // ignore: cast_nullable_to_non_nullable
-              as NodeType,
     ));
   }
 }
@@ -194,8 +179,7 @@ class _$_ItemDTO implements _ItemDTO {
       required this.imagePath,
       required this.homeId,
       this.itemId,
-      this.owners,
-      required this.nodeType});
+      this.owners});
 
   @override
   final int id;
@@ -209,12 +193,10 @@ class _$_ItemDTO implements _ItemDTO {
   final int? itemId;
   @override
   final List<User>? owners;
-  @override
-  final NodeType nodeType;
 
   @override
   String toString() {
-    return 'ItemDTO(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, itemId: $itemId, owners: $owners, nodeType: $nodeType)';
+    return 'ItemDTO(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, itemId: $itemId, owners: $owners)';
   }
 
   @override
@@ -233,10 +215,7 @@ class _$_ItemDTO implements _ItemDTO {
             (identical(other.itemId, itemId) ||
                 const DeepCollectionEquality().equals(other.itemId, itemId)) &&
             (identical(other.owners, owners) ||
-                const DeepCollectionEquality().equals(other.owners, owners)) &&
-            (identical(other.nodeType, nodeType) ||
-                const DeepCollectionEquality()
-                    .equals(other.nodeType, nodeType)));
+                const DeepCollectionEquality().equals(other.owners, owners)));
   }
 
   @override
@@ -247,8 +226,7 @@ class _$_ItemDTO implements _ItemDTO {
       const DeepCollectionEquality().hash(imagePath) ^
       const DeepCollectionEquality().hash(homeId) ^
       const DeepCollectionEquality().hash(itemId) ^
-      const DeepCollectionEquality().hash(owners) ^
-      const DeepCollectionEquality().hash(nodeType);
+      const DeepCollectionEquality().hash(owners);
 
   @JsonKey(ignore: true)
   @override
@@ -263,8 +241,7 @@ abstract class _ItemDTO implements ItemDTO {
       required String imagePath,
       required int homeId,
       int? itemId,
-      List<User>? owners,
-      required NodeType nodeType}) = _$_ItemDTO;
+      List<User>? owners}) = _$_ItemDTO;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -278,8 +255,6 @@ abstract class _ItemDTO implements ItemDTO {
   int? get itemId => throw _privateConstructorUsedError;
   @override
   List<User>? get owners => throw _privateConstructorUsedError;
-  @override
-  NodeType get nodeType => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemDTOCopyWith<_ItemDTO> get copyWith =>

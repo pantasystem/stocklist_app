@@ -1,5 +1,7 @@
 
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'dart:io';
@@ -11,6 +13,24 @@ class ItemEditorScreen extends HookWidget {
 
     final _nameFieldController = useTextEditingController();
     final _descriptionFieldController = useTextEditingController();
+    final picker = ImagePicker();
+    final pickedFile = useState<File?>(null);
+
+    Future _pickImageFromCamera() async{
+      final image = await picker.getImage(source: ImageSource.camera);
+      final path = image?.path;
+      if(path != null) {
+        pickedFile.value = File(path);
+      }
+    }
+
+    Future _pickImageFromGallery() async {
+      final image = await picker.getImage(source: ImageSource.gallery);
+      final path = image?.path;
+      if(path != null) {
+        pickedFile.value = File(path);
+      }
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("物を追加する"),
@@ -30,36 +50,65 @@ class ItemEditorScreen extends HookWidget {
           ),
 
           Container(
-            child: Column(
+            child: Stack(
+              alignment: Alignment.bottomRight,
               children: [
-                Image.network("https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg")
+                if(pickedFile.value == null)
+                  Container(
+                    child: Image.asset("images/no_image_500.png"),
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 25),
+                  )
+                else
+                  Container(
+                    child: Image.file(pickedFile.value!),
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 25),
+                  ),
+
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Row(
+                    children: [
+                      Material(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Ink(
+                            decoration: const ShapeDecoration(shape: CircleBorder(), color: Colors.blue),
+                            child: IconButton(
+                              onPressed: (){
+                                _pickImageFromGallery();
+                              },
+                              icon: Icon(Icons.photo),
+                              color: Colors.white
+                            )
+                        ),
+                      ),
+                      Material(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Ink(
+                            decoration: const ShapeDecoration(shape: CircleBorder(), color: Colors.blue),
+                            child: IconButton(
+                              onPressed: (){
+                                _pickImageFromCamera();
+                              },
+                              icon: Icon(Icons.camera),
+                              color: Colors.white
+                            )
+                        ),
+                      ),
+
+                    ],
+                  )
+                ),
+
               ],
+
 
             ),
             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
 
 
           ),
-          Container(
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: (){
 
-                  },
-                  child: Text("写真を撮影"),
-                ),
-                ElevatedButton(
-                  onPressed: (){
-
-                  },
-                  child: Text("画像をライブラリから選択"),
-                ),
-              ],
-            ),
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-
-          ),
           Container(
             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
             child: TextField(
