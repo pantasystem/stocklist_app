@@ -49,8 +49,6 @@ abstract class $NodeDTOCopyWith<$Res> {
   factory $NodeDTOCopyWith(NodeDTO value, $Res Function(NodeDTO) then) =
       _$NodeDTOCopyWithImpl<$Res>;
   $Res call({int id, String name, String path, NodeType nodeType});
-
-  $NodeTypeCopyWith<$Res> get nodeType;
 }
 
 /// @nodoc
@@ -87,13 +85,6 @@ class _$NodeDTOCopyWithImpl<$Res> implements $NodeDTOCopyWith<$Res> {
               as NodeType,
     ));
   }
-
-  @override
-  $NodeTypeCopyWith<$Res> get nodeType {
-    return $NodeTypeCopyWith<$Res>(_value.nodeType, (value) {
-      return _then(_value.copyWith(nodeType: value));
-    });
-  }
 }
 
 /// @nodoc
@@ -102,9 +93,6 @@ abstract class _$NodeDTOCopyWith<$Res> implements $NodeDTOCopyWith<$Res> {
       __$NodeDTOCopyWithImpl<$Res>;
   @override
   $Res call({int id, String name, String path, NodeType nodeType});
-
-  @override
-  $NodeTypeCopyWith<$Res> get nodeType;
 }
 
 /// @nodoc

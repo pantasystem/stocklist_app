@@ -65,8 +65,6 @@ abstract class $ItemDTOCopyWith<$Res> {
       int? itemId,
       List<User>? owners,
       NodeType nodeType});
-
-  $NodeTypeCopyWith<$Res> get nodeType;
 }
 
 /// @nodoc
@@ -118,13 +116,6 @@ class _$ItemDTOCopyWithImpl<$Res> implements $ItemDTOCopyWith<$Res> {
               as NodeType,
     ));
   }
-
-  @override
-  $NodeTypeCopyWith<$Res> get nodeType {
-    return $NodeTypeCopyWith<$Res>(_value.nodeType, (value) {
-      return _then(_value.copyWith(nodeType: value));
-    });
-  }
 }
 
 /// @nodoc
@@ -140,9 +131,6 @@ abstract class _$ItemDTOCopyWith<$Res> implements $ItemDTOCopyWith<$Res> {
       int? itemId,
       List<User>? owners,
       NodeType nodeType});
-
-  @override
-  $NodeTypeCopyWith<$Res> get nodeType;
 }
 
 /// @nodoc
