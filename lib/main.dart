@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
+import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/search_screen.dart';
 import 'package:stocklist_app/store/item_store.dart';
 import 'package:stocklist_app/widget/box_and_item.dart';
@@ -24,7 +25,11 @@ class StocklistApp extends StatelessWidget {
     final items = makeItems(homeId: 1, count: 20);
 
     return MaterialApp(
-      home: MainScreen()
+      initialRoute: '/home',
+      routes: <String, WidgetBuilder> {
+        '/home': (BuildContext context) => MainScreen(),
+        '/items/create': (BuildContext context) => ItemEditorScreen()
+      }
     );
 
   }
@@ -51,7 +56,7 @@ class MainScreen extends HookWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO 投稿画面を表示する。
+          Navigator.of(context).pushNamed("/items/create");
         },
         child: Container(
           margin: EdgeInsets.all(15.0),
