@@ -3,8 +3,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+
+import '../main.dart';
 
 class ItemEditorScreen extends HookWidget {
   @override
@@ -14,6 +17,8 @@ class ItemEditorScreen extends HookWidget {
     final _descriptionFieldController = useTextEditingController();
     final picker = ImagePicker();
     final pickedFile = useState<File?>(null);
+    final itemStore = useProvider(itemsStateProvider);
+    final isDisposable = useState<bool>(false);
 
     Future _pickImageFromCamera() async{
       final image = await picker.getImage(source: ImageSource.camera);
@@ -29,6 +34,13 @@ class ItemEditorScreen extends HookWidget {
       if(path != null) {
         pickedFile.value = File(path);
       }
+    }
+
+    void create() {
+
+
+      Navigator.pop(context);
+
     }
 
     void _showPickTypeDialog() {
@@ -88,6 +100,13 @@ class ItemEditorScreen extends HookWidget {
           ElevatedButton(onPressed: (){
             _showPickTypeDialog();
           }, child: Text("写真を変更する")),
+          SwitchListTile(
+            title: Text("消耗品です"),
+            value: isDisposable.value,
+            onChanged: (bool state){
+              isDisposable.value = state;
+            }
+          ),
           Container(
             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
             child: TextField(

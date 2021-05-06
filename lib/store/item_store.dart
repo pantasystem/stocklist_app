@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/item.dart';
 
@@ -29,6 +31,10 @@ class ItemMutation extends StateNotifier<List<Item>> {
   Set<Item> getAll(List<int> itemIds) {
     final sets = itemIds.toSet();
     return this.state.where((element) => sets.contains(element.id)).toSet();
+  }
+
+  Future create({ required String name, String? description, File? image, required bool isDisposable}) async{
+    // TODO 実装する
   }
 
 
