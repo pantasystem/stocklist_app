@@ -1,6 +1,5 @@
 
 
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -31,6 +30,33 @@ class ItemEditorScreen extends HookWidget {
         pickedFile.value = File(path);
       }
     }
+
+    void _showPickTypeDialog() {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text("写真を撮影"),
+                onTap: (){
+                  Navigator.of(context).pop();
+                  _pickImageFromCamera();
+                },
+              ),
+              ListTile(
+                title: Text("ギャラリーから選択"),
+                onTap: (){
+                  Navigator.of(context).pop();
+                  _pickImageFromGallery();
+                },
+              )
+            ],
+          );
+        }
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("物を追加する"),
@@ -48,67 +74,20 @@ class ItemEditorScreen extends HookWidget {
 
             ),
           ),
-
-          Container(
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                if(pickedFile.value == null)
-                  Container(
-                    child: Image.asset("images/no_image_500.png"),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 25),
-                  )
-                else
-                  Container(
-                    child: Image.file(pickedFile.value!),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 25),
-                  ),
-
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Row(
-                    children: [
-                      Material(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Ink(
-                            decoration: const ShapeDecoration(shape: CircleBorder(), color: Colors.blue),
-                            child: IconButton(
-                              onPressed: (){
-                                _pickImageFromGallery();
-                              },
-                              icon: Icon(Icons.photo),
-                              color: Colors.white
-                            )
-                        ),
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Ink(
-                            decoration: const ShapeDecoration(shape: CircleBorder(), color: Colors.blue),
-                            child: IconButton(
-                              onPressed: (){
-                                _pickImageFromCamera();
-                              },
-                              icon: Icon(Icons.camera),
-                              color: Colors.white
-                            )
-                        ),
-                      ),
-
-                    ],
-                  )
-                ),
-
-              ],
-
-
+          if(pickedFile.value == null)
+            Container(
+              child: Image.asset("images/no_image_500.png"),
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            )
+          else
+            Container(
+              child: Image.file(pickedFile.value!),
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             ),
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
 
-
-          ),
-
+          ElevatedButton(onPressed: (){
+            _showPickTypeDialog();
+          }, child: Text("写真を変更する")),
           Container(
             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
             child: TextField(
