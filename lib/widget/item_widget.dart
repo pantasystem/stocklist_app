@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/item.dart';
+import 'package:stocklist_app/screen/item_detail_screen.dart';
 
 typedef OnSelectItemCallback = Function(int index, Item item);
 
 class ItemListTileWidget extends StatelessWidget{
-  final GestureTapCallback? onTap;
+
   final Item item;
-  ItemListTileWidget({required this.item,this.onTap});
+  ItemListTileWidget({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,9 @@ class ItemListTileWidget extends StatelessWidget{
       title: Text(
         item.name
       ),
-      onTap: onTap,
+      onTap: (){
+        Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
+      },
     );
   }
 
@@ -25,10 +29,10 @@ class ItemListTileWidget extends StatelessWidget{
 
 class ItemListView extends StatelessWidget {
   final List<Item> items;
-  final OnSelectItemCallback? callback;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
-  ItemListView({required this.items, this.callback, this.physics, this.shrinkWrap = false});
+  ItemListView({
+    required this.items, this.physics, this.shrinkWrap = false});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -42,9 +46,6 @@ class ItemListView extends StatelessWidget {
   Widget buildListItem(BuildContext context, int index) {
     return ItemListTileWidget(
       item: items[index],
-      onTap: (){
-        callback?.call(index, items[index]);
-      },
     );
   }
 }

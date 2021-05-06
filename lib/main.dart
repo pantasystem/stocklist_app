@@ -5,13 +5,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
+import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/search_screen.dart';
 import 'package:stocklist_app/store/item_store.dart';
 import 'package:stocklist_app/widget/box_and_item.dart';
 
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
-final itemsStateProvider = StateNotifierProvider((ref)=> ItemMutation([]));
+final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([]));
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));
@@ -23,12 +24,14 @@ class StocklistApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = makeItems(homeId: 1, count: 20);
+    context.read(itemsStateProvider.notifier).addAll(items);
 
     return MaterialApp(
       initialRoute: '/home',
       routes: <String, WidgetBuilder> {
         '/home': (BuildContext context) => MainScreen(),
-        '/items/create': (BuildContext context) => ItemEditorScreen()
+        '/items/create': (BuildContext context) => ItemEditorScreen(),
+        '/items/show': (BuildContext context) => ItemDetailScreen()
       }
     );
 

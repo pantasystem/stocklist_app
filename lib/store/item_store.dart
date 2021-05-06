@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/item.dart';
 
-class ItemMutation extends StateNotifier<List<Item>> {
-  ItemMutation(List<Item> items) : super(items);
+class ItemStore extends StateNotifier<List<Item>> {
+  ItemStore(List<Item> items) : super(items);
 
   void addAll(List<Item> items) {
 
@@ -16,12 +16,13 @@ class ItemMutation extends StateNotifier<List<Item>> {
     this.state = list;
   }
 
-  void delete(Item item) {
+  void delete(Item item) async {
+    // TODO 削除処理を実装する
     this.state = this.state.where((element) => element.id != item.id).toList();
   }
 
-  void deleteAll(List<Item> items) {
-    this.state = this.state.where((i) => !items.any((j) => i.id == j.id)).toList();
+  void deleteAll(List<Item> items) async {
+    items.forEach((element) => delete(element));
   }
 
   Item? get(int itemId) {
@@ -37,14 +38,9 @@ class ItemMutation extends StateNotifier<List<Item>> {
     // TODO 実装する
   }
 
-
-
-}
-
-class ItemAction {
-
   Future<List<Item>> load() async {
     return [];
   }
+
 
 }
