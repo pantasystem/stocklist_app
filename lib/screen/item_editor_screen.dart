@@ -1,11 +1,13 @@
 
 
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+
+import '../main.dart';
 
 class ItemEditorScreen extends HookWidget {
   @override
@@ -15,6 +17,7 @@ class ItemEditorScreen extends HookWidget {
     final _descriptionFieldController = useTextEditingController();
     final picker = ImagePicker();
     final pickedFile = useState<File?>(null);
+    final isDisposable = useState<bool>(false);
 
     Future _pickImageFromCamera() async{
       final image = await picker.getImage(source: ImageSource.camera);
@@ -31,11 +34,51 @@ class ItemEditorScreen extends HookWidget {
         pickedFile.value = File(path);
       }
     }
+
+    void create() {
+
+      context.read(itemsStateProvider.notifier).create(
+        name: _nameFieldController.text,
+        isDisposable: isDisposable.value,
+        description: _descriptionFieldController.text,
+        image: pickedFile.value,
+      );
+      Navigator.pop(context);
+
+    }
+
+    void _showPickTypeDialog() {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text("写真を撮影"),
+                onTap: (){
+                  Navigator.of(context).pop();
+                  _pickImageFromCamera();
+                },
+              ),
+              ListTile(
+                title: Text("ギャラリーから選択"),
+                onTap: (){
+                  Navigator.of(context).pop();
+                  _pickImageFromGallery();
+                },
+              )
+            ],
+          );
+        }
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("物を追加する"),
       ),
       body: ListView(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -48,67 +91,29 @@ class ItemEditorScreen extends HookWidget {
 
             ),
           ),
-
-          Container(
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                if(pickedFile.value == null)
-                  Container(
-                    child: Image.asset("images/no_image_500.png"),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 25),
-                  )
-                else
-                  Container(
-                    child: Image.file(pickedFile.value!),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 25),
-                  ),
-
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Row(
-                    children: [
-                      Material(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Ink(
-                            decoration: const ShapeDecoration(shape: CircleBorder(), color: Colors.blue),
-                            child: IconButton(
-                              onPressed: (){
-                                _pickImageFromGallery();
-                              },
-                              icon: Icon(Icons.photo),
-                              color: Colors.white
-                            )
-                        ),
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Ink(
-                            decoration: const ShapeDecoration(shape: CircleBorder(), color: Colors.blue),
-                            child: IconButton(
-                              onPressed: (){
-                                _pickImageFromCamera();
-                              },
-                              icon: Icon(Icons.camera),
-                              color: Colors.white
-                            )
-                        ),
-                      ),
-
-                    ],
-                  )
-                ),
-
-              ],
-
-
+          if(pickedFile.value == null)
+            Container(
+              child: Image.asset("images/no_image_500.png"),
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            )
+          else
+            Container(
+              child: Image.file(pickedFile.value!),
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             ),
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
 
-
+          ElevatedButton(
+            onPressed: (){
+              _showPickTypeDialog();
+            },
+            child: Text("写真を変更する")),
+          SwitchListTile(
+            title: Text("消耗品です"),
+            value: isDisposable.value,
+            onChanged: (bool state){
+              isDisposable.value = state;
+            }
           ),
-
           Container(
             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
             child: TextField(
@@ -123,6 +128,13 @@ class ItemEditorScreen extends HookWidget {
           )
 
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          create();
+        },
+        label: Text("作成"),
+        icon: Icon(Icons.save),
       ),
     );
   }
