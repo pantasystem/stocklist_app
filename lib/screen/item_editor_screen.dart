@@ -17,7 +17,6 @@ class ItemEditorScreen extends HookWidget {
     final _descriptionFieldController = useTextEditingController();
     final picker = ImagePicker();
     final pickedFile = useState<File?>(null);
-    final itemStore = useProvider(itemsStateProvider);
     final isDisposable = useState<bool>(false);
 
     Future _pickImageFromCamera() async{
@@ -38,7 +37,12 @@ class ItemEditorScreen extends HookWidget {
 
     void create() {
 
-
+      context.read(itemsStateProvider.notifier).create(
+        name: _nameFieldController.text,
+        isDisposable: isDisposable.value,
+        description: _descriptionFieldController.text,
+        image: pickedFile.value,
+      );
       Navigator.pop(context);
 
     }
@@ -74,6 +78,7 @@ class ItemEditorScreen extends HookWidget {
         title: Text("物を追加する"),
       ),
       body: ListView(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -97,9 +102,11 @@ class ItemEditorScreen extends HookWidget {
               margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             ),
 
-          ElevatedButton(onPressed: (){
-            _showPickTypeDialog();
-          }, child: Text("写真を変更する")),
+          ElevatedButton(
+            onPressed: (){
+              _showPickTypeDialog();
+            },
+            child: Text("写真を変更する")),
           SwitchListTile(
             title: Text("消耗品です"),
             value: isDisposable.value,
@@ -121,6 +128,13 @@ class ItemEditorScreen extends HookWidget {
           )
 
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          create();
+        },
+        label: Text("作成"),
+        icon: Icon(Icons.save),
       ),
     );
   }
