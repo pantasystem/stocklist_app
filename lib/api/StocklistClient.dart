@@ -1,7 +1,9 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
@@ -52,9 +54,30 @@ class ItemAPI {
     handleError(res);
     return ItemDTO.fromJson(json.decode(res.body));
   }
-  Future<ItemDTO> create() async {
-    throw Exception();
+  Future<ItemDTO> create({ required String name, required bool isDisposable, required File image, String? description}) async {
+    final builder = Fluri.from(Fluri(baseURL))
+      ..appendToPath('api/items');
+    final request = http.MultipartRequest('POST', builder.uri)
+    ..fields['name'] = name
+    ..fields['is_disposable'] = isDisposable.toString();
+    if(description != null) {
+      request.fields['description'] = description;
+    }
+    request.headers.addAll(makeHeader(token));
+    request.files.add(MultipartFile.fromBytes('', await image.readAsBytes()));
+    final stream = await request.send();
+    final res = await Response.fromStream(stream);
+    handleError(res);
+    return ItemDTO.fromJson(json.decode(res.body));
   }
+
+  Future<void> delete(int itemId) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+        ..appendToPath('api/items/$itemId');
+    final res = await http.delete(builder.uri);
+    handleError(res);
+  }
+
   StockAPI stocks(int itemId) {
     return StockAPI();
   }
