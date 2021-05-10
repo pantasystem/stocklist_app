@@ -12,29 +12,7 @@ class ItemDTO with _$ItemDTO {
     required String imagePath,
     required int homeId,
     List<User>? owners,
+    List<StockDTO>? stocks
   }) = _ItemDTO;
 }
 
-@freezed
-class ItemDetailDTO with _$ItemDetailDTO {
-  factory ItemDetailDTO({
-    required int id,
-    required String name,
-    required String imagePath,
-    required int homeId,
-    List<User>? owners,
-    List<StockDTO>? stocks
-  }) = _ItemDetailDTO;
-}
-
-@freezed
-class Item with _$Item {
-  factory Item({
-    required int id,
-    required String name,
-    required String imagePath,
-    required int homeId,
-    List<User>? owners,
-    List<StockDTO>? stocks
-  })
-}

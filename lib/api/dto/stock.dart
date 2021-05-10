@@ -1,6 +1,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'box.dart';
+
 part 'stock.freezed.dart';
 
 @freezed
@@ -16,12 +18,4 @@ class StockDTO with _$StockDTO {
 }
 
 
-@freezed
-class BoxDTO with _$BoxDTO {
-  factory BoxDTO({
-    required int id,
-    required String name,
-    String? description,
-  }) = _BoxDTO;
-}
 
