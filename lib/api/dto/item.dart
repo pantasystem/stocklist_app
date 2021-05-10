@@ -26,3 +26,15 @@ class ItemDetailDTO with _$ItemDetailDTO {
     List<StockDTO>? stocks
   }) = _ItemDetailDTO;
 }
+
+@freezed
+class Item with _$Item {
+  factory Item({
+    required int id,
+    required String name,
+    required String imagePath,
+    required int homeId,
+    List<User>? owners,
+    List<StockDTO>? stocks
+  })
+}
