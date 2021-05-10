@@ -64,7 +64,7 @@ class ItemAPI {
       request.fields['description'] = description;
     }
     request.headers.addAll(makeHeader(token));
-    request.files.add(MultipartFile.fromBytes('', await image.readAsBytes()));
+    request.files.add(await MultipartFile.fromPath('image', image.path));
     final stream = await request.send();
     final res = await Response.fromStream(stream);
     handleError(res);
