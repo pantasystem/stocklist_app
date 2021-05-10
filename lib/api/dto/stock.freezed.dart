@@ -12,23 +12,35 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+StockDTO _$StockDTOFromJson(Map<String, dynamic> json) {
+  return _StockDTO.fromJson(json);
+}
+
 /// @nodoc
 class _$StockDTOTearOff {
   const _$StockDTOTearOff();
 
   _StockDTO call(
-      {required int id,
-      required int count,
-      required String name,
-      int? boxId,
-      BoxDTO? box}) {
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'count') required int count,
+      @JsonKey(name: 'name') required String name,
+      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box') BoxDTO? box,
+      @JsonKey(name: 'item_id') int? itemId,
+      @JsonKey(name: 'item') ItemDTO? item}) {
     return _StockDTO(
       id: id,
       count: count,
       name: name,
       boxId: boxId,
       box: box,
+      itemId: itemId,
+      item: item,
     );
+  }
+
+  StockDTO fromJson(Map<String, Object> json) {
+    return StockDTO.fromJson(json);
   }
 }
 
@@ -37,12 +49,22 @@ const $StockDTO = _$StockDTOTearOff();
 
 /// @nodoc
 mixin _$StockDTO {
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'count')
   int get count => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'box_id')
   int? get boxId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'box')
   BoxDTO? get box => throw _privateConstructorUsedError;
+  @JsonKey(name: 'item_id')
+  int? get itemId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'item')
+  ItemDTO? get item => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $StockDTOCopyWith<StockDTO> get copyWith =>
       throw _privateConstructorUsedError;
@@ -52,9 +74,17 @@ mixin _$StockDTO {
 abstract class $StockDTOCopyWith<$Res> {
   factory $StockDTOCopyWith(StockDTO value, $Res Function(StockDTO) then) =
       _$StockDTOCopyWithImpl<$Res>;
-  $Res call({int id, int count, String name, int? boxId, BoxDTO? box});
+  $Res call(
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'count') int count,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box') BoxDTO? box,
+      @JsonKey(name: 'item_id') int? itemId,
+      @JsonKey(name: 'item') ItemDTO? item});
 
   $BoxDTOCopyWith<$Res>? get box;
+  $ItemDTOCopyWith<$Res>? get item;
 }
 
 /// @nodoc
@@ -72,6 +102,8 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
     Object? name = freezed,
     Object? boxId = freezed,
     Object? box = freezed,
+    Object? itemId = freezed,
+    Object? item = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -94,6 +126,14 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
           ? _value.box
           : box // ignore: cast_nullable_to_non_nullable
               as BoxDTO?,
+      itemId: itemId == freezed
+          ? _value.itemId
+          : itemId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      item: item == freezed
+          ? _value.item
+          : item // ignore: cast_nullable_to_non_nullable
+              as ItemDTO?,
     ));
   }
 
@@ -107,6 +147,17 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
       return _then(_value.copyWith(box: value));
     });
   }
+
+  @override
+  $ItemDTOCopyWith<$Res>? get item {
+    if (_value.item == null) {
+      return null;
+    }
+
+    return $ItemDTOCopyWith<$Res>(_value.item!, (value) {
+      return _then(_value.copyWith(item: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -114,10 +165,19 @@ abstract class _$StockDTOCopyWith<$Res> implements $StockDTOCopyWith<$Res> {
   factory _$StockDTOCopyWith(_StockDTO value, $Res Function(_StockDTO) then) =
       __$StockDTOCopyWithImpl<$Res>;
   @override
-  $Res call({int id, int count, String name, int? boxId, BoxDTO? box});
+  $Res call(
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'count') int count,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box') BoxDTO? box,
+      @JsonKey(name: 'item_id') int? itemId,
+      @JsonKey(name: 'item') ItemDTO? item});
 
   @override
   $BoxDTOCopyWith<$Res>? get box;
+  @override
+  $ItemDTOCopyWith<$Res>? get item;
 }
 
 /// @nodoc
@@ -136,6 +196,8 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
     Object? name = freezed,
     Object? boxId = freezed,
     Object? box = freezed,
+    Object? itemId = freezed,
+    Object? item = freezed,
   }) {
     return _then(_StockDTO(
       id: id == freezed
@@ -158,34 +220,58 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
           ? _value.box
           : box // ignore: cast_nullable_to_non_nullable
               as BoxDTO?,
+      itemId: itemId == freezed
+          ? _value.itemId
+          : itemId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      item: item == freezed
+          ? _value.item
+          : item // ignore: cast_nullable_to_non_nullable
+              as ItemDTO?,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_StockDTO implements _StockDTO {
   _$_StockDTO(
-      {required this.id,
-      required this.count,
-      required this.name,
-      this.boxId,
-      this.box});
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'count') required this.count,
+      @JsonKey(name: 'name') required this.name,
+      @JsonKey(name: 'box_id') this.boxId,
+      @JsonKey(name: 'box') this.box,
+      @JsonKey(name: 'item_id') this.itemId,
+      @JsonKey(name: 'item') this.item});
+
+  factory _$_StockDTO.fromJson(Map<String, dynamic> json) =>
+      _$_$_StockDTOFromJson(json);
 
   @override
+  @JsonKey(name: 'id')
   final int id;
   @override
+  @JsonKey(name: 'count')
   final int count;
   @override
+  @JsonKey(name: 'name')
   final String name;
   @override
+  @JsonKey(name: 'box_id')
   final int? boxId;
   @override
+  @JsonKey(name: 'box')
   final BoxDTO? box;
+  @override
+  @JsonKey(name: 'item_id')
+  final int? itemId;
+  @override
+  @JsonKey(name: 'item')
+  final ItemDTO? item;
 
   @override
   String toString() {
-    return 'StockDTO(id: $id, count: $count, name: $name, boxId: $boxId, box: $box)';
+    return 'StockDTO(id: $id, count: $count, name: $name, boxId: $boxId, box: $box, itemId: $itemId, item: $item)';
   }
 
   @override
@@ -201,7 +287,11 @@ class _$_StockDTO implements _StockDTO {
             (identical(other.boxId, boxId) ||
                 const DeepCollectionEquality().equals(other.boxId, boxId)) &&
             (identical(other.box, box) ||
-                const DeepCollectionEquality().equals(other.box, box)));
+                const DeepCollectionEquality().equals(other.box, box)) &&
+            (identical(other.itemId, itemId) ||
+                const DeepCollectionEquality().equals(other.itemId, itemId)) &&
+            (identical(other.item, item) ||
+                const DeepCollectionEquality().equals(other.item, item)));
   }
 
   @override
@@ -211,32 +301,54 @@ class _$_StockDTO implements _StockDTO {
       const DeepCollectionEquality().hash(count) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(boxId) ^
-      const DeepCollectionEquality().hash(box);
+      const DeepCollectionEquality().hash(box) ^
+      const DeepCollectionEquality().hash(itemId) ^
+      const DeepCollectionEquality().hash(item);
 
   @JsonKey(ignore: true)
   @override
   _$StockDTOCopyWith<_StockDTO> get copyWith =>
       __$StockDTOCopyWithImpl<_StockDTO>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_StockDTOToJson(this);
+  }
 }
 
 abstract class _StockDTO implements StockDTO {
   factory _StockDTO(
-      {required int id,
-      required int count,
-      required String name,
-      int? boxId,
-      BoxDTO? box}) = _$_StockDTO;
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'count') required int count,
+      @JsonKey(name: 'name') required String name,
+      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box') BoxDTO? box,
+      @JsonKey(name: 'item_id') int? itemId,
+      @JsonKey(name: 'item') ItemDTO? item}) = _$_StockDTO;
+
+  factory _StockDTO.fromJson(Map<String, dynamic> json) = _$_StockDTO.fromJson;
 
   @override
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'count')
   int get count => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'box_id')
   int? get boxId => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'box')
   BoxDTO? get box => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'item_id')
+  int? get itemId => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'item')
+  ItemDTO? get item => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StockDTOCopyWith<_StockDTO> get copyWith =>

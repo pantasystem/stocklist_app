@@ -12,16 +12,27 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+BoxDTO _$BoxDTOFromJson(Map<String, dynamic> json) {
+  return _BoxDTO.fromJson(json);
+}
+
 /// @nodoc
 class _$BoxDTOTearOff {
   const _$BoxDTOTearOff();
 
-  _BoxDTO call({required int id, required String name, String? description}) {
+  _BoxDTO call(
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'name') required String name,
+      @JsonKey(name: 'description') String? description}) {
     return _BoxDTO(
       id: id,
       name: name,
       description: description,
     );
+  }
+
+  BoxDTO fromJson(Map<String, Object> json) {
+    return BoxDTO.fromJson(json);
   }
 }
 
@@ -30,10 +41,14 @@ const $BoxDTO = _$BoxDTOTearOff();
 
 /// @nodoc
 mixin _$BoxDTO {
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $BoxDTOCopyWith<BoxDTO> get copyWith => throw _privateConstructorUsedError;
 }
@@ -42,7 +57,10 @@ mixin _$BoxDTO {
 abstract class $BoxDTOCopyWith<$Res> {
   factory $BoxDTOCopyWith(BoxDTO value, $Res Function(BoxDTO) then) =
       _$BoxDTOCopyWithImpl<$Res>;
-  $Res call({int id, String name, String? description});
+  $Res call(
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'description') String? description});
 }
 
 /// @nodoc
@@ -81,7 +99,10 @@ abstract class _$BoxDTOCopyWith<$Res> implements $BoxDTOCopyWith<$Res> {
   factory _$BoxDTOCopyWith(_BoxDTO value, $Res Function(_BoxDTO) then) =
       __$BoxDTOCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, String? description});
+  $Res call(
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'description') String? description});
 }
 
 /// @nodoc
@@ -117,15 +138,24 @@ class __$BoxDTOCopyWithImpl<$Res> extends _$BoxDTOCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_BoxDTO implements _BoxDTO {
-  _$_BoxDTO({required this.id, required this.name, this.description});
+  _$_BoxDTO(
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'name') required this.name,
+      @JsonKey(name: 'description') this.description});
+
+  factory _$_BoxDTO.fromJson(Map<String, dynamic> json) =>
+      _$_$_BoxDTOFromJson(json);
 
   @override
+  @JsonKey(name: 'id')
   final int id;
   @override
+  @JsonKey(name: 'name')
   final String name;
   @override
+  @JsonKey(name: 'description')
   final String? description;
 
   @override
@@ -157,17 +187,29 @@ class _$_BoxDTO implements _BoxDTO {
   @override
   _$BoxDTOCopyWith<_BoxDTO> get copyWith =>
       __$BoxDTOCopyWithImpl<_BoxDTO>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_BoxDTOToJson(this);
+  }
 }
 
 abstract class _BoxDTO implements BoxDTO {
   factory _BoxDTO(
-      {required int id, required String name, String? description}) = _$_BoxDTO;
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'name') required String name,
+      @JsonKey(name: 'description') String? description}) = _$_BoxDTO;
+
+  factory _BoxDTO.fromJson(Map<String, dynamic> json) = _$_BoxDTO.fromJson;
 
   @override
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
