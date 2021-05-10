@@ -23,7 +23,6 @@ class _$StockDTOTearOff {
   _StockDTO call(
       {@JsonKey(name: 'id') required int id,
       @JsonKey(name: 'count') required int count,
-      @JsonKey(name: 'name') required String name,
       @JsonKey(name: 'box_id') int? boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int? itemId,
@@ -31,7 +30,6 @@ class _$StockDTOTearOff {
     return _StockDTO(
       id: id,
       count: count,
-      name: name,
       boxId: boxId,
       box: box,
       itemId: itemId,
@@ -53,8 +51,6 @@ mixin _$StockDTO {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'count')
   int get count => throw _privateConstructorUsedError;
-  @JsonKey(name: 'name')
-  String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'box_id')
   int? get boxId => throw _privateConstructorUsedError;
   @JsonKey(name: 'box')
@@ -77,7 +73,6 @@ abstract class $StockDTOCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'count') int count,
-      @JsonKey(name: 'name') String name,
       @JsonKey(name: 'box_id') int? boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int? itemId,
@@ -99,7 +94,6 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? count = freezed,
-    Object? name = freezed,
     Object? boxId = freezed,
     Object? box = freezed,
     Object? itemId = freezed,
@@ -114,10 +108,6 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       boxId: boxId == freezed
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
@@ -168,7 +158,6 @@ abstract class _$StockDTOCopyWith<$Res> implements $StockDTOCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'count') int count,
-      @JsonKey(name: 'name') String name,
       @JsonKey(name: 'box_id') int? boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int? itemId,
@@ -193,7 +182,6 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? count = freezed,
-    Object? name = freezed,
     Object? boxId = freezed,
     Object? box = freezed,
     Object? itemId = freezed,
@@ -208,10 +196,6 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       boxId: boxId == freezed
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
@@ -238,7 +222,6 @@ class _$_StockDTO implements _StockDTO {
   _$_StockDTO(
       {@JsonKey(name: 'id') required this.id,
       @JsonKey(name: 'count') required this.count,
-      @JsonKey(name: 'name') required this.name,
       @JsonKey(name: 'box_id') this.boxId,
       @JsonKey(name: 'box') this.box,
       @JsonKey(name: 'item_id') this.itemId,
@@ -254,9 +237,6 @@ class _$_StockDTO implements _StockDTO {
   @JsonKey(name: 'count')
   final int count;
   @override
-  @JsonKey(name: 'name')
-  final String name;
-  @override
   @JsonKey(name: 'box_id')
   final int? boxId;
   @override
@@ -271,7 +251,7 @@ class _$_StockDTO implements _StockDTO {
 
   @override
   String toString() {
-    return 'StockDTO(id: $id, count: $count, name: $name, boxId: $boxId, box: $box, itemId: $itemId, item: $item)';
+    return 'StockDTO(id: $id, count: $count, boxId: $boxId, box: $box, itemId: $itemId, item: $item)';
   }
 
   @override
@@ -282,8 +262,6 @@ class _$_StockDTO implements _StockDTO {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.count, count) ||
                 const DeepCollectionEquality().equals(other.count, count)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.boxId, boxId) ||
                 const DeepCollectionEquality().equals(other.boxId, boxId)) &&
             (identical(other.box, box) ||
@@ -299,7 +277,6 @@ class _$_StockDTO implements _StockDTO {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(count) ^
-      const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(boxId) ^
       const DeepCollectionEquality().hash(box) ^
       const DeepCollectionEquality().hash(itemId) ^
@@ -320,7 +297,6 @@ abstract class _StockDTO implements StockDTO {
   factory _StockDTO(
       {@JsonKey(name: 'id') required int id,
       @JsonKey(name: 'count') required int count,
-      @JsonKey(name: 'name') required String name,
       @JsonKey(name: 'box_id') int? boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int? itemId,
@@ -334,9 +310,6 @@ abstract class _StockDTO implements StockDTO {
   @override
   @JsonKey(name: 'count')
   int get count => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'name')
-  String get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'box_id')
   int? get boxId => throw _privateConstructorUsedError;

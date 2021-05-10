@@ -1,8 +1,8 @@
 
 
 import 'dart:convert';
-import 'dart:ffi';
 
+import 'package:http/http.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:fluri/fluri.dart';
@@ -10,13 +10,14 @@ import 'package:http/http.dart' as http;
 
 class StocklistClient {
   final String baseURL;
+  final String token;
   ItemAPI itemAPI;
 
-  StocklistClient.initial({required this.baseURL, required this.itemAPI});
+  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI});
 
-  factory StocklistClient(String baseURL) {
-    final itemAPI = ItemAPI(baseURL: baseURL);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI);
+  factory StocklistClient(String baseURL, String token) {
+    final itemAPI = ItemAPI(baseURL: baseURL, token: token);
+    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token);
   }
 
 
@@ -25,7 +26,8 @@ class StocklistClient {
 class ItemAPI {
 
   final String baseURL;
-  ItemAPI({required this.baseURL});
+  final String token;
+  ItemAPI({required this.baseURL, required this.token});
 
 
   Future<List<ItemDTO>> all({ DateTime? sinceUpdatedAt }) async{
@@ -37,9 +39,18 @@ class ItemAPI {
       };
     }
     
-    final res = await http.get(builder.uri, headers: makeHeader(null));
-    List<ItemDTO> stocks =  json.decoder.convert(res.body);
-    return stocks;
+    final res = await http.get(builder.uri, headers: makeHeader(token));
+    handleError(res);
+    List<dynamic> parsed = json.decode(res.body) as List<dynamic>;
+    return parsed.map((e) => ItemDTO.fromJson(e)).toList();
+  }
+
+  Future<ItemDTO> show(int itemId) async {
+    final builder = Fluri.from(Fluri(baseURL))
+      ..appendToPath('api/items/$itemId');
+    final res = await http.get(builder.uri, headers: makeHeader(token));
+    handleError(res);
+    return ItemDTO.fromJson(json.decode(res.body));
   }
   Future<ItemDTO> create() async {
     throw Exception();
@@ -94,8 +105,55 @@ class ItemsStockAPI implements StockAPI {
 Map<String, String> makeHeader(String? token) {
   return {
     'Content-Type': 'application/json',
-    if(token != null) 'Authentication' : 'Bearer Token: $token',
+    if(token != null) 'Authorization' : 'Bearer $token',
     'Accept': 'application/json'
   };
 }
 
+class AuthorizationException implements Exception{
+
+  final String message;
+  AuthorizationException(this.message);
+  @override
+  String toString() => message;
+}
+
+class ClientException implements Exception {
+  final String message;
+  ClientException(this.message);
+  @override
+  String toString() => message;
+}
+
+class ServerException implements Exception {
+  final String message;
+  ServerException(this.message);
+  @override
+  String toString() => message;
+}
+
+class ValidationException implements Exception {
+  final String message;
+  ValidationException(this.message);
+  @override
+  String toString() => message;
+}
+
+void handleError(Response res) {
+  if(res.statusCode >= 200 && res.statusCode < 300) {
+    return;
+  }
+  if(res.statusCode == 400) {
+    throw ClientException(res.body);
+  }
+  if(res.statusCode == 500) {
+    throw ServerException(res.body);
+  }
+  if(res.statusCode == 401) {
+    throw AuthorizationException(res.body);
+  }
+  if(res.statusCode == 422) {
+    throw ValidationException(res.body);
+  }
+  throw Exception();
+}
