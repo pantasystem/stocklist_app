@@ -8,11 +8,15 @@ import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/search_screen.dart';
+import 'package:stocklist_app/store/box_store.dart';
 import 'package:stocklist_app/store/item_store.dart';
+import 'package:stocklist_app/store/stock_store.dart';
 import 'package:stocklist_app/widget/box_and_item.dart';
 
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([]));
+final stocksStateProvider = StateNotifierProvider((ref)=> StockStore());
+final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore());
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));

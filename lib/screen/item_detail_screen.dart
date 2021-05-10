@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
 
 class ItemArgs {
@@ -18,7 +19,14 @@ class ItemDetailScreen extends HookWidget {
   Widget build(BuildContext context) {
     final itemArgs = ModalRoute.of(context)?.settings.arguments as ItemArgs;
     final item = useProvider(itemsStateProvider.notifier).get(itemArgs.itemId);
+    List<Stock>? stocks;
 
+    if(item != null) {
+      stocks = useProvider(stocksStateProvider.notifier).filterByItemId(item.id);
+
+    }else{
+      stocks = [];
+    }
 
     return Scaffold(
       appBar: AppBar(
