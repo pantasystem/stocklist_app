@@ -14,7 +14,7 @@ _$_StockDTO _$_$_StockDTOFromJson(Map<String, dynamic> json) {
     box: json['box'] == null
         ? null
         : BoxDTO.fromJson(json['box'] as Map<String, dynamic>),
-    itemId: json['item_id'] as int?,
+    itemId: json['item_id'] as int,
     item: json['item'] == null
         ? null
         : ItemDTO.fromJson(json['item'] as Map<String, dynamic>),

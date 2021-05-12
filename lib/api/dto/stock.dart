@@ -14,7 +14,7 @@ class StockDTO with _$StockDTO {
     @JsonKey(name: 'count') required int count,
     @JsonKey(name: 'box_id') int? boxId,
     @JsonKey(name: 'box') BoxDTO? box,
-    @JsonKey(name: 'item_id') int? itemId,
+    @JsonKey(name: 'item_id') required int itemId,
     @JsonKey(name: 'item') ItemDTO? item,
 
   }) = _StockDTO;

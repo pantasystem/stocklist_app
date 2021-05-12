@@ -1,10 +1,18 @@
 import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/api/dto/item.dart';
+import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/item.dart';
+import 'package:stocklist_app/entity/stock.dart';
+import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/store/stock_store.dart';
 
 class ItemStore extends StateNotifier<List<Item>> {
-  ItemStore(List<Item> items) : super(items);
+  ItemStore(List<Item> items, this.reader) : super(items);
+
+
+  final Reader reader;
 
   void addAll(List<Item> items) {
 
@@ -40,6 +48,20 @@ class ItemStore extends StateNotifier<List<Item>> {
 
   Future<List<Item>> load() async {
     return [];
+  }
+
+  Future fetchAll() async {
+    final itemDTOList = await stocklistClient.itemAPI.all();
+    final items = itemDTOList.map((ItemDTO i){
+      return Item(id: i.id, name: i.name, imagePath: i.imagePath, homeId: i.homeId, stockIds: i.stockIds);
+    }).toList();
+    this.addAll(items);
+  }
+
+  Future fetch(int itemId) async {
+    final itemDTO = await stocklistClient.itemAPI.show(itemId);
+    final item = Item(id: itemDTO.id, name: itemDTO.name, imagePath: itemDTO.imagePath, homeId: itemDTO.homeId, stockIds: itemDTO.stockIds);
+
   }
 
 

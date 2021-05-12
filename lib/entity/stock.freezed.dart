@@ -17,15 +17,12 @@ class _$StockTearOff {
   const _$StockTearOff();
 
   _Stock call(
-      {required int id,
-      int? boxId,
-      required String name,
-      required int itemId}) {
+      {required int id, int? boxId, required int itemId, required int count}) {
     return _Stock(
       id: id,
       boxId: boxId,
-      name: name,
       itemId: itemId,
+      count: count,
     );
   }
 }
@@ -37,8 +34,8 @@ const $Stock = _$StockTearOff();
 mixin _$Stock {
   int get id => throw _privateConstructorUsedError;
   int? get boxId => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
   int get itemId => throw _privateConstructorUsedError;
+  int get count => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StockCopyWith<Stock> get copyWith => throw _privateConstructorUsedError;
@@ -48,7 +45,7 @@ mixin _$Stock {
 abstract class $StockCopyWith<$Res> {
   factory $StockCopyWith(Stock value, $Res Function(Stock) then) =
       _$StockCopyWithImpl<$Res>;
-  $Res call({int id, int? boxId, String name, int itemId});
+  $Res call({int id, int? boxId, int itemId, int count});
 }
 
 /// @nodoc
@@ -63,8 +60,8 @@ class _$StockCopyWithImpl<$Res> implements $StockCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? boxId = freezed,
-    Object? name = freezed,
     Object? itemId = freezed,
+    Object? count = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -75,13 +72,13 @@ class _$StockCopyWithImpl<$Res> implements $StockCopyWith<$Res> {
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
               as int?,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       itemId: itemId == freezed
           ? _value.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
+              as int,
+      count: count == freezed
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -92,7 +89,7 @@ abstract class _$StockCopyWith<$Res> implements $StockCopyWith<$Res> {
   factory _$StockCopyWith(_Stock value, $Res Function(_Stock) then) =
       __$StockCopyWithImpl<$Res>;
   @override
-  $Res call({int id, int? boxId, String name, int itemId});
+  $Res call({int id, int? boxId, int itemId, int count});
 }
 
 /// @nodoc
@@ -108,8 +105,8 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? boxId = freezed,
-    Object? name = freezed,
     Object? itemId = freezed,
+    Object? count = freezed,
   }) {
     return _then(_Stock(
       id: id == freezed
@@ -120,13 +117,13 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
               as int?,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       itemId: itemId == freezed
           ? _value.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
+              as int,
+      count: count == freezed
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -136,20 +133,23 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
 
 class _$_Stock implements _Stock {
   _$_Stock(
-      {required this.id, this.boxId, required this.name, required this.itemId});
+      {required this.id,
+      this.boxId,
+      required this.itemId,
+      required this.count});
 
   @override
   final int id;
   @override
   final int? boxId;
   @override
-  final String name;
-  @override
   final int itemId;
+  @override
+  final int count;
 
   @override
   String toString() {
-    return 'Stock(id: $id, boxId: $boxId, name: $name, itemId: $itemId)';
+    return 'Stock(id: $id, boxId: $boxId, itemId: $itemId, count: $count)';
   }
 
   @override
@@ -160,10 +160,10 @@ class _$_Stock implements _Stock {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.boxId, boxId) ||
                 const DeepCollectionEquality().equals(other.boxId, boxId)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.itemId, itemId) ||
-                const DeepCollectionEquality().equals(other.itemId, itemId)));
+                const DeepCollectionEquality().equals(other.itemId, itemId)) &&
+            (identical(other.count, count) ||
+                const DeepCollectionEquality().equals(other.count, count)));
   }
 
   @override
@@ -171,8 +171,8 @@ class _$_Stock implements _Stock {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(boxId) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(itemId);
+      const DeepCollectionEquality().hash(itemId) ^
+      const DeepCollectionEquality().hash(count);
 
   @JsonKey(ignore: true)
   @override
@@ -184,17 +184,17 @@ abstract class _Stock implements Stock {
   factory _Stock(
       {required int id,
       int? boxId,
-      required String name,
-      required int itemId}) = _$_Stock;
+      required int itemId,
+      required int count}) = _$_Stock;
 
   @override
   int get id => throw _privateConstructorUsedError;
   @override
   int? get boxId => throw _privateConstructorUsedError;
   @override
-  String get name => throw _privateConstructorUsedError;
-  @override
   int get itemId => throw _privateConstructorUsedError;
+  @override
+  int get count => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StockCopyWith<_Stock> get copyWith => throw _privateConstructorUsedError;

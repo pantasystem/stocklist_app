@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
@@ -14,9 +15,10 @@ import 'package:stocklist_app/store/stock_store.dart';
 import 'package:stocklist_app/widget/box_and_item.dart';
 
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
-final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([]));
+final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([], ref.read));
 final stocksStateProvider = StateNotifierProvider((ref)=> StockStore());
 final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore());
+final stocklistClient = StocklistClient('http://192.168.56.106:8080', '1|test-1');
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));

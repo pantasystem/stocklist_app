@@ -22,10 +22,12 @@ class _$UserDTOTearOff {
 
   _UserDTO call(
       {@JsonKey(name: 'name') required String name,
-      @JsonKey(name: 'id') required int id}) {
+      @JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'home_id') required int homeId}) {
     return _UserDTO(
       name: name,
       id: id,
+      homeId: homeId,
     );
   }
 
@@ -43,6 +45,8 @@ mixin _$UserDTO {
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'home_id')
+  int get homeId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +57,10 @@ mixin _$UserDTO {
 abstract class $UserDTOCopyWith<$Res> {
   factory $UserDTOCopyWith(UserDTO value, $Res Function(UserDTO) then) =
       _$UserDTOCopyWithImpl<$Res>;
-  $Res call({@JsonKey(name: 'name') String name, @JsonKey(name: 'id') int id});
+  $Res call(
+      {@JsonKey(name: 'name') String name,
+      @JsonKey(name: 'id') int id,
+      @JsonKey(name: 'home_id') int homeId});
 }
 
 /// @nodoc
@@ -68,6 +75,7 @@ class _$UserDTOCopyWithImpl<$Res> implements $UserDTOCopyWith<$Res> {
   $Res call({
     Object? name = freezed,
     Object? id = freezed,
+    Object? homeId = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -78,6 +86,10 @@ class _$UserDTOCopyWithImpl<$Res> implements $UserDTOCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      homeId: homeId == freezed
+          ? _value.homeId
+          : homeId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -87,7 +99,10 @@ abstract class _$UserDTOCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
   factory _$UserDTOCopyWith(_UserDTO value, $Res Function(_UserDTO) then) =
       __$UserDTOCopyWithImpl<$Res>;
   @override
-  $Res call({@JsonKey(name: 'name') String name, @JsonKey(name: 'id') int id});
+  $Res call(
+      {@JsonKey(name: 'name') String name,
+      @JsonKey(name: 'id') int id,
+      @JsonKey(name: 'home_id') int homeId});
 }
 
 /// @nodoc
@@ -103,6 +118,7 @@ class __$UserDTOCopyWithImpl<$Res> extends _$UserDTOCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? id = freezed,
+    Object? homeId = freezed,
   }) {
     return _then(_UserDTO(
       name: name == freezed
@@ -113,6 +129,10 @@ class __$UserDTOCopyWithImpl<$Res> extends _$UserDTOCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      homeId: homeId == freezed
+          ? _value.homeId
+          : homeId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -122,7 +142,8 @@ class __$UserDTOCopyWithImpl<$Res> extends _$UserDTOCopyWithImpl<$Res>
 class _$_UserDTO implements _UserDTO {
   _$_UserDTO(
       {@JsonKey(name: 'name') required this.name,
-      @JsonKey(name: 'id') required this.id});
+      @JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'home_id') required this.homeId});
 
   factory _$_UserDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_UserDTOFromJson(json);
@@ -133,10 +154,13 @@ class _$_UserDTO implements _UserDTO {
   @override
   @JsonKey(name: 'id')
   final int id;
+  @override
+  @JsonKey(name: 'home_id')
+  final int homeId;
 
   @override
   String toString() {
-    return 'UserDTO(name: $name, id: $id)';
+    return 'UserDTO(name: $name, id: $id, homeId: $homeId)';
   }
 
   @override
@@ -146,14 +170,17 @@ class _$_UserDTO implements _UserDTO {
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)));
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.homeId, homeId) ||
+                const DeepCollectionEquality().equals(other.homeId, homeId)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(id);
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(homeId);
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +196,8 @@ class _$_UserDTO implements _UserDTO {
 abstract class _UserDTO implements UserDTO {
   factory _UserDTO(
       {@JsonKey(name: 'name') required String name,
-      @JsonKey(name: 'id') required int id}) = _$_UserDTO;
+      @JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'home_id') required int homeId}) = _$_UserDTO;
 
   factory _UserDTO.fromJson(Map<String, dynamic> json) = _$_UserDTO.fromJson;
 
@@ -179,6 +207,9 @@ abstract class _UserDTO implements UserDTO {
   @override
   @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'home_id')
+  int get homeId => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$UserDTOCopyWith<_UserDTO> get copyWith =>
