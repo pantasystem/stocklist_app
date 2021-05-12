@@ -12,5 +12,6 @@ class Item with _$Item{
     required String imagePath,
     required int homeId,
     List<User>? owners,
+    required List<String> stockIds,
   }) = _Item;
 }
