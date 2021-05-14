@@ -13,6 +13,7 @@ class Item with _$Item{
     required int homeId,
     List<User>? owners,
     required List<int> stockIds,
-    required String imageUrl
+    required String imageUrl,
+    required int itemQuantity
   }) = _Item;
 }

@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/dto/box.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
-import 'package:stocklist_app/api/dto/user.dart';
 import 'package:stocklist_app/entity/box.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
@@ -28,7 +27,8 @@ class StoreAdder {
       homeId: itemDTO.homeId, 
       stockIds: itemDTO.stockIds,
       imageUrl: itemDTO.imageUrl,
-      owners: itemDTO.owners?.map((e) => User(id: e.id, homeId: e.homeId, name: e.name, )).toList()
+      owners: itemDTO.owners?.map((e) => User(id: e.id, homeId: e.homeId, name: e.name, )).toList(),
+      itemQuantity: itemDTO.itemQuantity?? 0
     );
     addAllStockDTOs(itemDTO.stocks);
     read(itemsStateProvider.notifier).addAll([item]);

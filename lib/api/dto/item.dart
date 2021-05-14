@@ -16,6 +16,7 @@ class ItemDTO with _$ItemDTO {
     @JsonKey(name: 'stocks') List<StockDTO>? stocks,
     @JsonKey(name: 'stock_ids') required List<int> stockIds,
     @JsonKey(name: 'image_url') required String imageUrl,
+    @JsonKey(name: 'item_quantity') int? itemQuantity
   }) = _ItemDTO;
 
   factory ItemDTO.fromJson(Map<String, dynamic> json) => _$ItemDTOFromJson(json);

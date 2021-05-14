@@ -28,7 +28,8 @@ class _$ItemDTOTearOff {
       @JsonKey(name: 'owners') List<UserDTO>? owners,
       @JsonKey(name: 'stocks') List<StockDTO>? stocks,
       @JsonKey(name: 'stock_ids') required List<int> stockIds,
-      @JsonKey(name: 'image_url') required String imageUrl}) {
+      @JsonKey(name: 'image_url') required String imageUrl,
+      @JsonKey(name: 'item_quantity') int? itemQuantity}) {
     return _ItemDTO(
       id: id,
       name: name,
@@ -38,6 +39,7 @@ class _$ItemDTOTearOff {
       stocks: stocks,
       stockIds: stockIds,
       imageUrl: imageUrl,
+      itemQuantity: itemQuantity,
     );
   }
 
@@ -67,6 +69,8 @@ mixin _$ItemDTO {
   List<int> get stockIds => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_url')
   String get imageUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'item_quantity')
+  int? get itemQuantity => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -85,7 +89,8 @@ abstract class $ItemDTOCopyWith<$Res> {
       @JsonKey(name: 'owners') List<UserDTO>? owners,
       @JsonKey(name: 'stocks') List<StockDTO>? stocks,
       @JsonKey(name: 'stock_ids') List<int> stockIds,
-      @JsonKey(name: 'image_url') String imageUrl});
+      @JsonKey(name: 'image_url') String imageUrl,
+      @JsonKey(name: 'item_quantity') int? itemQuantity});
 }
 
 /// @nodoc
@@ -106,6 +111,7 @@ class _$ItemDTOCopyWithImpl<$Res> implements $ItemDTOCopyWith<$Res> {
     Object? stocks = freezed,
     Object? stockIds = freezed,
     Object? imageUrl = freezed,
+    Object? itemQuantity = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -140,6 +146,10 @@ class _$ItemDTOCopyWithImpl<$Res> implements $ItemDTOCopyWith<$Res> {
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      itemQuantity: itemQuantity == freezed
+          ? _value.itemQuantity
+          : itemQuantity // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -157,7 +167,8 @@ abstract class _$ItemDTOCopyWith<$Res> implements $ItemDTOCopyWith<$Res> {
       @JsonKey(name: 'owners') List<UserDTO>? owners,
       @JsonKey(name: 'stocks') List<StockDTO>? stocks,
       @JsonKey(name: 'stock_ids') List<int> stockIds,
-      @JsonKey(name: 'image_url') String imageUrl});
+      @JsonKey(name: 'image_url') String imageUrl,
+      @JsonKey(name: 'item_quantity') int? itemQuantity});
 }
 
 /// @nodoc
@@ -179,6 +190,7 @@ class __$ItemDTOCopyWithImpl<$Res> extends _$ItemDTOCopyWithImpl<$Res>
     Object? stocks = freezed,
     Object? stockIds = freezed,
     Object? imageUrl = freezed,
+    Object? itemQuantity = freezed,
   }) {
     return _then(_ItemDTO(
       id: id == freezed
@@ -213,6 +225,10 @@ class __$ItemDTOCopyWithImpl<$Res> extends _$ItemDTOCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      itemQuantity: itemQuantity == freezed
+          ? _value.itemQuantity
+          : itemQuantity // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -228,7 +244,8 @@ class _$_ItemDTO implements _ItemDTO {
       @JsonKey(name: 'owners') this.owners,
       @JsonKey(name: 'stocks') this.stocks,
       @JsonKey(name: 'stock_ids') required this.stockIds,
-      @JsonKey(name: 'image_url') required this.imageUrl});
+      @JsonKey(name: 'image_url') required this.imageUrl,
+      @JsonKey(name: 'item_quantity') this.itemQuantity});
 
   factory _$_ItemDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_ItemDTOFromJson(json);
@@ -257,10 +274,13 @@ class _$_ItemDTO implements _ItemDTO {
   @override
   @JsonKey(name: 'image_url')
   final String imageUrl;
+  @override
+  @JsonKey(name: 'item_quantity')
+  final int? itemQuantity;
 
   @override
   String toString() {
-    return 'ItemDTO(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stocks: $stocks, stockIds: $stockIds, imageUrl: $imageUrl)';
+    return 'ItemDTO(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stocks: $stocks, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity)';
   }
 
   @override
@@ -285,7 +305,10 @@ class _$_ItemDTO implements _ItemDTO {
                     .equals(other.stockIds, stockIds)) &&
             (identical(other.imageUrl, imageUrl) ||
                 const DeepCollectionEquality()
-                    .equals(other.imageUrl, imageUrl)));
+                    .equals(other.imageUrl, imageUrl)) &&
+            (identical(other.itemQuantity, itemQuantity) ||
+                const DeepCollectionEquality()
+                    .equals(other.itemQuantity, itemQuantity)));
   }
 
   @override
@@ -298,7 +321,8 @@ class _$_ItemDTO implements _ItemDTO {
       const DeepCollectionEquality().hash(owners) ^
       const DeepCollectionEquality().hash(stocks) ^
       const DeepCollectionEquality().hash(stockIds) ^
-      const DeepCollectionEquality().hash(imageUrl);
+      const DeepCollectionEquality().hash(imageUrl) ^
+      const DeepCollectionEquality().hash(itemQuantity);
 
   @JsonKey(ignore: true)
   @override
@@ -320,7 +344,8 @@ abstract class _ItemDTO implements ItemDTO {
       @JsonKey(name: 'owners') List<UserDTO>? owners,
       @JsonKey(name: 'stocks') List<StockDTO>? stocks,
       @JsonKey(name: 'stock_ids') required List<int> stockIds,
-      @JsonKey(name: 'image_url') required String imageUrl}) = _$_ItemDTO;
+      @JsonKey(name: 'image_url') required String imageUrl,
+      @JsonKey(name: 'item_quantity') int? itemQuantity}) = _$_ItemDTO;
 
   factory _ItemDTO.fromJson(Map<String, dynamic> json) = _$_ItemDTO.fromJson;
 
@@ -348,6 +373,9 @@ abstract class _ItemDTO implements ItemDTO {
   @override
   @JsonKey(name: 'image_url')
   String get imageUrl => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'item_quantity')
+  int? get itemQuantity => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemDTOCopyWith<_ItemDTO> get copyWith =>
