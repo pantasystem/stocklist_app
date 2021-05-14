@@ -27,6 +27,7 @@ class StoreAdder {
       imagePath: itemDTO.imagePath, 
       homeId: itemDTO.homeId, 
       stockIds: itemDTO.stockIds,
+      imageUrl: itemDTO.imageUrl,
       owners: itemDTO.owners?.map((e) => User(id: e.id, homeId: e.homeId, name: e.name, )).toList()
     );
     addAllStockDTOs(itemDTO.stocks);

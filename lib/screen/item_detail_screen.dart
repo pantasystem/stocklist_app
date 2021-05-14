@@ -19,14 +19,14 @@ class ItemDetailScreen extends HookWidget {
   Widget build(BuildContext context) {
     final itemArgs = ModalRoute.of(context)?.settings.arguments as ItemArgs;
     final item = useProvider(itemsStateProvider.notifier).get(itemArgs.itemId);
-    List<Stock>? stocks;
+    List<Stock>? stocks = useProvider(stocksStateProvider.notifier).filterByItemId(itemArgs.itemId);
 
-    if(item != null) {
-      stocks = useProvider(stocksStateProvider.notifier).filterByItemId(item.id);
 
-    }else{
-      stocks = [];
-    }
+    final itemStoreProvider = useProvider(itemsStateProvider.notifier);
+
+    useEffect((){
+      Future.microtask(() => itemStoreProvider.fetch(itemArgs.itemId));
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +47,7 @@ class ItemDetailScreen extends HookWidget {
             ),
 
           if(item != null)
-            Image.network(item.imagePath),
+            Image.network(item.imageUrl),
           if(item == null)
             CircularProgressIndicator()
         ],

@@ -178,5 +178,5 @@ void handleError(Response res) {
   if(res.statusCode == 422) {
     throw ValidationException(res.body);
   }
-  throw Exception();
+  throw Exception("http error status:${res.statusCode}, message:${res.body}");
 }

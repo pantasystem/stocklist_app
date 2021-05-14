@@ -8,16 +8,19 @@ import 'package:stocklist_app/fake.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
+import 'package:stocklist_app/screen/item_screen.dart';
 import 'package:stocklist_app/screen/search_screen.dart';
 import 'package:stocklist_app/store/box_store.dart';
 import 'package:stocklist_app/store/item_store.dart';
 import 'package:stocklist_app/store/stock_store.dart';
+import 'package:stocklist_app/store_adder.dart';
 import 'package:stocklist_app/widget/box_and_item.dart';
 
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([], ref.read));
 final stocksStateProvider = StateNotifierProvider((ref)=> StockStore());
 final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore());
+final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient('http://192.168.56.106:8080', '1|test-1');
 
 void main() {
@@ -29,8 +32,8 @@ class StocklistApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = makeItems(homeId: 1, count: 20);
-    context.read(itemsStateProvider.notifier).addAll(items);
+    //final items = makeItems(homeId: 1, count: 20);
+    //context.read(itemsStateProvider.notifier).addAll(items);
 
     return MaterialApp(
       initialRoute: '/home',
@@ -48,7 +51,7 @@ class MainScreen extends HookWidget {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> screens = [
     HomeScreen(),
-    SearchScreen(),
+    ItemsScreen(),
     BoxScreen(),
     CategoryScreen()
   ];

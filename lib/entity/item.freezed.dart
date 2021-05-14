@@ -22,7 +22,8 @@ class _$ItemTearOff {
       required String imagePath,
       required int homeId,
       List<User>? owners,
-      required List<String> stockIds}) {
+      required List<int> stockIds,
+      required String imageUrl}) {
     return _Item(
       id: id,
       name: name,
@@ -30,6 +31,7 @@ class _$ItemTearOff {
       homeId: homeId,
       owners: owners,
       stockIds: stockIds,
+      imageUrl: imageUrl,
     );
   }
 }
@@ -44,7 +46,8 @@ mixin _$Item {
   String get imagePath => throw _privateConstructorUsedError;
   int get homeId => throw _privateConstructorUsedError;
   List<User>? get owners => throw _privateConstructorUsedError;
-  List<String> get stockIds => throw _privateConstructorUsedError;
+  List<int> get stockIds => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
@@ -60,7 +63,8 @@ abstract class $ItemCopyWith<$Res> {
       String imagePath,
       int homeId,
       List<User>? owners,
-      List<String> stockIds});
+      List<int> stockIds,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -79,6 +83,7 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
     Object? homeId = freezed,
     Object? owners = freezed,
     Object? stockIds = freezed,
+    Object? imageUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -104,7 +109,11 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
       stockIds: stockIds == freezed
           ? _value.stockIds
           : stockIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<int>,
+      imageUrl: imageUrl == freezed
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -120,7 +129,8 @@ abstract class _$ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String imagePath,
       int homeId,
       List<User>? owners,
-      List<String> stockIds});
+      List<int> stockIds,
+      String imageUrl});
 }
 
 /// @nodoc
@@ -140,6 +150,7 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
     Object? homeId = freezed,
     Object? owners = freezed,
     Object? stockIds = freezed,
+    Object? imageUrl = freezed,
   }) {
     return _then(_Item(
       id: id == freezed
@@ -165,7 +176,11 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
       stockIds: stockIds == freezed
           ? _value.stockIds
           : stockIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<int>,
+      imageUrl: imageUrl == freezed
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -179,7 +194,8 @@ class _$_Item implements _Item {
       required this.imagePath,
       required this.homeId,
       this.owners,
-      required this.stockIds});
+      required this.stockIds,
+      required this.imageUrl});
 
   @override
   final int id;
@@ -192,11 +208,13 @@ class _$_Item implements _Item {
   @override
   final List<User>? owners;
   @override
-  final List<String> stockIds;
+  final List<int> stockIds;
+  @override
+  final String imageUrl;
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds)';
+    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds, imageUrl: $imageUrl)';
   }
 
   @override
@@ -216,7 +234,10 @@ class _$_Item implements _Item {
                 const DeepCollectionEquality().equals(other.owners, owners)) &&
             (identical(other.stockIds, stockIds) ||
                 const DeepCollectionEquality()
-                    .equals(other.stockIds, stockIds)));
+                    .equals(other.stockIds, stockIds)) &&
+            (identical(other.imageUrl, imageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.imageUrl, imageUrl)));
   }
 
   @override
@@ -227,7 +248,8 @@ class _$_Item implements _Item {
       const DeepCollectionEquality().hash(imagePath) ^
       const DeepCollectionEquality().hash(homeId) ^
       const DeepCollectionEquality().hash(owners) ^
-      const DeepCollectionEquality().hash(stockIds);
+      const DeepCollectionEquality().hash(stockIds) ^
+      const DeepCollectionEquality().hash(imageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -242,7 +264,8 @@ abstract class _Item implements Item {
       required String imagePath,
       required int homeId,
       List<User>? owners,
-      required List<String> stockIds}) = _$_Item;
+      required List<int> stockIds,
+      required String imageUrl}) = _$_Item;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -255,7 +278,9 @@ abstract class _Item implements Item {
   @override
   List<User>? get owners => throw _privateConstructorUsedError;
   @override
-  List<String> get stockIds => throw _privateConstructorUsedError;
+  List<int> get stockIds => throw _privateConstructorUsedError;
+  @override
+  String get imageUrl => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemCopyWith<_Item> get copyWith => throw _privateConstructorUsedError;

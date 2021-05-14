@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/item.dart';
@@ -24,13 +25,13 @@ class ItemStore extends StateNotifier<List<Item>> {
     this.state = list;
   }
 
-  void delete(Item item) async {
+  void remove(Item item) async {
     // TODO 削除処理を実装する
     this.state = this.state.where((element) => element.id != item.id).toList();
   }
 
   void deleteAll(List<Item> items) async {
-    items.forEach((element) => delete(element));
+    items.forEach((element) => remove(element));
   }
 
   Item? get(int itemId) {
@@ -42,26 +43,23 @@ class ItemStore extends StateNotifier<List<Item>> {
     return this.state.where((element) => sets.contains(element.id)).toSet();
   }
 
-  Future create({ required String name, String? description, File? image, required bool isDisposable}) async{
-    // TODO 実装する
+  Future create({ required String name, String? description, required File image, required bool isDisposable}) async{
+    final created = await stocklistClient.itemAPI.create(name: name, isDisposable: isDisposable, image: image);
+    reader(storeAdder).addItemDTO(created);
   }
 
-  Future<List<Item>> load() async {
-    return [];
-  }
 
   Future fetchAll() async {
+    print("fetchAllします。");
     final itemDTOList = await stocklistClient.itemAPI.all();
-    final items = itemDTOList.map((ItemDTO i){
-      return Item(id: i.id, name: i.name, imagePath: i.imagePath, homeId: i.homeId, stockIds: i.stockIds);
-    }).toList();
-    this.addAll(items);
+    print("fetchAll完了しました");
+    print(itemDTOList);
+    reader(storeAdder).addAllItemDTOs(itemDTOList);
   }
 
   Future fetch(int itemId) async {
     final itemDTO = await stocklistClient.itemAPI.show(itemId);
-    final item = Item(id: itemDTO.id, name: itemDTO.name, imagePath: itemDTO.imagePath, homeId: itemDTO.homeId, stockIds: itemDTO.stockIds);
-
+    reader(storeAdder).addItemDTO(itemDTO);
   }
 
 

@@ -15,7 +15,13 @@ class ItemListTileWidget extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return ListTile(
-      leading: Image.network(item.imagePath, width: 70.0),
+      leading: Image.network(
+        item.imageUrl,
+        width: 70.0,
+        errorBuilder: (BuildContext context, e, s) {
+          return Image.asset("images/no_image_500.png", width: 70.0);
+        },
+      ),
       title: Text(
         item.name
       ),
@@ -60,7 +66,12 @@ class ItemGridWidget extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
       child: Column(
         children: [
-          Image.network(item.imagePath),
+          Image.network(
+            item.imageUrl,
+            errorBuilder: (BuildContext context, e, s) {
+              return Image.asset("images/no_image_500.png");
+            },
+          ),
           Text(item.name)
         ],
       ),

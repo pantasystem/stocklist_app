@@ -19,7 +19,8 @@ _$_ItemDTO _$_$_ItemDTOFromJson(Map<String, dynamic> json) {
         ?.map((e) => StockDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
     stockIds:
-        (json['stock_ids'] as List<dynamic>).map((e) => e as String).toList(),
+        (json['stock_ids'] as List<dynamic>).map((e) => e as int).toList(),
+    imageUrl: json['image_url'] as String,
   );
 }
 
@@ -32,4 +33,5 @@ Map<String, dynamic> _$_$_ItemDTOToJson(_$_ItemDTO instance) =>
       'owners': instance.owners,
       'stocks': instance.stocks,
       'stock_ids': instance.stockIds,
+      'image_url': instance.imageUrl,
     };
