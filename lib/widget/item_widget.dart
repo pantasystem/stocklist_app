@@ -134,6 +134,7 @@ class ItemCardView extends HookWidget {
               ],
             ),
             padding: EdgeInsets.all(4),
+            alignment: Alignment.topLeft,
           )
         ],
       ),
@@ -150,7 +151,7 @@ class ItemLargeNameWidget extends StatelessWidget {
     return Text(
       name,
       style: TextStyle(
-        fontSize: 20
+        fontSize: 24
       ),
     );
 
