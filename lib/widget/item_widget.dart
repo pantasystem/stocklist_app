@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
@@ -50,7 +51,7 @@ class ItemListView extends StatelessWidget {
   }
 
   Widget buildListItem(BuildContext context, int index) {
-    return ItemListTileWidget(
+    return ItemCardView(
       item: items[index],
     );
   }
@@ -98,5 +99,60 @@ class ItemsGridView extends StatelessWidget {
       shrinkWrap: shrinkWrap,
       physics: physics,
     );
+  }
+}
+
+class ItemCardView extends HookWidget {
+
+  final Item item;
+  ItemCardView({required this.item});
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      semanticContainer: true,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Column(
+        children: [
+          Container(
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image(
+                image: NetworkImage(
+                  item.imageUrl,
+                ),
+                  errorBuilder: (BuildContext context, e, s) {
+                    return Image.asset("images/no_image_500.png");
+                  },
+                fit: BoxFit.fitWidth
+              ),
+            ),
+          ),
+          Container(
+            child: Column(
+              children: [
+                ItemLargeNameWidget(name: item.name)
+              ],
+            ),
+            padding: EdgeInsets.all(4),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ItemLargeNameWidget extends StatelessWidget {
+  final String name;
+
+  ItemLargeNameWidget({required this.name});
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      name,
+      style: TextStyle(
+        fontSize: 20
+      ),
+    );
+
   }
 }
