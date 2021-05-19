@@ -21,7 +21,7 @@ final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([], ref.read)
 final stocksStateProvider = StateNotifierProvider((ref)=> StockStore());
 final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore());
 final storeAdder = Provider((ref)=> StoreAdder(ref.read));
-final stocklistClient = StocklistClient('http://192.168.56.106:8080', '1|test-1');
+final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), '1|test-1');
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));
