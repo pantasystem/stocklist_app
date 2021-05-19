@@ -35,6 +35,18 @@ class ItemDetailScreen extends HookWidget {
       body: ListView(
         padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
         children: [
+
+
+          if(item != null)
+            AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Image.network(
+                item.imageUrl,
+                fit: BoxFit.none,
+              ),
+            ),
+          if(item == null)
+            CircularProgressIndicator(),
           if(item != null)
             Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
@@ -45,11 +57,6 @@ class ItemDetailScreen extends HookWidget {
                 ),
               ),
             ),
-
-          if(item != null)
-            Image.network(item.imageUrl),
-          if(item == null)
-            CircularProgressIndicator()
         ],
       ),
 
