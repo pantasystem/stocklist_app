@@ -57,37 +57,49 @@ class ItemDetailContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      children: [
-        AspectRatio(
-          aspectRatio: 4 / 3,
-          child: Image.network(
-            item.imageUrl,
-            fit: BoxFit.cover,
-            errorBuilder: (BuildContext context, e, s) {
-              return Image.asset("images/no_image_500.png", width: 70.0);
-            },
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
-          child: Text(
-            item.name,
-            style: TextStyle(
-              fontSize: 25.0,
+    return Card(
+      child : ListView(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        children: [
+          AspectRatio(
+            aspectRatio: 4 / 3,
+            child: Image.network(
+              item.imageUrl,
+              fit: BoxFit.cover,
+              errorBuilder: (BuildContext context, e, s) {
+                return Image.asset("images/no_image_500.png", width: 70.0);
+              },
             ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-          child: Text(
-            item.description
+          Container(
+            margin: EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: Text(
+              item.name,
+              style: TextStyle(
+                fontSize: 25.0,
+              ),
+            ),
+          ),
+          Container(
+              margin: EdgeInsets.fromLTRB(16, 4, 16, 16),
+              child: Text(
+                  item.description
+              )
           )
-        )
 
-      ],
+        ],
+      )
     );
+
+  }
+}
+
+/// 場所と場所に保管されているアイテムの個数、個数を変更するアクションを表示する
+class StockList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }
