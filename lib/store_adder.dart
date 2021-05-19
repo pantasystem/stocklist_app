@@ -28,7 +28,8 @@ class StoreAdder {
       stockIds: itemDTO.stockIds,
       imageUrl: itemDTO.imageUrl,
       owners: itemDTO.owners?.map((e) => User(id: e.id, homeId: e.homeId, name: e.name, )).toList(),
-      itemQuantity: itemDTO.itemQuantity?? 0
+      itemQuantity: itemDTO.itemQuantity?? 0,
+      description: itemDTO.description??''
     );
     addAllStockDTOs(itemDTO.stocks);
     read(itemsStateProvider.notifier).addAll([item]);
