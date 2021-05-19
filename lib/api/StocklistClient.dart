@@ -52,6 +52,7 @@ class ItemAPI {
       ..appendToPath('api/items/$itemId');
     final res = await http.get(builder.uri, headers: makeHeader(token));
     handleError(res);
+    print(res.body);
     return ItemDTO.fromJson(json.decode(res.body));
   }
   Future<ItemDTO> create({ required String name, required bool isDisposable, required File image, String? description}) async {
