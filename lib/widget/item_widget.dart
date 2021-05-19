@@ -51,7 +51,7 @@ class ItemListView extends StatelessWidget {
   }
 
   Widget buildListItem(BuildContext context, int index) {
-    return ItemCardView(
+    return ItemListTileWidget(
       item: items[index],
     );
   }
