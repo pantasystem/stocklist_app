@@ -14,7 +14,7 @@ class ItemsScreen extends HookWidget {
   Widget build(BuildContext context) {
 
     //final items = useProvider(itemsStateProvider);
-    final items = useProvider(itemsStateProvider);
+    final items = useProvider(itemsStateProvider).items;
 
     final fetch = useProvider(itemsStateProvider.notifier);
 

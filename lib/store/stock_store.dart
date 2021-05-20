@@ -1,37 +1,37 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/stock.dart';
+import 'package:stocklist_app/state/stocks_state.dart';
 
-class StockStore extends StateNotifier<List<Stock>> {
-  StockStore() : super([]);
+class StockStore extends StateNotifier<StocksState> {
+  StockStore() : super(new StocksState(stocks: []));
 
-  List<Stock> filterByItemId(int itemId) {
-    return state.where((element) => element.itemId == itemId).toList();
-  }
-  
+
   void removeByItemId(int itemId) {
-    state = state.where((element) => element.itemId == itemId).toList();
+    state = this.state.copyWith(stocks: state.stocks.where((element) => element.itemId == itemId).toList());
   }
 
   void addAll(List<Stock> list) {
-    final filtered = this.state.where((element) => !list.any((n) => n.id == element.id));
-    this.state = [ ...filtered, ...list ];
+    final filtered = this.state.stocks.where((element) => !list.any((n) => n.id == element.id));
+    final newList =  [ ...filtered, ...list ];
+    this.state = this.state.copyWith(stocks: newList);
   }
 
   void add(Stock stock) {
-    final filtered = this.state.where((el) => el.id != stock.id);
-    this.state = [
+    final filtered = this.state.stocks.where((el) => el.id != stock.id);
+    this.state = this.state.copyWith(
+        stocks: [
       ...filtered,
       stock
-    ];
+    ]);
   }
 
   void remove(int stockId) {
-    this.state = this.state.where((element) => element.id == stockId).toList();
+    this.state = this.state.copyWith(
+      stocks: this.state.stocks.where((element) => element.id == stockId).toList()
+    );
   }
 
-  Stock? get(int stockId) {
-    return this.state.firstWhere((element) => element.id == stockId);
-  }
+
 
 }
