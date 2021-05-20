@@ -31,9 +31,7 @@ class BoxesScreen extends HookWidget {
     final boxes = useProvider(boxesStateProvider).boxes;
     final args = ModalRoute.of(context)?.settings.arguments as BoxesScreenArgs?;
     final selectedBoxIds = useState(args?.selectable?.selectedBoxIds?? []);
-    final selectable = useMemoized((){
-      return selectedBoxIds.value.length < (args?.selectable?.maxSelectableCount ?? -1);
-    }, [selectedBoxIds]);
+    final selectable = selectedBoxIds.value.length < (args?.selectable?.maxSelectableCount ?? -1);
     return Scaffold(
         appBar: AppBar(
           title: args?.selectable == null ? Text("収納別") : Text("収納選択(${selectedBoxIds.value.length}/${args?.selectable?.maxSelectableCount})"),
@@ -52,15 +50,13 @@ class BoxesScreen extends HookWidget {
           selectedBoxIds: selectedBoxIds.value,
           isSelectable: selectable,
           listener: (id) {
-            if(selectable) {
-              if(selectedBoxIds.value.any((element) => element == id)) {
-                selectedBoxIds.value = selectedBoxIds.value.where((element) => element != id).toSet().toList();
-              }else{
-                selectedBoxIds.value = [
-                  ...selectedBoxIds.value,
-                  id
-                ];
-              }
+            if(selectedBoxIds.value.any((element) => element == id)) {
+              selectedBoxIds.value = selectedBoxIds.value.where((element) => element != id).toSet().toList();
+            }else if(selectable){
+              selectedBoxIds.value = [
+                ...selectedBoxIds.value,
+                id
+              ];
             }
           },
         )
