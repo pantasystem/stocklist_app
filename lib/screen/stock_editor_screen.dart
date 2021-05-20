@@ -32,6 +32,21 @@ class StockEditorScreen extends HookWidget {
 
     final item = useProvider(itemsStateProvider).get(args.item.id);
 
+    Future<void> selectBox() async {
+      final res = await Navigator.of(context).pushNamed(
+          '/boxes',
+          arguments: BoxesScreenArgs(
+              selectable: BoxSelectable(maxSelectableCount: 1, selectedBoxIds: boxId.value == null ? [] : [boxId.value!])
+          )
+      );
+      if(res is List && res.length > 0) {
+        boxId.value = res[0];
+        print("box選択:" + res.toString());
+      }else if(res is List){
+        boxId.value = null;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: args.stock == null ? Text("新しく収納する") : Text("収納情報編集"),
@@ -44,12 +59,13 @@ class StockEditorScreen extends HookWidget {
             ListTile(
               title: Text("収納先を選択してください。"),
               leading: Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.of(context).pushNamed('/boxes', arguments: BoxesScreenArgs(selectable: BoxSelectable(maxSelectableCount: 1)));
-              },
+              onTap: selectBox,
             ),
           if(boxId.value != null)
-            BoxListTile(box: useProvider(boxesStateProvider).get(boxId.value)),
+            BoxListTile(
+              box: useProvider(boxesStateProvider).get(boxId.value),
+              listener: selectBox,
+            ),
           TextField(
             controller: inputCounter,
             decoration: InputDecoration(
