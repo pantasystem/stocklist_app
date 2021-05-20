@@ -36,7 +36,16 @@ class BoxesScreen extends HookWidget {
     }, [selectedBoxIds]);
     return Scaffold(
         appBar: AppBar(
-          title: Text("収納別"),
+          title: args?.selectable == null ? Text("収納別") : Text("収納選択(${selectedBoxIds.value.length}/${args?.selectable?.maxSelectableCount})"),
+          actions: [
+            if(args?.selectable != null)
+              IconButton(
+                onPressed: (){
+                  Navigator.pop(context, selectedBoxIds.value);
+                },
+                icon: Icon(Icons.check),
+              )
+          ],
         ),
         body: BoxListView(
           boxes: boxes,
