@@ -158,6 +158,10 @@ class ServerException implements Exception {
 class ValidationException implements Exception {
   final String message;
   ValidationException(this.message);
+
+  Map<String, dynamic> toMap() {
+    return json.decode(message);
+  }
   @override
   String toString() => message;
 }

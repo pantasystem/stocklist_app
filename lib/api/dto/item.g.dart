@@ -23,6 +23,7 @@ _$_ItemDTO _$_$_ItemDTOFromJson(Map<String, dynamic> json) {
     imageUrl: json['image_url'] as String,
     itemQuantity: json['item_quantity'] as int?,
     description: json['description'] as String?,
+    isDisposable: json['is_disposable'] as bool,
   );
 }
 
@@ -38,4 +39,5 @@ Map<String, dynamic> _$_$_ItemDTOToJson(_$_ItemDTO instance) =>
       'image_url': instance.imageUrl,
       'item_quantity': instance.itemQuantity,
       'description': instance.description,
+      'is_disposable': instance.isDisposable,
     };

@@ -1,9 +1,12 @@
 
 
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
@@ -30,7 +33,9 @@ class StockEditorScreen extends HookWidget {
       text: (args.stock?.count)?.toString()?? ''
     );
 
-    final item = useProvider(itemsStateProvider).get(args.item.id);
+    final Item item = useProvider(itemsStateProvider).get(args.item.id);
+
+    final validationError = useState<ValidationException?>(null);
 
     Future<void> selectBox() async {
       final res = await Navigator.of(context).pushNamed(
@@ -71,11 +76,25 @@ class StockEditorScreen extends HookWidget {
             decoration: InputDecoration(
               hintText: "収納する${item.name}の個数",
               labelText: "個数",
+              errorText: validationError.value?.toMap()['count'][0]
 
             ),
             keyboardType: TextInputType.number,
-          )
+          ),
+          if(item.isDisposable)
+            TextField(
+              decoration: InputDecoration(
+
+              ),
+
+            )
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+
+        },
+        label: Text("保存する")
       ),
     );
   }
