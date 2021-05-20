@@ -91,3 +91,22 @@ class StockCountWidget extends StatelessWidget {
   }
 }
 
+enum StockCardAction {
+  EDIT, DELETE
+}
+
+/// 想定されるアクション[編集、削除]
+class StockPopupMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            child: Text(""),
+          )
+        ];
+      }
+    );
+  }
+}
