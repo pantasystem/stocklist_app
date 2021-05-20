@@ -5,11 +5,6 @@ import 'package:stocklist_app/entity/box.dart';
 class BoxStore extends StateNotifier<List<Box>> {
   BoxStore() : super([]);
 
-  List<Box> filterByItemId(int itemId) {
-    return state.where((element) => element.id == itemId).toList();
-  }
-
-
 
   void addAll(List<Box> list) {
     final filtered = this.state.where((element) => !list.any((n) => n.id == element.id));
@@ -28,8 +23,6 @@ class BoxStore extends StateNotifier<List<Box>> {
     this.state = this.state.where((element) => element.id == boxId).toList();
   }
 
-  Box? get(int boxId) {
-    return this.state.firstWhere((element) => element.id == boxId);
-  }
+
 
 }

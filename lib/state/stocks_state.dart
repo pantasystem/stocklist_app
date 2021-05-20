@@ -6,7 +6,8 @@ part 'stocks_state.freezed.dart';
 
 @freezed
 class StocksState with _$StocksState {
-  factory StocksState({required List<Stock> stocks}) = _StocksState;
+  const StocksState._();
+  const factory StocksState({required List<Stock> stocks}) = _StocksState;
 
   List<Stock> filterByItemId(int itemId) {
     return stocks.where((element) => element.itemId == itemId).toList();

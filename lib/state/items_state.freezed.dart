@@ -98,8 +98,8 @@ class __$ItemsStateCopyWithImpl<$Res> extends _$ItemsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ItemsState implements _ItemsState {
-  _$_ItemsState({required this.items});
+class _$_ItemsState extends _ItemsState {
+  _$_ItemsState({required this.items}) : super._();
 
   @override
   final List<Item> items;
@@ -127,8 +127,9 @@ class _$_ItemsState implements _ItemsState {
       __$ItemsStateCopyWithImpl<_ItemsState>(this, _$identity);
 }
 
-abstract class _ItemsState implements ItemsState {
+abstract class _ItemsState extends ItemsState {
   factory _ItemsState({required List<Item> items}) = _$_ItemsState;
+  _ItemsState._() : super._();
 
   @override
   List<Item> get items => throw _privateConstructorUsedError;

@@ -34,14 +34,7 @@ class ItemStore extends StateNotifier<List<Item>> {
     items.forEach((element) => remove(element));
   }
 
-  Item? get(int itemId) {
-    return this.state.firstWhere((element) => element.id == itemId);
-  }
 
-  Set<Item> getAll(List<int> itemIds) {
-    final sets = itemIds.toSet();
-    return this.state.where((element) => sets.contains(element.id)).toSet();
-  }
 
   Future create({ required String name, String? description, required File image, required bool isDisposable}) async{
     final created = await stocklistClient.itemAPI.create(name: name, isDisposable: isDisposable, image: image, description: description);

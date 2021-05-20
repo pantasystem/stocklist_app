@@ -8,6 +8,7 @@ part 'items_state.freezed.dart';
 @freezed
 class ItemsState with _$ItemsState {
 
+  ItemsState._();
   factory ItemsState({required List<Item> items}) = _ItemsState;
 
   Item? get(int itemId) {

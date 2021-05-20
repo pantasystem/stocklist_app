@@ -99,8 +99,8 @@ class __$StocksStateCopyWithImpl<$Res> extends _$StocksStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StocksState implements _StocksState {
-  _$_StocksState({required this.stocks});
+class _$_StocksState extends _StocksState {
+  const _$_StocksState({required this.stocks}) : super._();
 
   @override
   final List<Stock> stocks;
@@ -128,8 +128,9 @@ class _$_StocksState implements _StocksState {
       __$StocksStateCopyWithImpl<_StocksState>(this, _$identity);
 }
 
-abstract class _StocksState implements StocksState {
-  factory _StocksState({required List<Stock> stocks}) = _$_StocksState;
+abstract class _StocksState extends StocksState {
+  const factory _StocksState({required List<Stock> stocks}) = _$_StocksState;
+  const _StocksState._() : super._();
 
   @override
   List<Stock> get stocks => throw _privateConstructorUsedError;
