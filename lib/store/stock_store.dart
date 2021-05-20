@@ -6,7 +6,7 @@ class StockStore extends StateNotifier<List<Stock>> {
   StockStore() : super([]);
 
   List<Stock> filterByItemId(int itemId) {
-    return state.where((element) => element.id == itemId).toList();
+    return state.where((element) => element.itemId == itemId).toList();
   }
   
   void removeByItemId(int itemId) {

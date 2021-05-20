@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/store/stock_store.dart';
 import 'package:stocklist_app/widget/stock_widget.dart';
 
 class ItemArgs {
@@ -20,15 +21,11 @@ class ItemDetailScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final itemArgs = ModalRoute.of(context)?.settings.arguments as ItemArgs;
-    final item = useProvider(itemsStateProvider.notifier).get(itemArgs.itemId);
-    List<Stock> stocks = useProvider(stocksStateProvider.notifier).filterByItemId(itemArgs.itemId)
-    /*    .where((stock) => item?.stockIds.any((id) => stock.id == id)??false)
-        .where((element) => element.boxId != null)*/
-        .toList();
-    //print(item?.stockIds.toString());
+    final item = useProvider(itemsStateProvider).firstWhere((Item item) => item.id == itemArgs.itemId);
 
 
     final itemStoreProvider = useProvider(itemsStateProvider.notifier);
+    final List<Stock> stocks = useProvider(stocksStateProvider).where((Stock stock) => stock.itemId == itemArgs.itemId).toList();
 
     useEffect((){
       Future.microtask(() => itemStoreProvider.fetch(itemArgs.itemId).catchError((e) {
@@ -57,6 +54,14 @@ class ItemDetailScreen extends HookWidget {
               ),
             ),
           ),
+          ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return StockCardWidget(stocks[index]);
+            },
+            itemCount: stocks.length,
+            physics: ClampingScrollPhysics(),
+            shrinkWrap: true,
+          ),
 
 
           if(item == null)
@@ -82,8 +87,8 @@ class ItemDetailContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child : ListView(
-        shrinkWrap: true,
         physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
         padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
         children: [
           AspectRatio(
