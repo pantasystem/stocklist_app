@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';

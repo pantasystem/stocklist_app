@@ -40,7 +40,7 @@ class StoreAdder {
     if(stockDTO == null) {
       return;
     }
-    final stock = Stock(id: stockDTO.id, itemId: stockDTO.itemId, count: stockDTO.count, boxId: stockDTO.boxId);
+    final stock = Stock(id: stockDTO.id, itemId: stockDTO.itemId, count: stockDTO.count, boxId: stockDTO.boxId, expirationDate: stockDTO.expire?.expirationDate);
     addItemDTO(stockDTO.item);
     addBoxDTO(stockDTO.box);
     read(stocksStateProvider.notifier).add(stock);
