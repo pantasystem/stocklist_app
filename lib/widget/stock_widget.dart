@@ -31,13 +31,13 @@ class StockCardWidget extends HookWidget {
             Row(
               children: [
                 Container(
+                  padding: EdgeInsets.all(16),
                   child: Text(
                     box.name,
                     style: TextStyle(
                       fontSize: 18
                     ),
                   ),
-                  margin: EdgeInsets.all(8),
                 ),
 
                 StockPopupMenu(
@@ -56,7 +56,6 @@ class StockCardWidget extends HookWidget {
           ],
 
         ),
-        padding: EdgeInsets.all(16),
       )
 
 
