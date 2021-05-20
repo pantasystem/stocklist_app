@@ -1,10 +1,19 @@
 import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
+import 'package:stocklist_app/api/dto/item.dart';
+import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/item.dart';
+import 'package:stocklist_app/entity/stock.dart';
+import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/store/stock_store.dart';
 
-class ItemMutation extends StateNotifier<List<Item>> {
-  ItemMutation(List<Item> items) : super(items);
+class ItemStore extends StateNotifier<List<Item>> {
+  ItemStore(List<Item> items, this.reader) : super(items);
+
+
+  final Reader reader;
 
   void addAll(List<Item> items) {
 
@@ -16,12 +25,13 @@ class ItemMutation extends StateNotifier<List<Item>> {
     this.state = list;
   }
 
-  void delete(Item item) {
+  void remove(Item item) async {
+    // TODO 削除処理を実装する
     this.state = this.state.where((element) => element.id != item.id).toList();
   }
 
-  void deleteAll(List<Item> items) {
-    this.state = this.state.where((i) => !items.any((j) => i.id == j.id)).toList();
+  void deleteAll(List<Item> items) async {
+    items.forEach((element) => remove(element));
   }
 
   Item? get(int itemId) {
@@ -33,18 +43,24 @@ class ItemMutation extends StateNotifier<List<Item>> {
     return this.state.where((element) => sets.contains(element.id)).toSet();
   }
 
-  Future create({ required String name, String? description, File? image, required bool isDisposable}) async{
-    // TODO 実装する
+  Future create({ required String name, String? description, required File image, required bool isDisposable}) async{
+    final created = await stocklistClient.itemAPI.create(name: name, isDisposable: isDisposable, image: image, description: description);
+    reader(storeAdder).addItemDTO(created);
   }
 
 
-
-}
-
-class ItemAction {
-
-  Future<List<Item>> load() async {
-    return [];
+  Future fetchAll() async {
+    print("fetchAllします。");
+    final itemDTOList = await stocklistClient.itemAPI.all();
+    print("fetchAll完了しました");
+    print(itemDTOList);
+    reader(storeAdder).addAllItemDTOs(itemDTOList);
   }
+
+  Future fetch(int itemId) async {
+    final itemDTO = await stocklistClient.itemAPI.show(itemId);
+    reader(storeAdder).addItemDTO(itemDTO);
+  }
+
 
 }

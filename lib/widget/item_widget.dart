@@ -1,23 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/item.dart';
+import 'package:stocklist_app/screen/item_detail_screen.dart';
 
 typedef OnSelectItemCallback = Function(int index, Item item);
 
 class ItemListTileWidget extends StatelessWidget{
-  final GestureTapCallback? onTap;
+
   final Item item;
-  ItemListTileWidget({required this.item,this.onTap});
+  ItemListTileWidget({required this.item});
 
   @override
   Widget build(BuildContext context) {
 
     return ListTile(
-      leading: Image.network(item.imagePath, width: 70.0),
+      leading: Image.network(
+        item.imageUrl,
+        width: 70.0,
+        errorBuilder: (BuildContext context, e, s) {
+          return Image.asset("images/no_image_500.png", width: 70.0);
+        },
+      ),
       title: Text(
         item.name
       ),
-      onTap: onTap,
+      onTap: (){
+        Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
+      },
     );
   }
 
@@ -25,10 +36,10 @@ class ItemListTileWidget extends StatelessWidget{
 
 class ItemListView extends StatelessWidget {
   final List<Item> items;
-  final OnSelectItemCallback? callback;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
-  ItemListView({required this.items, this.callback, this.physics, this.shrinkWrap = false});
+  ItemListView({
+    required this.items, this.physics, this.shrinkWrap = false});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -42,9 +53,6 @@ class ItemListView extends StatelessWidget {
   Widget buildListItem(BuildContext context, int index) {
     return ItemListTileWidget(
       item: items[index],
-      onTap: (){
-        callback?.call(index, items[index]);
-      },
     );
   }
 }
@@ -59,7 +67,12 @@ class ItemGridWidget extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
       child: Column(
         children: [
-          Image.network(item.imagePath),
+          Image.network(
+            item.imageUrl,
+            errorBuilder: (BuildContext context, e, s) {
+              return Image.asset("images/no_image_500.png");
+            },
+          ),
           Text(item.name)
         ],
       ),
@@ -86,5 +99,61 @@ class ItemsGridView extends StatelessWidget {
       shrinkWrap: shrinkWrap,
       physics: physics,
     );
+  }
+}
+
+class ItemCardView extends HookWidget {
+
+  final Item item;
+  ItemCardView({required this.item});
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      semanticContainer: true,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Column(
+        children: [
+          Container(
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image(
+                image: NetworkImage(
+                  item.imageUrl,
+                ),
+                  errorBuilder: (BuildContext context, e, s) {
+                    return Image.asset("images/no_image_500.png");
+                  },
+                fit: BoxFit.fitWidth
+              ),
+            ),
+          ),
+          Container(
+            child: Column(
+              children: [
+                ItemLargeNameWidget(name: item.name)
+              ],
+            ),
+            padding: EdgeInsets.all(4),
+            alignment: Alignment.topLeft,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ItemLargeNameWidget extends StatelessWidget {
+  final String name;
+
+  ItemLargeNameWidget({required this.name});
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      name,
+      style: TextStyle(
+        fontSize: 24
+      ),
+    );
+
   }
 }

@@ -17,7 +17,8 @@ class CategoryScreen extends HookWidget {
     final type = useProvider(displayType);
 
 
-    itemsState.value = makeItems(homeId: 1, count: 20);
+
+    itemsState.value = context.read(itemsStateProvider.notifier).state;
     return Scaffold(
       appBar: AppBar(
         title: Text("カテゴリー"),

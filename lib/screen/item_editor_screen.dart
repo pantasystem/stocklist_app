@@ -37,11 +37,15 @@ class ItemEditorScreen extends HookWidget {
 
     void create() {
 
+      final file = pickedFile.value;
+      if(file == null) {
+        return;
+      }
       context.read(itemsStateProvider.notifier).create(
         name: _nameFieldController.text,
         isDisposable: isDisposable.value,
         description: _descriptionFieldController.text,
-        image: pickedFile.value,
+        image: file,
       );
       Navigator.pop(context);
 
