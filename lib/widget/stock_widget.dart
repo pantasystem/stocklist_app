@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/entity/box.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
 
@@ -22,7 +23,7 @@ class StockCardWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = useProvider(boxesStateProvider.notifier).get(stock.boxId)!;
+    final box = useProvider(boxesStateProvider).firstWhere((Box box)=> box.id == stock.boxId);
     return Card(
       child: Container(
         child: Column(
@@ -30,8 +31,13 @@ class StockCardWidget extends HookWidget {
             Row(
               children: [
                 Container(
-                  child: Text(box.name),
-                  margin: EdgeInsets.all(16),
+                  child: Text(
+                    box.name,
+                    style: TextStyle(
+                      fontSize: 18
+                    ),
+                  ),
+                  margin: EdgeInsets.all(8),
                 ),
 
                 IconButton(
@@ -84,3 +90,4 @@ class StockCountWidget extends StatelessWidget {
     );
   }
 }
+
