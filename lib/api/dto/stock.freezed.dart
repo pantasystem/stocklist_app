@@ -23,7 +23,7 @@ class _$StockDTOTearOff {
   _StockDTO call(
       {@JsonKey(name: 'id') required int id,
       @JsonKey(name: 'count') required int count,
-      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box_id') required int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') required int itemId,
       @JsonKey(name: 'item') ItemDTO? item}) {
@@ -52,7 +52,7 @@ mixin _$StockDTO {
   @JsonKey(name: 'count')
   int get count => throw _privateConstructorUsedError;
   @JsonKey(name: 'box_id')
-  int? get boxId => throw _privateConstructorUsedError;
+  int get boxId => throw _privateConstructorUsedError;
   @JsonKey(name: 'box')
   BoxDTO? get box => throw _privateConstructorUsedError;
   @JsonKey(name: 'item_id')
@@ -73,7 +73,7 @@ abstract class $StockDTOCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'count') int count,
-      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box_id') int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int itemId,
       @JsonKey(name: 'item') ItemDTO? item});
@@ -111,7 +111,7 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
       boxId: boxId == freezed
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       box: box == freezed
           ? _value.box
           : box // ignore: cast_nullable_to_non_nullable
@@ -158,7 +158,7 @@ abstract class _$StockDTOCopyWith<$Res> implements $StockDTOCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'count') int count,
-      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box_id') int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int itemId,
       @JsonKey(name: 'item') ItemDTO? item});
@@ -199,7 +199,7 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
       boxId: boxId == freezed
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       box: box == freezed
           ? _value.box
           : box // ignore: cast_nullable_to_non_nullable
@@ -222,7 +222,7 @@ class _$_StockDTO implements _StockDTO {
   _$_StockDTO(
       {@JsonKey(name: 'id') required this.id,
       @JsonKey(name: 'count') required this.count,
-      @JsonKey(name: 'box_id') this.boxId,
+      @JsonKey(name: 'box_id') required this.boxId,
       @JsonKey(name: 'box') this.box,
       @JsonKey(name: 'item_id') required this.itemId,
       @JsonKey(name: 'item') this.item});
@@ -238,7 +238,7 @@ class _$_StockDTO implements _StockDTO {
   final int count;
   @override
   @JsonKey(name: 'box_id')
-  final int? boxId;
+  final int boxId;
   @override
   @JsonKey(name: 'box')
   final BoxDTO? box;
@@ -297,7 +297,7 @@ abstract class _StockDTO implements StockDTO {
   factory _StockDTO(
       {@JsonKey(name: 'id') required int id,
       @JsonKey(name: 'count') required int count,
-      @JsonKey(name: 'box_id') int? boxId,
+      @JsonKey(name: 'box_id') required int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') required int itemId,
       @JsonKey(name: 'item') ItemDTO? item}) = _$_StockDTO;
@@ -312,7 +312,7 @@ abstract class _StockDTO implements StockDTO {
   int get count => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'box_id')
-  int? get boxId => throw _privateConstructorUsedError;
+  int get boxId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'box')
   BoxDTO? get box => throw _privateConstructorUsedError;

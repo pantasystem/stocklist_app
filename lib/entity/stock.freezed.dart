@@ -17,7 +17,10 @@ class _$StockTearOff {
   const _$StockTearOff();
 
   _Stock call(
-      {required int id, int? boxId, required int itemId, required int count}) {
+      {required int id,
+      required int boxId,
+      required int itemId,
+      required int count}) {
     return _Stock(
       id: id,
       boxId: boxId,
@@ -33,7 +36,7 @@ const $Stock = _$StockTearOff();
 /// @nodoc
 mixin _$Stock {
   int get id => throw _privateConstructorUsedError;
-  int? get boxId => throw _privateConstructorUsedError;
+  int get boxId => throw _privateConstructorUsedError;
   int get itemId => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
 
@@ -45,7 +48,7 @@ mixin _$Stock {
 abstract class $StockCopyWith<$Res> {
   factory $StockCopyWith(Stock value, $Res Function(Stock) then) =
       _$StockCopyWithImpl<$Res>;
-  $Res call({int id, int? boxId, int itemId, int count});
+  $Res call({int id, int boxId, int itemId, int count});
 }
 
 /// @nodoc
@@ -71,7 +74,7 @@ class _$StockCopyWithImpl<$Res> implements $StockCopyWith<$Res> {
       boxId: boxId == freezed
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       itemId: itemId == freezed
           ? _value.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
@@ -89,7 +92,7 @@ abstract class _$StockCopyWith<$Res> implements $StockCopyWith<$Res> {
   factory _$StockCopyWith(_Stock value, $Res Function(_Stock) then) =
       __$StockCopyWithImpl<$Res>;
   @override
-  $Res call({int id, int? boxId, int itemId, int count});
+  $Res call({int id, int boxId, int itemId, int count});
 }
 
 /// @nodoc
@@ -116,7 +119,7 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
       boxId: boxId == freezed
           ? _value.boxId
           : boxId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       itemId: itemId == freezed
           ? _value.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
@@ -134,14 +137,14 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
 class _$_Stock implements _Stock {
   _$_Stock(
       {required this.id,
-      this.boxId,
+      required this.boxId,
       required this.itemId,
       required this.count});
 
   @override
   final int id;
   @override
-  final int? boxId;
+  final int boxId;
   @override
   final int itemId;
   @override
@@ -183,14 +186,14 @@ class _$_Stock implements _Stock {
 abstract class _Stock implements Stock {
   factory _Stock(
       {required int id,
-      int? boxId,
+      required int boxId,
       required int itemId,
       required int count}) = _$_Stock;
 
   @override
   int get id => throw _privateConstructorUsedError;
   @override
-  int? get boxId => throw _privateConstructorUsedError;
+  int get boxId => throw _privateConstructorUsedError;
   @override
   int get itemId => throw _privateConstructorUsedError;
   @override

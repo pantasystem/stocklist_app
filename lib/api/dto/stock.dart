@@ -12,7 +12,7 @@ class StockDTO with _$StockDTO {
   factory StockDTO({
     @JsonKey(name: 'id') required int id,
     @JsonKey(name: 'count') required int count,
-    @JsonKey(name: 'box_id') int? boxId,
+    @JsonKey(name: 'box_id') required int boxId,
     @JsonKey(name: 'box') BoxDTO? box,
     @JsonKey(name: 'item_id') required int itemId,
     @JsonKey(name: 'item') ItemDTO? item,
