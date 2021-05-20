@@ -40,10 +40,9 @@ class StockCardWidget extends HookWidget {
                   margin: EdgeInsets.all(8),
                 ),
 
-                IconButton(
-                  icon: Icon(Icons.more_vert),
-                  onPressed: (){
-
+                StockPopupMenu(
+                  listener: (value) {
+                    // TODO 実装する
                   }
                 )
               ],
@@ -91,22 +90,35 @@ class StockCountWidget extends StatelessWidget {
   }
 }
 
-enum StockCardAction {
+enum StockCardPopupMenuAction {
   EDIT, DELETE
 }
+typedef StockPopupMenuSelectedListener = Function(StockCardPopupMenuAction);
 
 /// 想定されるアクション[編集、削除]
 class StockPopupMenu extends StatelessWidget {
+
+  final StockPopupMenuSelectedListener listener;
+
+  StockPopupMenu({required this.listener});
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      icon: Icon(Icons.more_vert),
       itemBuilder: (BuildContext context) {
         return [
           PopupMenuItem(
-            child: Text(""),
+            child: Text("編集"),
+            value: StockCardPopupMenuAction.EDIT,
+          ),
+          PopupMenuItem(
+            child: Text("削除"),
+            value: StockCardPopupMenuAction.DELETE
           )
         ];
-      }
+      },
+      onSelected: listener,
     );
   }
 }
