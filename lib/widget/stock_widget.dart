@@ -23,7 +23,7 @@ class StockCardWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = useProvider(boxesStateProvider).firstWhere((Box box)=> box.id == stock.boxId);
+    final box = useProvider(boxesStateProvider).boxes.firstWhere((Box box)=> box.id == stock.boxId);
     return Card(
       child: Container(
         child: Column(

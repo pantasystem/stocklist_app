@@ -21,11 +21,11 @@ class ItemDetailScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final itemArgs = ModalRoute.of(context)?.settings.arguments as ItemArgs;
-    final item = useProvider(itemsStateProvider).firstWhere((Item item) => item.id == itemArgs.itemId);
+    final item = useProvider(itemsStateProvider).get(itemArgs.itemId);
 
 
     final itemStoreProvider = useProvider(itemsStateProvider.notifier);
-    final List<Stock> stocks = useProvider(stocksStateProvider).where((Stock stock) => stock.itemId == itemArgs.itemId).toList();
+    final List<Stock> stocks = useProvider(stocksStateProvider).stocks.where((Stock stock) => stock.itemId == itemArgs.itemId).toList();
 
     useEffect((){
       Future.microtask(() => itemStoreProvider.fetch(itemArgs.itemId).catchError((e) {

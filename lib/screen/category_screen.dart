@@ -17,8 +17,8 @@ class CategoryScreen extends HookWidget {
     final type = useProvider(displayType);
 
 
+    final items = useProvider(itemsStateProvider).items;
 
-    itemsState.value = context.read(itemsStateProvider.notifier).state;
     return Scaffold(
       appBar: AppBar(
         title: Text("カテゴリー"),
@@ -72,7 +72,7 @@ class CategoryScreen extends HookWidget {
                     ),
                     padding: EdgeInsets.fromLTRB(8, 0, 0, 8),
                   ),
-                  buildItemsView(itemsState.value, type)
+                  buildItemsView(items, type)
                 ],
 
               )
