@@ -7,27 +7,29 @@ import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/state/items_state.dart';
 import 'package:stocklist_app/store/stock_store.dart';
 
-class ItemStore extends StateNotifier<List<Item>> {
-  ItemStore(List<Item> items, this.reader) : super(items);
+class ItemStore extends StateNotifier<ItemsState> {
+  ItemStore(List<Item> items, this.reader) : super(ItemsState(items: []));
 
 
   final Reader reader;
 
   void addAll(List<Item> items) {
 
-    final filtered = this.state.where((i) => !items.any((l) => i.id == l.id));
+    final filtered = this.state.items.where((i) => !items.any((l) => i.id == l.id));
     final list = [
       ...filtered,
       ...items
     ];
-    this.state = list;
+    this.state = this.state.copyWith(items: list);
   }
 
   void remove(Item item) async {
-    // TODO 削除処理を実装する
-    this.state = this.state.where((element) => element.id != item.id).toList();
+    this.state = this.state.copyWith(
+      items: this.state.items.where((element) => element.id != item.id).toList()
+    );
   }
 
   void deleteAll(List<Item> items) async {
