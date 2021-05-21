@@ -78,14 +78,17 @@ class ItemAPI {
     handleError(res);
   }
 
-  StockAPI stocks(int itemId) {
-    return StockAPI();
+  StockAPI stocks() {
+    return StockAPI(this.baseURL, this.token);
   }
 }
 
 
 
 class StockAPI {
+  final String baseURL;
+  final String token;
+  StockAPI(this.baseURL, this.token);
   Future<List<StockDTO>> all() async {
     throw Exception();
   }
@@ -95,35 +98,21 @@ class StockAPI {
   void delete($stockId) async {
     throw Exception();
   }
-  Future<StockDTO> create() async{
-    throw Exception();
+
+  Future<StockDTO> create({ required int itemId, required int boxId, required int count, DateTime? expirationDate }) async{
+    final builder =  Fluri.from(Fluri(baseURL))
+    ..appendToPath("api/items/$itemId/stocks");
+
+    final res = await http.post(builder.uri, headers: makeHeader(this.token), body: {
+      'box_id': boxId,
+      'count': count,
+      'expirationDate': expirationDate
+    });
+    handleError(res);
+    return StockDTO.fromJson(json.decode(res.body));
   }
 }
 
-class ItemsStockAPI implements StockAPI {
-  @override
-  Future<List<StockDTO>> all({String? hoge}) {
-    // TODO: implement all
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<StockDTO> show($stockId) {
-    // TODO: implement show
-    throw UnimplementedError();
-  }
-
-  @override
-  void delete($stockId) {
-    // TODO: implement delete
-  }
-
-  @override
-  Future<StockDTO> create() {
-    // TODO: implement create
-    throw UnimplementedError();
-  }
-}
 
 Map<String, String> makeHeader(String? token) {
   return {
