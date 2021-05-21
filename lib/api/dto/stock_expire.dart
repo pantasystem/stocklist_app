@@ -6,7 +6,7 @@ part 'stock_expire.g.dart';
 @freezed
 class StockExpireDTO with _$StockExpireDTO {
   factory StockExpireDTO({
-    @JsonKey(name: 'expiration_date') required DateTime expirationDate
+    @JsonKey(name: 'expiration_date') required DateTime? expirationDate
   }) = _StockExpireDTO;
 
   factory StockExpireDTO.fromJson(Map<String, dynamic> json) => _$StockExpireDTOFromJson(json);

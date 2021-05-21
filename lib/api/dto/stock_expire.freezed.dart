@@ -21,7 +21,7 @@ class _$StockExpireDTOTearOff {
   const _$StockExpireDTOTearOff();
 
   _StockExpireDTO call(
-      {@JsonKey(name: 'expiration_date') required DateTime expirationDate}) {
+      {@JsonKey(name: 'expiration_date') required DateTime? expirationDate}) {
     return _StockExpireDTO(
       expirationDate: expirationDate,
     );
@@ -38,7 +38,7 @@ const $StockExpireDTO = _$StockExpireDTOTearOff();
 /// @nodoc
 mixin _$StockExpireDTO {
   @JsonKey(name: 'expiration_date')
-  DateTime get expirationDate => throw _privateConstructorUsedError;
+  DateTime? get expirationDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +51,7 @@ abstract class $StockExpireDTOCopyWith<$Res> {
   factory $StockExpireDTOCopyWith(
           StockExpireDTO value, $Res Function(StockExpireDTO) then) =
       _$StockExpireDTOCopyWithImpl<$Res>;
-  $Res call({@JsonKey(name: 'expiration_date') DateTime expirationDate});
+  $Res call({@JsonKey(name: 'expiration_date') DateTime? expirationDate});
 }
 
 /// @nodoc
@@ -71,7 +71,7 @@ class _$StockExpireDTOCopyWithImpl<$Res>
       expirationDate: expirationDate == freezed
           ? _value.expirationDate
           : expirationDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -83,7 +83,7 @@ abstract class _$StockExpireDTOCopyWith<$Res>
           _StockExpireDTO value, $Res Function(_StockExpireDTO) then) =
       __$StockExpireDTOCopyWithImpl<$Res>;
   @override
-  $Res call({@JsonKey(name: 'expiration_date') DateTime expirationDate});
+  $Res call({@JsonKey(name: 'expiration_date') DateTime? expirationDate});
 }
 
 /// @nodoc
@@ -105,7 +105,7 @@ class __$StockExpireDTOCopyWithImpl<$Res>
       expirationDate: expirationDate == freezed
           ? _value.expirationDate
           : expirationDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -121,7 +121,7 @@ class _$_StockExpireDTO implements _StockExpireDTO {
 
   @override
   @JsonKey(name: 'expiration_date')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   @override
   String toString() {
@@ -156,14 +156,14 @@ class _$_StockExpireDTO implements _StockExpireDTO {
 abstract class _StockExpireDTO implements StockExpireDTO {
   factory _StockExpireDTO(
       {@JsonKey(name: 'expiration_date')
-          required DateTime expirationDate}) = _$_StockExpireDTO;
+          required DateTime? expirationDate}) = _$_StockExpireDTO;
 
   factory _StockExpireDTO.fromJson(Map<String, dynamic> json) =
       _$_StockExpireDTO.fromJson;
 
   @override
   @JsonKey(name: 'expiration_date')
-  DateTime get expirationDate => throw _privateConstructorUsedError;
+  DateTime? get expirationDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StockExpireDTOCopyWith<_StockExpireDTO> get copyWith =>
