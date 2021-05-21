@@ -76,18 +76,7 @@ class StockEditorScreen extends HookWidget {
           hintText: "消費期限"
         ),
       );
-      /*Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label),
-          TextButton(
-            onPressed: () async{
-              final pickedDate = await showDatePicker(context: context, initialDate: now, firstDate: now, lastDate: now.add(Duration(days: 360 * 15)));
-              expirationDate.value = pickedDate;
-            },
-            child: Text(date == null ? "$labelを選択" : "${date.year}/${date.month}/${date.day}"))
-        ],
-      );*/
+
     }
 
     return Scaffold(
