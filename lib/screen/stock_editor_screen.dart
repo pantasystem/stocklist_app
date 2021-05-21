@@ -19,6 +19,11 @@ class StockEditorArgs {
   StockEditorArgs({required this.item, this.stock});
 }
 
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
 class StockEditorScreen extends HookWidget {
 
 
@@ -33,6 +38,13 @@ class StockEditorScreen extends HookWidget {
     );
 
     final Item item = useProvider(itemsStateProvider).get(args.item.id);
+    final now = DateTime.now();
+    final expirationDate = useState<DateTime?>(args.stock?.expirationDate);
+
+    final inputExpirationDate = useTextEditingController();
+    inputExpirationDate.value = TextEditingValue(
+      text: expirationDate.value == null ? '' : "${expirationDate.value?.year}/${expirationDate.value?.month}/${expirationDate.value?.day}"
+    );
 
     final validationError = useState<ValidationException?>(null);
 
@@ -49,6 +61,33 @@ class StockEditorScreen extends HookWidget {
       }else if(res is List){
         boxId.value = null;
       }
+    }
+
+    Widget dateForm(String label, DateTime? date) {
+      return TextField(
+        controller: inputExpirationDate,
+        focusNode: AlwaysDisabledFocusNode(),
+        onTap: () async {
+          final pickedDate = await showDatePicker(context: context, initialDate: now, firstDate: now, lastDate: now.add(Duration(days: 360 * 15)));
+          expirationDate.value = pickedDate;
+        },
+        decoration: InputDecoration(
+          labelText: "消費期限",
+          hintText: "消費期限"
+        ),
+      );
+      /*Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label),
+          TextButton(
+            onPressed: () async{
+              final pickedDate = await showDatePicker(context: context, initialDate: now, firstDate: now, lastDate: now.add(Duration(days: 360 * 15)));
+              expirationDate.value = pickedDate;
+            },
+            child: Text(date == null ? "$labelを選択" : "${date.year}/${date.month}/${date.day}"))
+        ],
+      );*/
     }
 
     return Scaffold(
@@ -81,13 +120,7 @@ class StockEditorScreen extends HookWidget {
             keyboardType: TextInputType.number,
           ),
           if(item.isDisposable)
-            TextField(
-              enabled: false,
-              decoration: InputDecoration(
-
-              ),
-
-            )
+            dateForm('消費期限', expirationDate.value)
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
