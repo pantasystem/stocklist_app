@@ -8,7 +8,6 @@ import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
-import 'package:stocklist_app/store/stock_store.dart';
 import 'package:stocklist_app/widget/stock_widget.dart';
 
 class ItemArgs {

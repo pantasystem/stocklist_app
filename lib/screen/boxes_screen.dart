@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/main.dart';
-import 'package:stocklist_app/widget/box_and_item.dart';
 import 'package:stocklist_app/widget/box_widget.dart';
 
 class BoxSelectable {

@@ -1,14 +1,9 @@
 import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:http/http.dart';
-import 'package:stocklist_app/api/dto/item.dart';
-import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/item.dart';
-import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/state/items_state.dart';
-import 'package:stocklist_app/store/stock_store.dart';
 
 class ItemStore extends StateNotifier<ItemsState> {
   ItemStore(List<Item> items, this.reader) : super(ItemsState(items: []));

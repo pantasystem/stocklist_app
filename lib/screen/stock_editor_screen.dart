@@ -1,6 +1,5 @@
 
 
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +82,7 @@ class StockEditorScreen extends HookWidget {
           ),
           if(item.isDisposable)
             TextField(
+              enabled: false,
               decoration: InputDecoration(
 
               ),
