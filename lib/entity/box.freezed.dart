@@ -16,11 +16,18 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$BoxTearOff {
   const _$BoxTearOff();
 
-  _Box call({required int id, required String name, String? description}) {
+  _Box call(
+      {required int id,
+      required String name,
+      String? description,
+      required DateTime createdAt,
+      required DateTime updatedAt}) {
     return _Box(
       id: id,
       name: name,
       description: description,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
@@ -33,6 +40,8 @@ mixin _$Box {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BoxCopyWith<Box> get copyWith => throw _privateConstructorUsedError;
@@ -42,7 +51,12 @@ mixin _$Box {
 abstract class $BoxCopyWith<$Res> {
   factory $BoxCopyWith(Box value, $Res Function(Box) then) =
       _$BoxCopyWithImpl<$Res>;
-  $Res call({int id, String name, String? description});
+  $Res call(
+      {int id,
+      String name,
+      String? description,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -58,6 +72,8 @@ class _$BoxCopyWithImpl<$Res> implements $BoxCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -72,6 +88,14 @@ class _$BoxCopyWithImpl<$Res> implements $BoxCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -81,7 +105,12 @@ abstract class _$BoxCopyWith<$Res> implements $BoxCopyWith<$Res> {
   factory _$BoxCopyWith(_Box value, $Res Function(_Box) then) =
       __$BoxCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, String? description});
+  $Res call(
+      {int id,
+      String name,
+      String? description,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -98,6 +127,8 @@ class __$BoxCopyWithImpl<$Res> extends _$BoxCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_Box(
       id: id == freezed
@@ -112,6 +143,14 @@ class __$BoxCopyWithImpl<$Res> extends _$BoxCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -119,7 +158,12 @@ class __$BoxCopyWithImpl<$Res> extends _$BoxCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Box implements _Box {
-  _$_Box({required this.id, required this.name, this.description});
+  _$_Box(
+      {required this.id,
+      required this.name,
+      this.description,
+      required this.createdAt,
+      required this.updatedAt});
 
   @override
   final int id;
@@ -127,10 +171,14 @@ class _$_Box implements _Box {
   final String name;
   @override
   final String? description;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Box(id: $id, name: $name, description: $description)';
+    return 'Box(id: $id, name: $name, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -143,7 +191,13 @@ class _$_Box implements _Box {
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
-                    .equals(other.description, description)));
+                    .equals(other.description, description)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedAt, updatedAt)));
   }
 
   @override
@@ -151,7 +205,9 @@ class _$_Box implements _Box {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description);
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -160,8 +216,12 @@ class _$_Box implements _Box {
 }
 
 abstract class _Box implements Box {
-  factory _Box({required int id, required String name, String? description}) =
-      _$_Box;
+  factory _Box(
+      {required int id,
+      required String name,
+      String? description,
+      required DateTime createdAt,
+      required DateTime updatedAt}) = _$_Box;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -169,6 +229,10 @@ abstract class _Box implements Box {
   String get name => throw _privateConstructorUsedError;
   @override
   String? get description => throw _privateConstructorUsedError;
+  @override
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @override
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$BoxCopyWith<_Box> get copyWith => throw _privateConstructorUsedError;

@@ -26,7 +26,9 @@ class _$ItemTearOff {
       required String imageUrl,
       required int itemQuantity,
       required String description,
-      required bool isDisposable}) {
+      required bool isDisposable,
+      required DateTime createdAt,
+      required DateTime updatedAt}) {
     return _Item(
       id: id,
       name: name,
@@ -38,6 +40,8 @@ class _$ItemTearOff {
       itemQuantity: itemQuantity,
       description: description,
       isDisposable: isDisposable,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
@@ -57,6 +61,8 @@ mixin _$Item {
   int get itemQuantity => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   bool get isDisposable => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
@@ -76,7 +82,9 @@ abstract class $ItemCopyWith<$Res> {
       String imageUrl,
       int itemQuantity,
       String description,
-      bool isDisposable});
+      bool isDisposable,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -99,6 +107,8 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
     Object? itemQuantity = freezed,
     Object? description = freezed,
     Object? isDisposable = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -141,6 +151,14 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
           ? _value.isDisposable
           : isDisposable // ignore: cast_nullable_to_non_nullable
               as bool,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -160,7 +178,9 @@ abstract class _$ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String imageUrl,
       int itemQuantity,
       String description,
-      bool isDisposable});
+      bool isDisposable,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -184,6 +204,8 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
     Object? itemQuantity = freezed,
     Object? description = freezed,
     Object? isDisposable = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_Item(
       id: id == freezed
@@ -226,6 +248,14 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
           ? _value.isDisposable
           : isDisposable // ignore: cast_nullable_to_non_nullable
               as bool,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -243,7 +273,9 @@ class _$_Item implements _Item {
       required this.imageUrl,
       required this.itemQuantity,
       required this.description,
-      required this.isDisposable});
+      required this.isDisposable,
+      required this.createdAt,
+      required this.updatedAt});
 
   @override
   final int id;
@@ -265,10 +297,14 @@ class _$_Item implements _Item {
   final String description;
   @override
   final bool isDisposable;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description, isDisposable: $isDisposable)';
+    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description, isDisposable: $isDisposable, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -300,7 +336,13 @@ class _$_Item implements _Item {
                     .equals(other.description, description)) &&
             (identical(other.isDisposable, isDisposable) ||
                 const DeepCollectionEquality()
-                    .equals(other.isDisposable, isDisposable)));
+                    .equals(other.isDisposable, isDisposable)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedAt, updatedAt)));
   }
 
   @override
@@ -315,7 +357,9 @@ class _$_Item implements _Item {
       const DeepCollectionEquality().hash(imageUrl) ^
       const DeepCollectionEquality().hash(itemQuantity) ^
       const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(isDisposable);
+      const DeepCollectionEquality().hash(isDisposable) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -334,7 +378,9 @@ abstract class _Item implements Item {
       required String imageUrl,
       required int itemQuantity,
       required String description,
-      required bool isDisposable}) = _$_Item;
+      required bool isDisposable,
+      required DateTime createdAt,
+      required DateTime updatedAt}) = _$_Item;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -356,6 +402,10 @@ abstract class _Item implements Item {
   String get description => throw _privateConstructorUsedError;
   @override
   bool get isDisposable => throw _privateConstructorUsedError;
+  @override
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @override
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemCopyWith<_Item> get copyWith => throw _privateConstructorUsedError;

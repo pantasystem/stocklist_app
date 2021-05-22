@@ -21,13 +21,17 @@ class _$StockTearOff {
       required int boxId,
       required int itemId,
       required int count,
-      DateTime? expirationDate}) {
+      DateTime? expirationDate,
+      required DateTime createdAt,
+      required DateTime updatedAt}) {
     return _Stock(
       id: id,
       boxId: boxId,
       itemId: itemId,
       count: count,
       expirationDate: expirationDate,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
@@ -42,6 +46,8 @@ mixin _$Stock {
   int get itemId => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
   DateTime? get expirationDate => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StockCopyWith<Stock> get copyWith => throw _privateConstructorUsedError;
@@ -52,7 +58,13 @@ abstract class $StockCopyWith<$Res> {
   factory $StockCopyWith(Stock value, $Res Function(Stock) then) =
       _$StockCopyWithImpl<$Res>;
   $Res call(
-      {int id, int boxId, int itemId, int count, DateTime? expirationDate});
+      {int id,
+      int boxId,
+      int itemId,
+      int count,
+      DateTime? expirationDate,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -70,6 +82,8 @@ class _$StockCopyWithImpl<$Res> implements $StockCopyWith<$Res> {
     Object? itemId = freezed,
     Object? count = freezed,
     Object? expirationDate = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -92,6 +106,14 @@ class _$StockCopyWithImpl<$Res> implements $StockCopyWith<$Res> {
           ? _value.expirationDate
           : expirationDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -102,7 +124,13 @@ abstract class _$StockCopyWith<$Res> implements $StockCopyWith<$Res> {
       __$StockCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id, int boxId, int itemId, int count, DateTime? expirationDate});
+      {int id,
+      int boxId,
+      int itemId,
+      int count,
+      DateTime? expirationDate,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -121,6 +149,8 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
     Object? itemId = freezed,
     Object? count = freezed,
     Object? expirationDate = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_Stock(
       id: id == freezed
@@ -143,6 +173,14 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
           ? _value.expirationDate
           : expirationDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -155,7 +193,9 @@ class _$_Stock implements _Stock {
       required this.boxId,
       required this.itemId,
       required this.count,
-      this.expirationDate});
+      this.expirationDate,
+      required this.createdAt,
+      required this.updatedAt});
 
   @override
   final int id;
@@ -167,10 +207,14 @@ class _$_Stock implements _Stock {
   final int count;
   @override
   final DateTime? expirationDate;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Stock(id: $id, boxId: $boxId, itemId: $itemId, count: $count, expirationDate: $expirationDate)';
+    return 'Stock(id: $id, boxId: $boxId, itemId: $itemId, count: $count, expirationDate: $expirationDate, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -187,7 +231,13 @@ class _$_Stock implements _Stock {
                 const DeepCollectionEquality().equals(other.count, count)) &&
             (identical(other.expirationDate, expirationDate) ||
                 const DeepCollectionEquality()
-                    .equals(other.expirationDate, expirationDate)));
+                    .equals(other.expirationDate, expirationDate)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedAt, updatedAt)));
   }
 
   @override
@@ -197,7 +247,9 @@ class _$_Stock implements _Stock {
       const DeepCollectionEquality().hash(boxId) ^
       const DeepCollectionEquality().hash(itemId) ^
       const DeepCollectionEquality().hash(count) ^
-      const DeepCollectionEquality().hash(expirationDate);
+      const DeepCollectionEquality().hash(expirationDate) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -211,7 +263,9 @@ abstract class _Stock implements Stock {
       required int boxId,
       required int itemId,
       required int count,
-      DateTime? expirationDate}) = _$_Stock;
+      DateTime? expirationDate,
+      required DateTime createdAt,
+      required DateTime updatedAt}) = _$_Stock;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -223,6 +277,10 @@ abstract class _Stock implements Stock {
   int get count => throw _privateConstructorUsedError;
   @override
   DateTime? get expirationDate => throw _privateConstructorUsedError;
+  @override
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @override
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StockCopyWith<_Stock> get copyWith => throw _privateConstructorUsedError;
