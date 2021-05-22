@@ -25,11 +25,11 @@ class ItemsState with _$ItemsState {
 
   List<Item> sorted({ required ItemSortSrc src, bool isReverse = false}) {
     if(src == ItemSortSrc.CREATED) {
-      return this.items.sorted((a, b) => isReverse ? a.id - b.id : b.id - a.id);
+      return this.items.sorted((a, b) => isReverse ? b.id.compareTo(a.id) : a.id.compareTo(b.id));
     }else if(src == ItemSortSrc.UPDATED) {
-      return this.items.sorted((a, b) => isReverse ? a.id - b.id : b.id - a.id);
+      return this.items.sorted((a, b) => isReverse ? b.updatedAt.compareTo(a.updatedAt) : a.updatedAt.compareTo(b.updatedAt));
     }else{
-      return this.items.sorted((a, b) => isReverse ? a.name.compareTo(b.name) : b.name.compareTo(a.name));
+      return this.items.sorted((a, b) => isReverse ? b.name.compareTo(a.name) : a.name.compareTo(b.name));
     }
   }
 }
