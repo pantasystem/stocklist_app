@@ -100,6 +100,20 @@ class ItemsStockAPI {
     throw Exception();
   }
 
+  Future<StockDTO> update(int stockId, { required int? boxId, required int? count, DateTime? expirationDate }) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath("api/items/$itemId/stocks/$stockId");
+
+    final res = await http.put(builder.uri, headers: makeHeader(this.token), body: json.encode({
+      'box_id': boxId,
+      'count': count,
+      if(expirationDate != null)
+        'expiration_date': expirationDate.toIso8601String()
+    }));
+    handleError(res);
+    return StockDTO.fromJson(json.decode(res.body));
+  }
+
   Future<StockDTO> create({ required int? boxId, required int? count, DateTime? expirationDate }) async{
     final builder =  Fluri.from(Fluri(baseURL))
     ..appendToPath("api/items/$itemId/stocks");

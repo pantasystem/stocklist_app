@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/StocklistClient.dart';
+import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
@@ -84,6 +85,14 @@ class StockEditorScreen extends HookWidget {
     }
 
 
+    Future<StockDTO> updateOrCreate({required int? boxId, required int? count, required DateTime? date }) {
+      final stockId = args.stock?.id;
+      if(stockId == null) {
+        return stocklistClient.itemAPI.stocks(args.item.id).create(boxId: boxId, count: count, expirationDate: date);
+      }else{
+        return stocklistClient.itemAPI.stocks(args.item.id).update(stockId, boxId: boxId, count: count, expirationDate: date);
+      }
+    }
 
     void save() {
       print("save");
@@ -91,8 +100,10 @@ class StockEditorScreen extends HookWidget {
         return;
       }
       isSending.value = true;
-      stocklistClient.itemAPI.stocks(args.item.id).create(
-        boxId: boxId.value, count: int.tryParse(inputCounter.value.text)
+      updateOrCreate(
+        boxId: boxId.value,
+        count: int.tryParse(inputCounter.value.text),
+        date: expirationDate.value
       ).then((value){
         context.read(storeAdder).addStockDTO(value);
         Navigator.pop(context);
