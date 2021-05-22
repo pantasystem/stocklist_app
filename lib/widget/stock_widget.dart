@@ -8,6 +8,7 @@ import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
+import 'package:stocklist_app/widget/item_widget.dart';
 
 class StockListTile extends StatelessWidget {
 
@@ -31,15 +32,25 @@ class StockCardWidget extends HookWidget {
       child: Container(
         child: Column(
           children: [
+
             Row(
               children: [
                 Container(
                   padding: EdgeInsets.all(16),
-                  child: Text(
-                    box.name,
-                    style: TextStyle(
-                      fontSize: 18
-                    ),
+                  child: Row(
+                    children: [
+                      ItemThumbnail(item.imageUrl, 24.0),
+                      Container(
+                        margin: EdgeInsets.only(left: 8),
+                        child: Text(
+                          item.name,
+                          style: TextStyle(
+                              fontSize: 20
+                          ),
+                        ),
+                      ),
+
+                    ],
                   ),
                 ),
 
@@ -58,6 +69,19 @@ class StockCardWidget extends HookWidget {
                 )
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.all_inbox),
+                  SizedBox(width: 8),
+                  Text(
+                      box.name
+                  )
+                ],
+              )
             ),
 
             StockCountWidget(count: stock.count, countChangedListener: (int count){
