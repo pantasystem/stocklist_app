@@ -24,6 +24,8 @@ _$_ItemDTO _$_$_ItemDTOFromJson(Map<String, dynamic> json) {
     itemQuantity: json['item_quantity'] as int?,
     description: json['description'] as String?,
     isDisposable: json['is_disposable'] as bool,
+    createdAt: DateTime.parse(json['created_at'] as String),
+    updatedAt: DateTime.parse(json['updated_at'] as String),
   );
 }
 
@@ -40,4 +42,6 @@ Map<String, dynamic> _$_$_ItemDTOToJson(_$_ItemDTO instance) =>
       'item_quantity': instance.itemQuantity,
       'description': instance.description,
       'is_disposable': instance.isDisposable,
+      'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
     };

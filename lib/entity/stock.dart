@@ -5,5 +5,12 @@ part 'stock.freezed.dart';
 
 @freezed
 class Stock with _$Stock {
-  factory Stock({required int id, required int boxId, required int itemId, required int count, DateTime? expirationDate }) = _Stock;
+  factory Stock({
+    required int id,
+    required int boxId,
+    required int itemId,
+    required int count, DateTime? expirationDate,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  }) = _Stock;
 }

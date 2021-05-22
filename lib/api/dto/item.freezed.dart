@@ -31,7 +31,9 @@ class _$ItemDTOTearOff {
       @JsonKey(name: 'image_url') required String imageUrl,
       @JsonKey(name: 'item_quantity') int? itemQuantity,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'is_disposable') required bool isDisposable}) {
+      @JsonKey(name: 'is_disposable') required bool isDisposable,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt}) {
     return _ItemDTO(
       id: id,
       name: name,
@@ -44,6 +46,8 @@ class _$ItemDTOTearOff {
       itemQuantity: itemQuantity,
       description: description,
       isDisposable: isDisposable,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 
@@ -79,6 +83,10 @@ mixin _$ItemDTO {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_disposable')
   bool get isDisposable => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -100,7 +108,9 @@ abstract class $ItemDTOCopyWith<$Res> {
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'item_quantity') int? itemQuantity,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'is_disposable') bool isDisposable});
+      @JsonKey(name: 'is_disposable') bool isDisposable,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 }
 
 /// @nodoc
@@ -124,6 +134,8 @@ class _$ItemDTOCopyWithImpl<$Res> implements $ItemDTOCopyWith<$Res> {
     Object? itemQuantity = freezed,
     Object? description = freezed,
     Object? isDisposable = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -170,6 +182,14 @@ class _$ItemDTOCopyWithImpl<$Res> implements $ItemDTOCopyWith<$Res> {
           ? _value.isDisposable
           : isDisposable // ignore: cast_nullable_to_non_nullable
               as bool,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -190,7 +210,9 @@ abstract class _$ItemDTOCopyWith<$Res> implements $ItemDTOCopyWith<$Res> {
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'item_quantity') int? itemQuantity,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'is_disposable') bool isDisposable});
+      @JsonKey(name: 'is_disposable') bool isDisposable,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 }
 
 /// @nodoc
@@ -215,6 +237,8 @@ class __$ItemDTOCopyWithImpl<$Res> extends _$ItemDTOCopyWithImpl<$Res>
     Object? itemQuantity = freezed,
     Object? description = freezed,
     Object? isDisposable = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_ItemDTO(
       id: id == freezed
@@ -261,6 +285,14 @@ class __$ItemDTOCopyWithImpl<$Res> extends _$ItemDTOCopyWithImpl<$Res>
           ? _value.isDisposable
           : isDisposable // ignore: cast_nullable_to_non_nullable
               as bool,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -279,7 +311,9 @@ class _$_ItemDTO implements _ItemDTO {
       @JsonKey(name: 'image_url') required this.imageUrl,
       @JsonKey(name: 'item_quantity') this.itemQuantity,
       @JsonKey(name: 'description') this.description,
-      @JsonKey(name: 'is_disposable') required this.isDisposable});
+      @JsonKey(name: 'is_disposable') required this.isDisposable,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt});
 
   factory _$_ItemDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_ItemDTOFromJson(json);
@@ -317,10 +351,16 @@ class _$_ItemDTO implements _ItemDTO {
   @override
   @JsonKey(name: 'is_disposable')
   final bool isDisposable;
+  @override
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'ItemDTO(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stocks: $stocks, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description, isDisposable: $isDisposable)';
+    return 'ItemDTO(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stocks: $stocks, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description, isDisposable: $isDisposable, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -354,7 +394,13 @@ class _$_ItemDTO implements _ItemDTO {
                     .equals(other.description, description)) &&
             (identical(other.isDisposable, isDisposable) ||
                 const DeepCollectionEquality()
-                    .equals(other.isDisposable, isDisposable)));
+                    .equals(other.isDisposable, isDisposable)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedAt, updatedAt)));
   }
 
   @override
@@ -370,7 +416,9 @@ class _$_ItemDTO implements _ItemDTO {
       const DeepCollectionEquality().hash(imageUrl) ^
       const DeepCollectionEquality().hash(itemQuantity) ^
       const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(isDisposable);
+      const DeepCollectionEquality().hash(isDisposable) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -395,7 +443,9 @@ abstract class _ItemDTO implements ItemDTO {
       @JsonKey(name: 'image_url') required String imageUrl,
       @JsonKey(name: 'item_quantity') int? itemQuantity,
       @JsonKey(name: 'description') String? description,
-      @JsonKey(name: 'is_disposable') required bool isDisposable}) = _$_ItemDTO;
+      @JsonKey(name: 'is_disposable') required bool isDisposable,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt}) = _$_ItemDTO;
 
   factory _ItemDTO.fromJson(Map<String, dynamic> json) = _$_ItemDTO.fromJson;
 
@@ -432,6 +482,12 @@ abstract class _ItemDTO implements ItemDTO {
   @override
   @JsonKey(name: 'is_disposable')
   bool get isDisposable => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemDTOCopyWith<_ItemDTO> get copyWith =>

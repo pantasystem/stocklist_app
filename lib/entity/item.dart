@@ -16,6 +16,8 @@ class Item with _$Item{
     required String imageUrl,
     required int itemQuantity,
     required String description,
-    required bool isDisposable
+    required bool isDisposable,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _Item;
 }

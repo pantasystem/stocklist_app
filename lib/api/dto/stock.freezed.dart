@@ -27,7 +27,9 @@ class _$StockDTOTearOff {
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') required int itemId,
       @JsonKey(name: 'item') ItemDTO? item,
-      @JsonKey(name: 'expire') StockExpireDTO? expire}) {
+      @JsonKey(name: 'expire') StockExpireDTO? expire,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt}) {
     return _StockDTO(
       id: id,
       count: count,
@@ -36,6 +38,8 @@ class _$StockDTOTearOff {
       itemId: itemId,
       item: item,
       expire: expire,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 
@@ -63,6 +67,10 @@ mixin _$StockDTO {
   ItemDTO? get item => throw _privateConstructorUsedError;
   @JsonKey(name: 'expire')
   StockExpireDTO? get expire => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -81,7 +89,9 @@ abstract class $StockDTOCopyWith<$Res> {
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int itemId,
       @JsonKey(name: 'item') ItemDTO? item,
-      @JsonKey(name: 'expire') StockExpireDTO? expire});
+      @JsonKey(name: 'expire') StockExpireDTO? expire,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 
   $BoxDTOCopyWith<$Res>? get box;
   $ItemDTOCopyWith<$Res>? get item;
@@ -105,6 +115,8 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
     Object? itemId = freezed,
     Object? item = freezed,
     Object? expire = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -135,6 +147,14 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
           ? _value.expire
           : expire // ignore: cast_nullable_to_non_nullable
               as StockExpireDTO?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 
@@ -184,7 +204,9 @@ abstract class _$StockDTOCopyWith<$Res> implements $StockDTOCopyWith<$Res> {
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int itemId,
       @JsonKey(name: 'item') ItemDTO? item,
-      @JsonKey(name: 'expire') StockExpireDTO? expire});
+      @JsonKey(name: 'expire') StockExpireDTO? expire,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 
   @override
   $BoxDTOCopyWith<$Res>? get box;
@@ -212,6 +234,8 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
     Object? itemId = freezed,
     Object? item = freezed,
     Object? expire = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_StockDTO(
       id: id == freezed
@@ -242,6 +266,14 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
           ? _value.expire
           : expire // ignore: cast_nullable_to_non_nullable
               as StockExpireDTO?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -256,7 +288,9 @@ class _$_StockDTO implements _StockDTO {
       @JsonKey(name: 'box') this.box,
       @JsonKey(name: 'item_id') required this.itemId,
       @JsonKey(name: 'item') this.item,
-      @JsonKey(name: 'expire') this.expire});
+      @JsonKey(name: 'expire') this.expire,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt});
 
   factory _$_StockDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_StockDTOFromJson(json);
@@ -282,10 +316,16 @@ class _$_StockDTO implements _StockDTO {
   @override
   @JsonKey(name: 'expire')
   final StockExpireDTO? expire;
+  @override
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'StockDTO(id: $id, count: $count, boxId: $boxId, box: $box, itemId: $itemId, item: $item, expire: $expire)';
+    return 'StockDTO(id: $id, count: $count, boxId: $boxId, box: $box, itemId: $itemId, item: $item, expire: $expire, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -305,7 +345,13 @@ class _$_StockDTO implements _StockDTO {
             (identical(other.item, item) ||
                 const DeepCollectionEquality().equals(other.item, item)) &&
             (identical(other.expire, expire) ||
-                const DeepCollectionEquality().equals(other.expire, expire)));
+                const DeepCollectionEquality().equals(other.expire, expire)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedAt, updatedAt)));
   }
 
   @override
@@ -317,7 +363,9 @@ class _$_StockDTO implements _StockDTO {
       const DeepCollectionEquality().hash(box) ^
       const DeepCollectionEquality().hash(itemId) ^
       const DeepCollectionEquality().hash(item) ^
-      const DeepCollectionEquality().hash(expire);
+      const DeepCollectionEquality().hash(expire) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -338,7 +386,9 @@ abstract class _StockDTO implements StockDTO {
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') required int itemId,
       @JsonKey(name: 'item') ItemDTO? item,
-      @JsonKey(name: 'expire') StockExpireDTO? expire}) = _$_StockDTO;
+      @JsonKey(name: 'expire') StockExpireDTO? expire,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt}) = _$_StockDTO;
 
   factory _StockDTO.fromJson(Map<String, dynamic> json) = _$_StockDTO.fromJson;
 
@@ -363,6 +413,12 @@ abstract class _StockDTO implements StockDTO {
   @override
   @JsonKey(name: 'expire')
   StockExpireDTO? get expire => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StockDTOCopyWith<_StockDTO> get copyWith =>
