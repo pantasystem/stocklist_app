@@ -23,11 +23,15 @@ class _$BoxDTOTearOff {
   _BoxDTO call(
       {@JsonKey(name: 'id') required int id,
       @JsonKey(name: 'name') required String name,
-      @JsonKey(name: 'description') String? description}) {
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt}) {
     return _BoxDTO(
       id: id,
       name: name,
       description: description,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 
@@ -47,6 +51,10 @@ mixin _$BoxDTO {
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +68,9 @@ abstract class $BoxDTOCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'name') String name,
-      @JsonKey(name: 'description') String? description});
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 }
 
 /// @nodoc
@@ -76,6 +86,8 @@ class _$BoxDTOCopyWithImpl<$Res> implements $BoxDTOCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -90,6 +102,14 @@ class _$BoxDTOCopyWithImpl<$Res> implements $BoxDTOCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -102,7 +122,9 @@ abstract class _$BoxDTOCopyWith<$Res> implements $BoxDTOCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'name') String name,
-      @JsonKey(name: 'description') String? description});
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 }
 
 /// @nodoc
@@ -119,6 +141,8 @@ class __$BoxDTOCopyWithImpl<$Res> extends _$BoxDTOCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_BoxDTO(
       id: id == freezed
@@ -133,6 +157,14 @@ class __$BoxDTOCopyWithImpl<$Res> extends _$BoxDTOCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -143,7 +175,9 @@ class _$_BoxDTO implements _BoxDTO {
   _$_BoxDTO(
       {@JsonKey(name: 'id') required this.id,
       @JsonKey(name: 'name') required this.name,
-      @JsonKey(name: 'description') this.description});
+      @JsonKey(name: 'description') this.description,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt});
 
   factory _$_BoxDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_BoxDTOFromJson(json);
@@ -157,10 +191,16 @@ class _$_BoxDTO implements _BoxDTO {
   @override
   @JsonKey(name: 'description')
   final String? description;
+  @override
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'BoxDTO(id: $id, name: $name, description: $description)';
+    return 'BoxDTO(id: $id, name: $name, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -173,7 +213,13 @@ class _$_BoxDTO implements _BoxDTO {
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
-                    .equals(other.description, description)));
+                    .equals(other.description, description)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedAt, updatedAt)));
   }
 
   @override
@@ -181,7 +227,9 @@ class _$_BoxDTO implements _BoxDTO {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description);
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -198,7 +246,9 @@ abstract class _BoxDTO implements BoxDTO {
   factory _BoxDTO(
       {@JsonKey(name: 'id') required int id,
       @JsonKey(name: 'name') required String name,
-      @JsonKey(name: 'description') String? description}) = _$_BoxDTO;
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt}) = _$_BoxDTO;
 
   factory _BoxDTO.fromJson(Map<String, dynamic> json) = _$_BoxDTO.fromJson;
 
@@ -211,6 +261,12 @@ abstract class _BoxDTO implements BoxDTO {
   @override
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'updated_at')
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$BoxDTOCopyWith<_BoxDTO> get copyWith => throw _privateConstructorUsedError;

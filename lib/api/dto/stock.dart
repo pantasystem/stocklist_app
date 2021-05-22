@@ -18,7 +18,8 @@ class StockDTO with _$StockDTO {
     @JsonKey(name: 'item_id') required int itemId,
     @JsonKey(name: 'item') ItemDTO? item,
     @JsonKey(name: 'expire') StockExpireDTO? expire,
-
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
   }) = _StockDTO;
 
   factory StockDTO.fromJson(Map<String, dynamic> json) => _$StockDTOFromJson(json);
