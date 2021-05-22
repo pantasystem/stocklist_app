@@ -100,7 +100,7 @@ class ItemsStockAPI {
     throw Exception();
   }
 
-  Future<StockDTO> create({ required int boxId, required int? count, DateTime? expirationDate }) async{
+  Future<StockDTO> create({ required int? boxId, required int? count, DateTime? expirationDate }) async{
     final builder =  Fluri.from(Fluri(baseURL))
     ..appendToPath("api/items/$itemId/stocks");
 

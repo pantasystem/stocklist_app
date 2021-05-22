@@ -32,11 +32,14 @@ class StockEditorScreen extends HookWidget {
     final args = ModalRoute.of(context)?.settings.arguments as StockEditorArgs;
     final boxId = useState(args.stock?.boxId);
 
-    final inputCounter = useTextEditingController();
-    inputCounter.value = TextEditingValue(
-      text: (args.stock?.count)?.toString()?? ''
+    final inputCounter = useTextEditingController.fromValue(
+      TextEditingValue(
+        text: (args.stock?.count)?.toString()?? ''
+      )
     );
 
+
+    final isSending = useState(false);
     final Item item = useProvider(itemsStateProvider).get(args.item.id);
     final now = DateTime.now();
     final expirationDate = useState<DateTime?>(args.stock?.expirationDate);
@@ -73,10 +76,35 @@ class StockEditorScreen extends HookWidget {
         },
         decoration: InputDecoration(
           labelText: "消費期限",
-          hintText: "消費期限"
+          hintText: "消費期限",
+          errorText: validationError.value?.safeGetErrorMessage('expiration_date')
         ),
       );
 
+    }
+
+    bool checkValidate() {
+      return boxId.value != null && int.tryParse(inputCounter.value.text) != null;
+    }
+
+    void save() {
+      print("save");
+      if(isSending.value){
+        return;
+      }
+      isSending.value = true;
+      stocklistClient.itemAPI.stocks(args.item.id).create(
+        boxId: boxId.value, count: int.tryParse(inputCounter.value.text)
+      ).then((value){
+        context.read(storeAdder).addStockDTO(value);
+        Navigator.pop(context);
+      }).catchError((e) {
+        if(e is ValidationException) {
+          print(e.message);
+          validationError.value = e;
+        }
+        print(e);
+      }).whenComplete(() => isSending.value = false);
     }
 
     return Scaffold(
@@ -103,7 +131,7 @@ class StockEditorScreen extends HookWidget {
             decoration: InputDecoration(
               hintText: "収納する${item.name}の個数",
               labelText: "個数",
-              errorText: validationError.value?.toMap()['count'][0]
+              errorText: validationError.value?.safeGetErrorMessage('count')
 
             ),
             keyboardType: TextInputType.number,
@@ -112,12 +140,16 @@ class StockEditorScreen extends HookWidget {
             dateForm('消費期限', expirationDate.value)
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){
+      persistentFooterButtons: [
+        ElevatedButton(
+          onPressed: (){
+            print('onPressd save');
+            save();
+          },
+          child: Text("保存する")
+        )
+      ],
 
-        },
-        label: Text("保存する")
-      ),
     );
   }
 }
