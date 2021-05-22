@@ -25,6 +25,7 @@ class ItemListTileWidget extends StatelessWidget{
       title: Text(
         item.name
       ),
+      subtitle: Text("総数:${item.itemQuantity}"),
       onTap: (){
         Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
       },
