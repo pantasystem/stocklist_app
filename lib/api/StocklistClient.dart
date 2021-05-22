@@ -100,7 +100,7 @@ class ItemsStockAPI {
     throw Exception();
   }
 
-  Future<StockDTO> create({ required int boxId, required int count, DateTime? expirationDate }) async{
+  Future<StockDTO> create({ required int boxId, required int? count, DateTime? expirationDate }) async{
     final builder =  Fluri.from(Fluri(baseURL))
     ..appendToPath("api/items/$itemId/stocks");
 
@@ -152,6 +152,18 @@ class ValidationException implements Exception {
 
   Map<String, dynamic> toMap() {
     return json.decode(message);
+  }
+
+  String? safeGetErrorMessage(String key) {
+    final errors = this.toMap()['errors'];
+    if(errors == null) {
+      return null;
+    }
+    final error = errors[key];
+    if(error != null) {
+      return error[0];
+    }
+    return null;
   }
   @override
   String toString() => message;
