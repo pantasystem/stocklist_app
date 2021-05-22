@@ -32,6 +32,7 @@ class StockEditorScreen extends HookWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as StockEditorArgs;
     final boxId = useState(args.stock?.boxId);
+    final stocksStore = useProvider(stocksStateProvider.notifier);
 
     final inputCounter = useTextEditingController.fromValue(
       TextEditingValue(
@@ -84,28 +85,19 @@ class StockEditorScreen extends HookWidget {
 
     }
 
-
-    Future<StockDTO> updateOrCreate({required int? boxId, required int? count, required DateTime? date }) {
-      final stockId = args.stock?.id;
-      if(stockId == null) {
-        return stocklistClient.itemAPI.stocks(args.item.id).create(boxId: boxId, count: count, expirationDate: date);
-      }else{
-        return stocklistClient.itemAPI.stocks(args.item.id).update(stockId, boxId: boxId, count: count, expirationDate: date);
-      }
-    }
-
     void save() {
       print("save");
       if(isSending.value){
         return;
       }
       isSending.value = true;
-      updateOrCreate(
+      stocksStore.updateOrCreate(
         boxId: boxId.value,
         count: int.tryParse(inputCounter.value.text),
-        date: expirationDate.value
+        expirationDate: expirationDate.value,
+        itemId: item.id,
+        stockId: args.stock?.id
       ).then((value){
-        context.read(storeAdder).addStockDTO(value);
         Navigator.pop(context);
       }).catchError((e) {
         if(e is ValidationException) {
