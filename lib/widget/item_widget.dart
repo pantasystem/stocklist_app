@@ -15,12 +15,12 @@ class ItemListTileWidget extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return ListTile(
-      leading: Image.network(
-        item.imageUrl,
-        width: 70.0,
-        errorBuilder: (BuildContext context, e, s) {
-          return Image.asset("images/no_image_500.png", width: 70.0);
-        },
+      leading: Container(
+        padding: EdgeInsets.all(4),
+        child: ItemThumbnail(
+            this.item.imageUrl,
+            70.0
+        ),
       ),
       title: Text(
         item.name
@@ -66,12 +66,7 @@ class ItemGridWidget extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
       child: Column(
         children: [
-          Image.network(
-            item.imageUrl,
-            errorBuilder: (BuildContext context, e, s) {
-              return Image.asset("images/no_image_500.png");
-            },
-          ),
+          ItemThumbnail(item.imageUrl, 70.0),
           Text(item.name)
         ],
       ),
@@ -154,5 +149,23 @@ class ItemLargeNameWidget extends StatelessWidget {
       ),
     );
 
+  }
+}
+
+class ItemThumbnail extends StatelessWidget {
+  final String url;
+  final double size;
+  ItemThumbnail(this.url, this.size);
+  @override
+  Widget build(BuildContext context) {
+    return Image.network(
+      url,
+      width: this.size,
+      height: this.size,
+      fit: BoxFit.cover,
+      errorBuilder: (BuildContext context, e, s) {
+        return Image.asset("images/no_image_500.png", width: size, height: size, fit: BoxFit.cover,);
+      }
+    );
   }
 }
