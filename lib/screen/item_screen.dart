@@ -86,6 +86,12 @@ class ItemSortSrcComponent extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pop(ItemSortSrc.UPDATED);
           },
+        ),
+        ListTile(
+          title: Text("総数"),
+          onTap: () {
+            Navigator.of(context).pop(ItemSortSrc.QUANTITY);
+          },
         )
       ],
     );
