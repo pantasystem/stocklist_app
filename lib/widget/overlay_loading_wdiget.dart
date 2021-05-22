@@ -18,7 +18,7 @@ class OverlayLoadingWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+              valueColor: AlwaysStoppedAnimation(Colors.white),
             )
           ],
         ),

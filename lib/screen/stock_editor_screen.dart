@@ -83,9 +83,7 @@ class StockEditorScreen extends HookWidget {
 
     }
 
-    bool checkValidate() {
-      return boxId.value != null && int.tryParse(inputCounter.value.text) != null;
-    }
+
 
     void save() {
       print("save");
@@ -107,6 +105,7 @@ class StockEditorScreen extends HookWidget {
       }).whenComplete(() => isSending.value = false);
     }
 
+    final boxError = validationError.value?.safeGetErrorMessage('box_id');
     return Scaffold(
       appBar: AppBar(
         title: args.stock == null ? Text("新しく収納する") : Text("収納情報編集"),
@@ -118,6 +117,13 @@ class StockEditorScreen extends HookWidget {
           if(boxId.value == null)
             ListTile(
               title: Text("収納先を選択してください。"),
+              subtitle: boxError == null ? null :
+              Text(
+                boxError,
+                style: TextStyle(
+                    color: Theme.of(context).errorColor
+                ),
+              ),
               leading: Icon(Icons.arrow_forward_ios),
               onTap: selectBox,
             ),
@@ -129,9 +135,9 @@ class StockEditorScreen extends HookWidget {
           TextField(
             controller: inputCounter,
             decoration: InputDecoration(
-              hintText: "収納する${item.name}の個数",
-              labelText: "個数",
-              errorText: validationError.value?.safeGetErrorMessage('count')
+                hintText: "収納する${item.name}の個数",
+                labelText: "個数",
+                errorText: validationError.value?.safeGetErrorMessage('count')
 
             ),
             keyboardType: TextInputType.number,
@@ -142,7 +148,7 @@ class StockEditorScreen extends HookWidget {
       ),
       persistentFooterButtons: [
         ElevatedButton(
-          onPressed: (){
+          onPressed:isSending.value ? null : (){
             print('onPressd save');
             save();
           },
