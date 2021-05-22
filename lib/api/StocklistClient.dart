@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
@@ -14,12 +13,14 @@ class StocklistClient {
   final String baseURL;
   final String token;
   ItemAPI itemAPI;
+  StockAPI stockAPI;
 
-  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI});
+  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI});
 
   factory StocklistClient(String baseURL, String token) {
     final itemAPI = ItemAPI(baseURL: baseURL, token: token);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token);
+    final stockAPI = StockAPI(baseURL, token);
+    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI);
   }
 
 
@@ -79,15 +80,16 @@ class ItemAPI {
     handleError(res);
   }
 
-  StockAPI stocks(int itemId) {
-    return StockAPI();
-  }
+
 }
 
 
 
 class StockAPI {
-  Future<List<StockDTO>> all() async {
+  final String baseURL;
+  final String token;
+  StockAPI(this.baseURL, this.token);
+  Future<List<StockDTO>> all({ int? itemId, int? boxId }) async {
     throw Exception();
   }
   Future<StockDTO> show($stockId) async {
@@ -96,35 +98,37 @@ class StockAPI {
   void delete($stockId) async {
     throw Exception();
   }
-  Future<StockDTO> create() async{
-    throw Exception();
+
+  Future<void> update(int stockId, { required int? boxId, required int? itemId, required int? count, DateTime? expirationDate }) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath("api/stocks/$stockId");
+
+    final res = await http.put(builder.uri, headers: makeHeader(this.token), body: json.encode({
+      'box_id': boxId,
+      'item_id': itemId,
+      'count': count,
+      if(expirationDate != null)
+        'expiration_date': expirationDate.toIso8601String()
+    }));
+    handleError(res);
+  }
+
+  Future<StockDTO> create({ required int? itemId, required int? boxId, required int? count, DateTime? expirationDate }) async{
+    final builder =  Fluri.from(Fluri(baseURL))
+    ..appendToPath("api/stocks");
+
+    final res = await http.post(builder.uri, headers: makeHeader(this.token), body: json.encode({
+      'box_id': boxId,
+      'count': count,
+      'item_id': itemId,
+      if(expirationDate != null)
+        'expiration_date': expirationDate.toIso8601String()
+    }));
+    handleError(res);
+    return StockDTO.fromJson(json.decode(res.body));
   }
 }
 
-class ItemsStockAPI implements StockAPI {
-  @override
-  Future<List<StockDTO>> all({String? hoge}) {
-    // TODO: implement all
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<StockDTO> show($stockId) {
-    // TODO: implement show
-    throw UnimplementedError();
-  }
-
-  @override
-  void delete($stockId) {
-    // TODO: implement delete
-  }
-
-  @override
-  Future<StockDTO> create() {
-    // TODO: implement create
-    throw UnimplementedError();
-  }
-}
 
 Map<String, String> makeHeader(String? token) {
   return {
@@ -159,6 +163,22 @@ class ServerException implements Exception {
 class ValidationException implements Exception {
   final String message;
   ValidationException(this.message);
+
+  Map<String, dynamic> toMap() {
+    return json.decode(message);
+  }
+
+  String? safeGetErrorMessage(String key) {
+    final errors = this.toMap()['errors'];
+    if(errors == null) {
+      return null;
+    }
+    final error = errors[key];
+    if(error != null) {
+      return error[0];
+    }
+    return null;
+  }
   @override
   String toString() => message;
 }

@@ -13,7 +13,6 @@ class SearchScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
 
-    final currentCategoryState = useState(initialCurrentCategory);
     //final currentNodeState = useState(initialCurrentNode);
     return Scaffold(
       appBar: AppBar(

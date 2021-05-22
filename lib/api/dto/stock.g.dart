@@ -18,6 +18,9 @@ _$_StockDTO _$_$_StockDTOFromJson(Map<String, dynamic> json) {
     item: json['item'] == null
         ? null
         : ItemDTO.fromJson(json['item'] as Map<String, dynamic>),
+    expire: json['expire'] == null
+        ? null
+        : StockExpireDTO.fromJson(json['expire'] as Map<String, dynamic>),
   );
 }
 
@@ -29,4 +32,5 @@ Map<String, dynamic> _$_$_StockDTOToJson(_$_StockDTO instance) =>
       'box': instance.box,
       'item_id': instance.itemId,
       'item': instance.item,
+      'expire': instance.expire,
     };

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/box.dart';
+import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/screen/stock_editor_screen.dart';
 
 class StockListTile extends StatelessWidget {
 
@@ -24,6 +26,7 @@ class StockCardWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final box = useProvider(boxesStateProvider).boxes.firstWhere((Box box)=> box.id == stock.boxId);
+    final item = useProvider(itemsStateProvider).items.firstWhere((Item item) => item.id == stock.itemId);
     return Card(
       child: Container(
         child: Column(
@@ -42,7 +45,15 @@ class StockCardWidget extends HookWidget {
 
                 StockPopupMenu(
                   listener: (value) {
-                    // TODO 実装する
+                    if(value == StockCardPopupMenuAction.EDIT) {
+                      Navigator.of(context).pushNamed(
+                        '/stocks/edit',
+                        arguments: StockEditorArgs(
+                          stock: stock,
+                          item: item
+                        ),
+                      );
+                    }
                   }
                 )
               ],

@@ -25,7 +25,8 @@ class _$ItemTearOff {
       required List<int> stockIds,
       required String imageUrl,
       required int itemQuantity,
-      required String description}) {
+      required String description,
+      required bool isDisposable}) {
     return _Item(
       id: id,
       name: name,
@@ -36,6 +37,7 @@ class _$ItemTearOff {
       imageUrl: imageUrl,
       itemQuantity: itemQuantity,
       description: description,
+      isDisposable: isDisposable,
     );
   }
 }
@@ -54,6 +56,7 @@ mixin _$Item {
   String get imageUrl => throw _privateConstructorUsedError;
   int get itemQuantity => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  bool get isDisposable => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
@@ -72,7 +75,8 @@ abstract class $ItemCopyWith<$Res> {
       List<int> stockIds,
       String imageUrl,
       int itemQuantity,
-      String description});
+      String description,
+      bool isDisposable});
 }
 
 /// @nodoc
@@ -94,6 +98,7 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
     Object? imageUrl = freezed,
     Object? itemQuantity = freezed,
     Object? description = freezed,
+    Object? isDisposable = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -132,6 +137,10 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      isDisposable: isDisposable == freezed
+          ? _value.isDisposable
+          : isDisposable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -150,7 +159,8 @@ abstract class _$ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       List<int> stockIds,
       String imageUrl,
       int itemQuantity,
-      String description});
+      String description,
+      bool isDisposable});
 }
 
 /// @nodoc
@@ -173,6 +183,7 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? itemQuantity = freezed,
     Object? description = freezed,
+    Object? isDisposable = freezed,
   }) {
     return _then(_Item(
       id: id == freezed
@@ -211,6 +222,10 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      isDisposable: isDisposable == freezed
+          ? _value.isDisposable
+          : isDisposable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -227,7 +242,8 @@ class _$_Item implements _Item {
       required this.stockIds,
       required this.imageUrl,
       required this.itemQuantity,
-      required this.description});
+      required this.description,
+      required this.isDisposable});
 
   @override
   final int id;
@@ -247,10 +263,12 @@ class _$_Item implements _Item {
   final int itemQuantity;
   @override
   final String description;
+  @override
+  final bool isDisposable;
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description)';
+    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description, isDisposable: $isDisposable)';
   }
 
   @override
@@ -279,7 +297,10 @@ class _$_Item implements _Item {
                     .equals(other.itemQuantity, itemQuantity)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
-                    .equals(other.description, description)));
+                    .equals(other.description, description)) &&
+            (identical(other.isDisposable, isDisposable) ||
+                const DeepCollectionEquality()
+                    .equals(other.isDisposable, isDisposable)));
   }
 
   @override
@@ -293,7 +314,8 @@ class _$_Item implements _Item {
       const DeepCollectionEquality().hash(stockIds) ^
       const DeepCollectionEquality().hash(imageUrl) ^
       const DeepCollectionEquality().hash(itemQuantity) ^
-      const DeepCollectionEquality().hash(description);
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(isDisposable);
 
   @JsonKey(ignore: true)
   @override
@@ -311,7 +333,8 @@ abstract class _Item implements Item {
       required List<int> stockIds,
       required String imageUrl,
       required int itemQuantity,
-      required String description}) = _$_Item;
+      required String description,
+      required bool isDisposable}) = _$_Item;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -331,6 +354,8 @@ abstract class _Item implements Item {
   int get itemQuantity => throw _privateConstructorUsedError;
   @override
   String get description => throw _privateConstructorUsedError;
+  @override
+  bool get isDisposable => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemCopyWith<_Item> get copyWith => throw _privateConstructorUsedError;

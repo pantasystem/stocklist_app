@@ -20,12 +20,14 @@ class _$StockTearOff {
       {required int id,
       required int boxId,
       required int itemId,
-      required int count}) {
+      required int count,
+      DateTime? expirationDate}) {
     return _Stock(
       id: id,
       boxId: boxId,
       itemId: itemId,
       count: count,
+      expirationDate: expirationDate,
     );
   }
 }
@@ -39,6 +41,7 @@ mixin _$Stock {
   int get boxId => throw _privateConstructorUsedError;
   int get itemId => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
+  DateTime? get expirationDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StockCopyWith<Stock> get copyWith => throw _privateConstructorUsedError;
@@ -48,7 +51,8 @@ mixin _$Stock {
 abstract class $StockCopyWith<$Res> {
   factory $StockCopyWith(Stock value, $Res Function(Stock) then) =
       _$StockCopyWithImpl<$Res>;
-  $Res call({int id, int boxId, int itemId, int count});
+  $Res call(
+      {int id, int boxId, int itemId, int count, DateTime? expirationDate});
 }
 
 /// @nodoc
@@ -65,6 +69,7 @@ class _$StockCopyWithImpl<$Res> implements $StockCopyWith<$Res> {
     Object? boxId = freezed,
     Object? itemId = freezed,
     Object? count = freezed,
+    Object? expirationDate = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -83,6 +88,10 @@ class _$StockCopyWithImpl<$Res> implements $StockCopyWith<$Res> {
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
+      expirationDate: expirationDate == freezed
+          ? _value.expirationDate
+          : expirationDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -92,7 +101,8 @@ abstract class _$StockCopyWith<$Res> implements $StockCopyWith<$Res> {
   factory _$StockCopyWith(_Stock value, $Res Function(_Stock) then) =
       __$StockCopyWithImpl<$Res>;
   @override
-  $Res call({int id, int boxId, int itemId, int count});
+  $Res call(
+      {int id, int boxId, int itemId, int count, DateTime? expirationDate});
 }
 
 /// @nodoc
@@ -110,6 +120,7 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
     Object? boxId = freezed,
     Object? itemId = freezed,
     Object? count = freezed,
+    Object? expirationDate = freezed,
   }) {
     return _then(_Stock(
       id: id == freezed
@@ -128,6 +139,10 @@ class __$StockCopyWithImpl<$Res> extends _$StockCopyWithImpl<$Res>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
+      expirationDate: expirationDate == freezed
+          ? _value.expirationDate
+          : expirationDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -139,7 +154,8 @@ class _$_Stock implements _Stock {
       {required this.id,
       required this.boxId,
       required this.itemId,
-      required this.count});
+      required this.count,
+      this.expirationDate});
 
   @override
   final int id;
@@ -149,10 +165,12 @@ class _$_Stock implements _Stock {
   final int itemId;
   @override
   final int count;
+  @override
+  final DateTime? expirationDate;
 
   @override
   String toString() {
-    return 'Stock(id: $id, boxId: $boxId, itemId: $itemId, count: $count)';
+    return 'Stock(id: $id, boxId: $boxId, itemId: $itemId, count: $count, expirationDate: $expirationDate)';
   }
 
   @override
@@ -166,7 +184,10 @@ class _$_Stock implements _Stock {
             (identical(other.itemId, itemId) ||
                 const DeepCollectionEquality().equals(other.itemId, itemId)) &&
             (identical(other.count, count) ||
-                const DeepCollectionEquality().equals(other.count, count)));
+                const DeepCollectionEquality().equals(other.count, count)) &&
+            (identical(other.expirationDate, expirationDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.expirationDate, expirationDate)));
   }
 
   @override
@@ -175,7 +196,8 @@ class _$_Stock implements _Stock {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(boxId) ^
       const DeepCollectionEquality().hash(itemId) ^
-      const DeepCollectionEquality().hash(count);
+      const DeepCollectionEquality().hash(count) ^
+      const DeepCollectionEquality().hash(expirationDate);
 
   @JsonKey(ignore: true)
   @override
@@ -188,7 +210,8 @@ abstract class _Stock implements Stock {
       {required int id,
       required int boxId,
       required int itemId,
-      required int count}) = _$_Stock;
+      required int count,
+      DateTime? expirationDate}) = _$_Stock;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -198,6 +221,8 @@ abstract class _Stock implements Stock {
   int get itemId => throw _privateConstructorUsedError;
   @override
   int get count => throw _privateConstructorUsedError;
+  @override
+  DateTime? get expirationDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StockCopyWith<_Stock> get copyWith => throw _privateConstructorUsedError;

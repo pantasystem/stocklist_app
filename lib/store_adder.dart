@@ -29,7 +29,8 @@ class StoreAdder {
       imageUrl: itemDTO.imageUrl,
       owners: itemDTO.owners?.map((e) => User(id: e.id, homeId: e.homeId, name: e.name, )).toList(),
       itemQuantity: itemDTO.itemQuantity?? 0,
-      description: itemDTO.description??''
+      description: itemDTO.description??'',
+      isDisposable: itemDTO.isDisposable
     );
     addAllStockDTOs(itemDTO.stocks);
     read(itemsStateProvider.notifier).addAll([item]);
@@ -40,7 +41,7 @@ class StoreAdder {
     if(stockDTO == null) {
       return;
     }
-    final stock = Stock(id: stockDTO.id, itemId: stockDTO.itemId, count: stockDTO.count, boxId: stockDTO.boxId);
+    final stock = Stock(id: stockDTO.id, itemId: stockDTO.itemId, count: stockDTO.count, boxId: stockDTO.boxId, expirationDate: stockDTO.expire?.expirationDate);
     addItemDTO(stockDTO.item);
     addBoxDTO(stockDTO.box);
     read(stocksStateProvider.notifier).add(stock);

@@ -26,7 +26,8 @@ class _$StockDTOTearOff {
       @JsonKey(name: 'box_id') required int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') required int itemId,
-      @JsonKey(name: 'item') ItemDTO? item}) {
+      @JsonKey(name: 'item') ItemDTO? item,
+      @JsonKey(name: 'expire') StockExpireDTO? expire}) {
     return _StockDTO(
       id: id,
       count: count,
@@ -34,6 +35,7 @@ class _$StockDTOTearOff {
       box: box,
       itemId: itemId,
       item: item,
+      expire: expire,
     );
   }
 
@@ -59,6 +61,8 @@ mixin _$StockDTO {
   int get itemId => throw _privateConstructorUsedError;
   @JsonKey(name: 'item')
   ItemDTO? get item => throw _privateConstructorUsedError;
+  @JsonKey(name: 'expire')
+  StockExpireDTO? get expire => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -76,10 +80,12 @@ abstract class $StockDTOCopyWith<$Res> {
       @JsonKey(name: 'box_id') int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int itemId,
-      @JsonKey(name: 'item') ItemDTO? item});
+      @JsonKey(name: 'item') ItemDTO? item,
+      @JsonKey(name: 'expire') StockExpireDTO? expire});
 
   $BoxDTOCopyWith<$Res>? get box;
   $ItemDTOCopyWith<$Res>? get item;
+  $StockExpireDTOCopyWith<$Res>? get expire;
 }
 
 /// @nodoc
@@ -98,6 +104,7 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
     Object? box = freezed,
     Object? itemId = freezed,
     Object? item = freezed,
+    Object? expire = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -124,6 +131,10 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
               as ItemDTO?,
+      expire: expire == freezed
+          ? _value.expire
+          : expire // ignore: cast_nullable_to_non_nullable
+              as StockExpireDTO?,
     ));
   }
 
@@ -148,6 +159,17 @@ class _$StockDTOCopyWithImpl<$Res> implements $StockDTOCopyWith<$Res> {
       return _then(_value.copyWith(item: value));
     });
   }
+
+  @override
+  $StockExpireDTOCopyWith<$Res>? get expire {
+    if (_value.expire == null) {
+      return null;
+    }
+
+    return $StockExpireDTOCopyWith<$Res>(_value.expire!, (value) {
+      return _then(_value.copyWith(expire: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -161,12 +183,15 @@ abstract class _$StockDTOCopyWith<$Res> implements $StockDTOCopyWith<$Res> {
       @JsonKey(name: 'box_id') int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') int itemId,
-      @JsonKey(name: 'item') ItemDTO? item});
+      @JsonKey(name: 'item') ItemDTO? item,
+      @JsonKey(name: 'expire') StockExpireDTO? expire});
 
   @override
   $BoxDTOCopyWith<$Res>? get box;
   @override
   $ItemDTOCopyWith<$Res>? get item;
+  @override
+  $StockExpireDTOCopyWith<$Res>? get expire;
 }
 
 /// @nodoc
@@ -186,6 +211,7 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
     Object? box = freezed,
     Object? itemId = freezed,
     Object? item = freezed,
+    Object? expire = freezed,
   }) {
     return _then(_StockDTO(
       id: id == freezed
@@ -212,6 +238,10 @@ class __$StockDTOCopyWithImpl<$Res> extends _$StockDTOCopyWithImpl<$Res>
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
               as ItemDTO?,
+      expire: expire == freezed
+          ? _value.expire
+          : expire // ignore: cast_nullable_to_non_nullable
+              as StockExpireDTO?,
     ));
   }
 }
@@ -225,7 +255,8 @@ class _$_StockDTO implements _StockDTO {
       @JsonKey(name: 'box_id') required this.boxId,
       @JsonKey(name: 'box') this.box,
       @JsonKey(name: 'item_id') required this.itemId,
-      @JsonKey(name: 'item') this.item});
+      @JsonKey(name: 'item') this.item,
+      @JsonKey(name: 'expire') this.expire});
 
   factory _$_StockDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_StockDTOFromJson(json);
@@ -248,10 +279,13 @@ class _$_StockDTO implements _StockDTO {
   @override
   @JsonKey(name: 'item')
   final ItemDTO? item;
+  @override
+  @JsonKey(name: 'expire')
+  final StockExpireDTO? expire;
 
   @override
   String toString() {
-    return 'StockDTO(id: $id, count: $count, boxId: $boxId, box: $box, itemId: $itemId, item: $item)';
+    return 'StockDTO(id: $id, count: $count, boxId: $boxId, box: $box, itemId: $itemId, item: $item, expire: $expire)';
   }
 
   @override
@@ -269,7 +303,9 @@ class _$_StockDTO implements _StockDTO {
             (identical(other.itemId, itemId) ||
                 const DeepCollectionEquality().equals(other.itemId, itemId)) &&
             (identical(other.item, item) ||
-                const DeepCollectionEquality().equals(other.item, item)));
+                const DeepCollectionEquality().equals(other.item, item)) &&
+            (identical(other.expire, expire) ||
+                const DeepCollectionEquality().equals(other.expire, expire)));
   }
 
   @override
@@ -280,7 +316,8 @@ class _$_StockDTO implements _StockDTO {
       const DeepCollectionEquality().hash(boxId) ^
       const DeepCollectionEquality().hash(box) ^
       const DeepCollectionEquality().hash(itemId) ^
-      const DeepCollectionEquality().hash(item);
+      const DeepCollectionEquality().hash(item) ^
+      const DeepCollectionEquality().hash(expire);
 
   @JsonKey(ignore: true)
   @override
@@ -300,7 +337,8 @@ abstract class _StockDTO implements StockDTO {
       @JsonKey(name: 'box_id') required int boxId,
       @JsonKey(name: 'box') BoxDTO? box,
       @JsonKey(name: 'item_id') required int itemId,
-      @JsonKey(name: 'item') ItemDTO? item}) = _$_StockDTO;
+      @JsonKey(name: 'item') ItemDTO? item,
+      @JsonKey(name: 'expire') StockExpireDTO? expire}) = _$_StockDTO;
 
   factory _StockDTO.fromJson(Map<String, dynamic> json) = _$_StockDTO.fromJson;
 
@@ -322,6 +360,9 @@ abstract class _StockDTO implements StockDTO {
   @override
   @JsonKey(name: 'item')
   ItemDTO? get item => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'expire')
+  StockExpireDTO? get expire => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StockDTOCopyWith<_StockDTO> get copyWith =>

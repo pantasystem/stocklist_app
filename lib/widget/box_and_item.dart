@@ -9,8 +9,9 @@ class BoxAndItemListView extends StatelessWidget {
 
   final List<Item> items;
   final List<Box> boxes;
+  final List<int> selectedBoxIds;
 
-  BoxAndItemListView({required this.items, required this.boxes});
+  BoxAndItemListView({required this.items, required this.boxes, this.selectedBoxIds = const []});
 
 
   @override
@@ -19,7 +20,7 @@ class BoxAndItemListView extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (BuildContext context, index) {
         if(index <boxes.length) {
-          return BoxListTile(box: boxes[index]);
+          return BoxListTile(box: boxes[index], isSelectable: selectedBoxIds.any((element) => element == boxes[index].id));
         }else{
           return ItemListTileWidget(item: items[index - boxes.length]);
         }

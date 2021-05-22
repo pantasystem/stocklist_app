@@ -1,6 +1,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stocklist_app/api/dto/item.dart';
+import 'package:stocklist_app/api/dto/stock_expire.dart';
 
 import 'box.dart';
 
@@ -16,11 +17,11 @@ class StockDTO with _$StockDTO {
     @JsonKey(name: 'box') BoxDTO? box,
     @JsonKey(name: 'item_id') required int itemId,
     @JsonKey(name: 'item') ItemDTO? item,
+    @JsonKey(name: 'expire') StockExpireDTO? expire,
 
   }) = _StockDTO;
 
   factory StockDTO.fromJson(Map<String, dynamic> json) => _$StockDTOFromJson(json);
 }
-
 
 
