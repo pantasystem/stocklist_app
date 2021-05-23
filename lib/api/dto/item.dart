@@ -20,7 +20,9 @@ class ItemDTO with _$ItemDTO {
     @JsonKey(name: 'description') String? description,
     @JsonKey(name: 'is_disposable') required bool isDisposable,
     @JsonKey(name: 'created_at') required DateTime createdAt,
-    @JsonKey(name: 'updated_at') required DateTime updatedAt
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    @JsonKey(name: 'category_path') required String? categoryPath,
+    @JsonKey(name: 'category_id') required int? categoryId
   }) = _ItemDTO;
 
   factory ItemDTO.fromJson(Map<String, dynamic> json) => _$ItemDTOFromJson(json);
