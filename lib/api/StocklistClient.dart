@@ -15,13 +15,15 @@ class StocklistClient {
   final String token;
   ItemAPI itemAPI;
   StockAPI stockAPI;
+  CategoryAPI categoryAPI;
 
-  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI});
+  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI, required this.categoryAPI});
 
   factory StocklistClient(String baseURL, String token) {
     final itemAPI = ItemAPI(baseURL: baseURL, token: token);
     final stockAPI = StockAPI(baseURL, token);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI);
+    final categoryAPI = CategoryAPI(baseURL, token);
+    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI, categoryAPI: categoryAPI);
   }
 
 
