@@ -32,7 +32,9 @@ class StoreAdder {
       description: itemDTO.description??'',
       isDisposable: itemDTO.isDisposable,
       updatedAt: itemDTO.updatedAt,
-      createdAt: itemDTO.createdAt
+      createdAt: itemDTO.createdAt,
+      categoryId: itemDTO.categoryId,
+      categoryPath: itemDTO.categoryPath
     );
     addAllStockDTOs(itemDTO.stocks);
     read(itemsStateProvider.notifier).addAll([item]);

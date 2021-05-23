@@ -19,5 +19,7 @@ class Item with _$Item{
     required bool isDisposable,
     required DateTime createdAt,
     required DateTime updatedAt,
+    required String? categoryPath,
+    required int? categoryId
   }) = _Item;
 }
