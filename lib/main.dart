@@ -11,6 +11,7 @@ import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
 import 'package:stocklist_app/store/box_store.dart';
+import 'package:stocklist_app/store/category_store.dart';
 import 'package:stocklist_app/store/item_store.dart';
 import 'package:stocklist_app/store/stock_store.dart';
 import 'package:stocklist_app/store_adder.dart';
@@ -21,6 +22,7 @@ final stocksStateProvider = StateNotifierProvider((ref)=> StockStore(ref.read));
 final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore());
 final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), '1|test-1');
+final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));

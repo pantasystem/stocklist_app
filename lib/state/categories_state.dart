@@ -19,4 +19,8 @@ class CategoriesState with _$CategoriesState {
   Category? safeGet(int? categoryId) {
     return this.categories.firstWhereOrNull((element) => element.id == categoryId);
   }
+
+  List<Category> childrenCategories(String path) {
+    return this.categories.where((element) => element.path.startsWith(path)).toList();
+  }
 }
