@@ -36,6 +36,21 @@ class ItemsScreen extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("物一覧"),
+        bottom: PreferredSize(
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.white,
+            constraints: BoxConstraints.expand(height: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+
+                TextButton(onPressed: (){}, child: Text("絞り込み"))
+              ],
+            ),
+          ),
+          preferredSize: Size(50, 50),
+        ),
         actions: [
           IconButton(
             onPressed: () {
