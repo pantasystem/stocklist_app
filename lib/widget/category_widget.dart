@@ -23,3 +23,28 @@ class CategoryListTile extends StatelessWidget {
     );
   }
 }
+
+typedef OnClickCategoryListener = Function(Category);
+
+class CategoryListView extends StatelessWidget {
+
+  final List<Category> categories;
+  final Set<int>? selectedCategoryIds;
+  final OnClickCategoryListener? listener;
+  final bool isSelectable;
+  CategoryListView({required this.categories, this.selectedCategoryIds, this.listener, this.isSelectable = false});
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        return CategoryListTile(
+          categories[index],
+          onTap: this.listener == null ? null : () {
+            listener!(categories[index]);
+          },
+          isSelected: this.isSelectable && (selectedCategoryIds?.any((element) => element == categories[index].id)?? false),
+        );
+      }
+    );
+  }
+}
