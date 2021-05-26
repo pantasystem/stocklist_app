@@ -8,19 +8,22 @@ import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:fluri/fluri.dart';
 import 'package:http/http.dart' as http;
+import 'package:stocklist_app/entity/category.dart';
 
 class StocklistClient {
   final String baseURL;
   final String token;
   ItemAPI itemAPI;
   StockAPI stockAPI;
+  CategoryAPI categoryAPI;
 
-  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI});
+  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI, required this.categoryAPI});
 
   factory StocklistClient(String baseURL, String token) {
     final itemAPI = ItemAPI(baseURL: baseURL, token: token);
     final stockAPI = StockAPI(baseURL, token);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI);
+    final categoryAPI = CategoryAPI(baseURL, token);
+    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI, categoryAPI: categoryAPI);
   }
 
 
@@ -129,6 +132,51 @@ class StockAPI {
   }
 }
 
+class CategoryAPI {
+  final String baseURL;
+  final String token;
+  CategoryAPI(this.baseURL, this.token);
+
+  Future<List<Category>> all() async {
+    final res = await http.get(buildWithBaseURLAndPath(baseURL, "api/categories").uri, headers: makeHeader(this.token));
+    handleError(res);
+    final list = json.decode(res.body) as List<dynamic>;
+    return list.map((e) => Category.fromJson(e)).toList();
+  }
+
+  Future<Category> create(String path) async {
+    final res = await http.post(
+      buildWithBaseURLAndPath(baseURL, "api/categories",).uri,
+      headers: makeHeader(this.token),
+      body: json.encode({
+        'path': path
+      })
+    );
+    handleError(res);
+    return Category.fromJson(json.decode(res.body));
+  }
+
+  Future update(int categoryId, {required String path }) async {
+    final res = await http.put(
+      buildWithBaseURLAndPath(baseURL, "api/categories/$categoryId").uri,
+      headers: makeHeader(token),
+      body: json.encode(
+        {'path': path}
+      )
+    );
+    handleError(res);
+  }
+
+  Future delete(int categoryId) async {
+    final res = await http.delete(
+      buildWithBaseURLAndPath(baseURL, "api/categories/$categoryId").uri,
+      headers: makeHeader(token),
+    );
+    handleError(res);
+  }
+
+
+}
 
 Map<String, String> makeHeader(String? token) {
   return {
@@ -138,6 +186,10 @@ Map<String, String> makeHeader(String? token) {
   };
 }
 
+Fluri buildWithBaseURLAndPath(String baseURL, String path) {
+  return Fluri.from(Fluri(baseURL))
+      ..appendToPath(path);
+}
 class AuthorizationException implements Exception{
 
   final String message;

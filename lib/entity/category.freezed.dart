@@ -12,21 +12,23 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Category _$CategoryFromJson(Map<String, dynamic> json) {
+  return _Category.fromJson(json);
+}
+
 /// @nodoc
 class _$CategoryTearOff {
   const _$CategoryTearOff();
 
-  _Category call(
-      {required int id,
-      required int homeId,
-      required String path,
-      required String iconUrl}) {
+  _Category call({required int id, required String path}) {
     return _Category(
       id: id,
-      homeId: homeId,
       path: path,
-      iconUrl: iconUrl,
     );
+  }
+
+  Category fromJson(Map<String, Object> json) {
+    return Category.fromJson(json);
   }
 }
 
@@ -36,10 +38,9 @@ const $Category = _$CategoryTearOff();
 /// @nodoc
 mixin _$Category {
   int get id => throw _privateConstructorUsedError;
-  int get homeId => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
-  String get iconUrl => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CategoryCopyWith<Category> get copyWith =>
       throw _privateConstructorUsedError;
@@ -49,7 +50,7 @@ mixin _$Category {
 abstract class $CategoryCopyWith<$Res> {
   factory $CategoryCopyWith(Category value, $Res Function(Category) then) =
       _$CategoryCopyWithImpl<$Res>;
-  $Res call({int id, int homeId, String path, String iconUrl});
+  $Res call({int id, String path});
 }
 
 /// @nodoc
@@ -63,26 +64,16 @@ class _$CategoryCopyWithImpl<$Res> implements $CategoryCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? homeId = freezed,
     Object? path = freezed,
-    Object? iconUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      homeId: homeId == freezed
-          ? _value.homeId
-          : homeId // ignore: cast_nullable_to_non_nullable
-              as int,
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: iconUrl == freezed
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -93,7 +84,7 @@ abstract class _$CategoryCopyWith<$Res> implements $CategoryCopyWith<$Res> {
   factory _$CategoryCopyWith(_Category value, $Res Function(_Category) then) =
       __$CategoryCopyWithImpl<$Res>;
   @override
-  $Res call({int id, int homeId, String path, String iconUrl});
+  $Res call({int id, String path});
 }
 
 /// @nodoc
@@ -108,52 +99,37 @@ class __$CategoryCopyWithImpl<$Res> extends _$CategoryCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? homeId = freezed,
     Object? path = freezed,
-    Object? iconUrl = freezed,
   }) {
     return _then(_Category(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      homeId: homeId == freezed
-          ? _value.homeId
-          : homeId // ignore: cast_nullable_to_non_nullable
-              as int,
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: iconUrl == freezed
-          ? _value.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Category implements _Category {
-  _$_Category(
-      {required this.id,
-      required this.homeId,
-      required this.path,
-      required this.iconUrl});
+  _$_Category({required this.id, required this.path});
+
+  factory _$_Category.fromJson(Map<String, dynamic> json) =>
+      _$_$_CategoryFromJson(json);
 
   @override
   final int id;
   @override
-  final int homeId;
-  @override
   final String path;
-  @override
-  final String iconUrl;
 
   @override
   String toString() {
-    return 'Category(id: $id, homeId: $homeId, path: $path, iconUrl: $iconUrl)';
+    return 'Category(id: $id, path: $path)';
   }
 
   @override
@@ -162,43 +138,36 @@ class _$_Category implements _Category {
         (other is _Category &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.homeId, homeId) ||
-                const DeepCollectionEquality().equals(other.homeId, homeId)) &&
             (identical(other.path, path) ||
-                const DeepCollectionEquality().equals(other.path, path)) &&
-            (identical(other.iconUrl, iconUrl) ||
-                const DeepCollectionEquality().equals(other.iconUrl, iconUrl)));
+                const DeepCollectionEquality().equals(other.path, path)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(homeId) ^
-      const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(iconUrl);
+      const DeepCollectionEquality().hash(path);
 
   @JsonKey(ignore: true)
   @override
   _$CategoryCopyWith<_Category> get copyWith =>
       __$CategoryCopyWithImpl<_Category>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_CategoryToJson(this);
+  }
 }
 
 abstract class _Category implements Category {
-  factory _Category(
-      {required int id,
-      required int homeId,
-      required String path,
-      required String iconUrl}) = _$_Category;
+  factory _Category({required int id, required String path}) = _$_Category;
+
+  factory _Category.fromJson(Map<String, dynamic> json) = _$_Category.fromJson;
 
   @override
   int get id => throw _privateConstructorUsedError;
   @override
-  int get homeId => throw _privateConstructorUsedError;
-  @override
   String get path => throw _privateConstructorUsedError;
-  @override
-  String get iconUrl => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$CategoryCopyWith<_Category> get copyWith =>
