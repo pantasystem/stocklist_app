@@ -21,6 +21,10 @@ class FilterScreen extends HookWidget {
     final selectedCategoryId = useState<int?>(null);
     final selectedBox = useProvider(boxesStateProvider).safeGet(selectedBoxId.value);
     final selectedCategory = useProvider(categoriesStateProvider).safeGet(selectedCategoryId.value);
+    final minCountEditingController = useTextEditingController();
+    final maxCountEditingController = useTextEditingController();
+    final beganDate = useState<DateTime?>(null);
+    final endDate = useState<DateTime?>(null);
 
     void showSelectBoxScreen() async {
       final args = BoxesScreenArgs(
@@ -62,6 +66,7 @@ class FilterScreen extends HookWidget {
                 labelText: "最小値"
               ),
               keyboardType: TextInputType.number,
+              controller: minCountEditingController,
             ),
           ),
           Flexible(
@@ -71,6 +76,7 @@ class FilterScreen extends HookWidget {
                 labelText: "最大値",
               ),
               keyboardType: TextInputType.number,
+              controller: maxCountEditingController,
             )
           )
         ],
