@@ -6,6 +6,7 @@ import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/screen/boxes_screen.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
+import 'package:stocklist_app/screen/filter_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
@@ -44,6 +45,7 @@ class StocklistApp extends StatelessWidget {
         '/items/show': (BuildContext context) => ItemDetailScreen(),
         '/stocks/edit': (BuildContext context) => StockEditorScreen(),
         '/boxes': (BuildContext context) => BoxesScreen(),
+        '/items/filter': (BuildContext context) => FilterScreen(),
       }
     );
 

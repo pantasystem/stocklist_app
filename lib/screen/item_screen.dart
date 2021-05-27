@@ -45,7 +45,9 @@ class ItemsScreen extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
 
-                TextButton(onPressed: (){}, child: Text("絞り込み"))
+                TextButton(onPressed: (){
+                  Navigator.of(context).pushNamed('/items/filter');
+                }, child: Text("絞り込み"))
               ],
             ),
           ),
