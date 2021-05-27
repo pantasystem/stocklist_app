@@ -9,4 +9,11 @@ class BoxesState with _$BoxesState {
   Box? get(int boxId) {
     return this.boxes.firstWhere((element) => element.id == boxId);
   }
+
+  Box? safeGet(int? boxId) {
+    if(boxId == null) {
+      return null;
+    }
+    return this.get(boxId);
+  }
 }

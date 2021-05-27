@@ -3,12 +3,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/screen/stock_editor_screen.dart';
+
+import 'boxes_screen.dart';
 
 class FilterScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
 
+    final selectedBoxId = useState<int?>(null);
+    final selectedCategoryId = useState<int?>(null);
+    final selectedBox = useProvider(boxesStateProvider).safeGet(selectedBoxId.value);
+    final selectedCategory = useProvider(categoriesStateProvider).safeGet(selectedCategoryId.value);
+
+    void showSelectBoxScreen() async {
+      final args = BoxesScreenArgs(
+        selectable: BoxSelectable(
+          maxSelectableCount: 1,
+          selectedBoxIds: selectedBoxId.value == null ? [] : [selectedBoxId.value!],
+        )
+      );
+      final res = await Navigator.of(context).pushNamed('/boxes', arguments: args);
+    }
+
+    void showSelectCategoryScreen() {
+
+    }
     Widget buildCountRageForm() {
       return Row(
         children: [
@@ -38,18 +61,25 @@ class FilterScreen extends HookWidget {
         children: [
           Flexible(
             child: TextField(
+              focusNode: AlwaysDisabledFocusNode(),
               decoration: InputDecoration(
                 hintText: "開始日",
                   labelText: "開始日"
               ),
+              onTap: () {
+              },
             )
           ),
           Flexible(
             child: TextField(
+              focusNode: AlwaysDisabledFocusNode(),
               decoration: InputDecoration(
                 hintText: "終了日",
                 labelText: "終了日"
               ),
+              onTap: () {
+
+              },
             )
           )
         ],
@@ -67,6 +97,9 @@ class FilterScreen extends HookWidget {
             trailing: Icon(Icons.arrow_forward),
             title: Text("収納場所を選択"),
             leading: Icon(Icons.all_inbox),
+            onTap: () {
+              showSelectBoxScreen();
+            },
           ),
 
           Text("カテゴリ"),
@@ -74,6 +107,9 @@ class FilterScreen extends HookWidget {
             trailing: Icon(Icons.arrow_forward),
             title: Text("カテゴリを選択"),
             leading: Icon(Icons.category),
+            onTap: () {
+
+            },
           ),
           Text("消費期限"),
           Container(
