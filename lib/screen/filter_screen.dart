@@ -27,6 +27,12 @@ class FilterScreen extends HookWidget {
         )
       );
       final res = await Navigator.of(context).pushNamed('/boxes', arguments: args);
+      if(res is List && res.length > 0) {
+        selectedBoxId.value = res[0];
+        print("box選択:" + res.toString());
+      }else if(res is List){
+        selectedBoxId.value = null;
+      }
     }
 
     void showSelectCategoryScreen() {
