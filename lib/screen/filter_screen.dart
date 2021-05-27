@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
 import 'package:stocklist_app/widget/box_widget.dart';
 
@@ -37,7 +38,13 @@ class FilterScreen extends HookWidget {
     }
 
     void showSelectCategoryScreen() {
-
+      final args = CategoryScreenArgs(
+        selectable: CategorySelectable(
+          selectedCategoryIds: selectedCategoryId.value == null ? [] : [selectedCategoryId.value!],
+          maxSelectableCount: 1
+        )
+      );
+      Navigator.of(context).pushNamed('/categories', arguments: args);
     }
     Widget buildCountRageForm() {
       return Row(
@@ -124,7 +131,7 @@ class FilterScreen extends HookWidget {
             title: Text("カテゴリを選択"),
             leading: Icon(Icons.category),
             onTap: () {
-
+              showSelectCategoryScreen();
             },
           ),
           Text("消費期限"),
