@@ -47,6 +47,11 @@ class CategoryScreen extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("カテゴリー"),
+        actions: [
+          IconButton(icon: Icon(Icons.check), onPressed: () {
+            Navigator.pop(context, selectedCategoryIds.value.toList());
+          })
+        ],
       ),
       body: CategoryListView(
         categories: categories,

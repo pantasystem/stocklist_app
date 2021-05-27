@@ -8,6 +8,7 @@ import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
 import 'package:stocklist_app/widget/box_widget.dart';
+import 'package:stocklist_app/widget/category_widget.dart';
 
 import 'boxes_screen.dart';
 
@@ -37,14 +38,19 @@ class FilterScreen extends HookWidget {
       }
     }
 
-    void showSelectCategoryScreen() {
+    void showSelectCategoryScreen() async {
       final args = CategoryScreenArgs(
         selectable: CategorySelectable(
           selectedCategoryIds: selectedCategoryId.value == null ? [] : [selectedCategoryId.value!],
           maxSelectableCount: 1
         )
       );
-      Navigator.of(context).pushNamed('/categories', arguments: args);
+      final res = await Navigator.of(context).pushNamed('/categories', arguments: args);
+      if(res is List && res.length > 0) {
+        selectedCategoryId.value = res[0];
+      }else if(res is List) {
+        selectedCategoryId.value = null;
+      }
     }
     Widget buildCountRageForm() {
       return Row(
@@ -126,14 +132,22 @@ class FilterScreen extends HookWidget {
 
 
           Text("カテゴリ"),
-          ListTile(
-            trailing: Icon(Icons.arrow_forward),
-            title: Text("カテゴリを選択"),
-            leading: Icon(Icons.category),
-            onTap: () {
-              showSelectCategoryScreen();
-            },
-          ),
+          if(selectedCategory == null)
+            ListTile(
+              trailing: Icon(Icons.arrow_forward),
+              title: Text("カテゴリを選択"),
+              leading: Icon(Icons.category),
+              onTap: () {
+                showSelectCategoryScreen();
+              },
+            ),
+          if(selectedCategory != null)
+            CategoryListTile(
+              selectedCategory,
+              onTap: () {
+                showSelectCategoryScreen();
+              },
+            ),
           Text("消費期限"),
           Container(
             padding: EdgeInsets.only(
