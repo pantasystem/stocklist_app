@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
@@ -25,6 +26,12 @@ class FilterScreen extends HookWidget {
     final maxCountEditingController = useTextEditingController();
     final beganDate = useState<DateTime?>(null);
     final endDate = useState<DateTime?>(null);
+
+    final beganDateEditingController = useTextEditingController();
+    final endDateEditingController = useTextEditingController();
+    // NOTE: TextFieldには入力しない＆useStateを源流にするため、毎回更新する。
+    beganDateEditingController.text = beganDate.value == null ? '' : DateFormat.yMd().format(beganDate.value!);
+    endDateEditingController.text = endDate.value == null ? '' : DateFormat.yMd().format(endDate.value!);
 
     void showSelectBoxScreen() async {
       final args = BoxesScreenArgs(
@@ -90,7 +97,7 @@ class FilterScreen extends HookWidget {
               focusNode: AlwaysDisabledFocusNode(),
               decoration: InputDecoration(
                 hintText: "開始日",
-                  labelText: "開始日"
+                labelText: "開始日",
               ),
               onTap: () {
               },
