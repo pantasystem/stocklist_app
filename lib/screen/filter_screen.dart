@@ -63,6 +63,17 @@ class FilterScreen extends HookWidget {
         selectedCategoryId.value = null;
       }
     }
+
+    Future<DateTime?> showDateRangePickerDialog() async{
+      showDateRangePicker(
+        context: context,
+        firstDate: beganDate.value?? DateTime.now(),
+        lastDate: endDate.value?? DateTime.now().add(
+          Duration(days: 360 * 10)
+        )
+      );
+    }
+
     Widget buildCountRageForm() {
       return Row(
         children: [
@@ -90,32 +101,15 @@ class FilterScreen extends HookWidget {
       );
     }
     Widget buildExpirationDateRangeForm() {
-      return Row(
-        children: [
-          Flexible(
-            child: TextField(
-              focusNode: AlwaysDisabledFocusNode(),
-              decoration: InputDecoration(
-                hintText: "開始日",
-                labelText: "開始日",
-              ),
-              onTap: () {
-              },
-            )
-          ),
-          Flexible(
-            child: TextField(
-              focusNode: AlwaysDisabledFocusNode(),
-              decoration: InputDecoration(
-                hintText: "終了日",
-                labelText: "終了日"
-              ),
-              onTap: () {
-
-              },
-            )
-          )
-        ],
+      return TextField(
+        focusNode: AlwaysDisabledFocusNode(),
+        decoration: InputDecoration(
+          hintText: '消費期限の範囲',
+          labelText: '消費期限の範囲'
+        ),
+        onTap: () {
+          showDateRangePickerDialog();
+        },
       );
     }
     return Scaffold(
