@@ -8,6 +8,53 @@ class FilterScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Widget buildCountRageForm() {
+      return Row(
+        children: [
+          Flexible(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "最小値",
+                labelText: "最小値"
+              ),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          Flexible(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "最大値",
+                labelText: "最大値",
+              ),
+              keyboardType: TextInputType.number,
+            )
+          )
+        ],
+      );
+    }
+    Widget buildExpirationDateRangeForm() {
+      return Row(
+        children: [
+          Flexible(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "開始日",
+                  labelText: "開始日"
+              ),
+            )
+          ),
+          Flexible(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "終了日",
+                labelText: "終了日"
+              ),
+            )
+          )
+        ],
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("条件を選択")
@@ -34,49 +81,11 @@ class FilterScreen extends HookWidget {
               left: 8,
               right: 8
             ),
-            child: Row(
-              children: [
-                Flexible(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "開始日",
-                        labelText: "開始日"
-                    ),
-                  )
-                ),
-                Flexible(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "終了日",
-                      labelText: "終了日"
-                    ),
-                  )
-                )
-              ],
-            ),
+            child: buildExpirationDateRangeForm()
           ),
 
           Text("個数"),
-          Row(
-            children: [
-              Flexible(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "最小値",
-                    labelText: "最小値"
-                  ),
-                )
-              ),
-              Flexible(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "最大値",
-                      labelText: "最大値"
-                  ),
-                )
-              )
-            ],
-          )
+          buildCountRageForm(),
 
         ],
       ),
