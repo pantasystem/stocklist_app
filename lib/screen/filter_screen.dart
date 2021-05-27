@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
+import 'package:stocklist_app/widget/box_widget.dart';
 
 import 'boxes_screen.dart';
 
@@ -99,14 +100,23 @@ class FilterScreen extends HookWidget {
         padding: EdgeInsets.all(8),
         children: [
           Text("収納場所"),
-          ListTile(
-            trailing: Icon(Icons.arrow_forward),
-            title: Text("収納場所を選択"),
-            leading: Icon(Icons.all_inbox),
-            onTap: () {
-              showSelectBoxScreen();
-            },
-          ),
+          if(selectedBox == null)
+            ListTile(
+              trailing: Icon(Icons.arrow_forward),
+              title: Text("収納場所を選択"),
+              leading: Icon(Icons.all_inbox),
+              onTap: () {
+                showSelectBoxScreen();
+              },
+            ),
+          if(selectedBox != null)
+            BoxListTile(
+              box: selectedBox,
+              listener: () {
+                showSelectBoxScreen();
+              },
+            ),
+
 
           Text("カテゴリ"),
           ListTile(
