@@ -25,6 +25,16 @@ class ItemFilter {
   ItemFilterCriteria? getFilter(Type type) {
     return filters[type.toString()];
   }
+
+  ItemFilter mergeAndCopy(List<ItemFilterCriteria> list) {
+    final map = {
+      ...filters
+    };
+    for(final f in list) {
+      map[f.runtimeType.toString()] = f;
+    }
+    return ItemFilter(filters: map);
+  }
 }
 
 class ItemFilterCriteria {
