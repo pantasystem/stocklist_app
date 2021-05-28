@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:stocklist_app/filter/item_filter.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
@@ -18,15 +19,27 @@ class FilterScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
 
-    final selectedBoxId = useState<int?>(null);
-    final selectedCategoryId = useState<int?>(null);
+    final ItemFilter? filters = ModalRoute.of(context)?.settings.arguments as ItemFilter?;
+
+    final selectedBoxId = useState<int?>(
+      (filters?.getFilter(ItemFilterCriteriaByBox) as ItemFilterCriteriaByBox?)?.boxId
+    );
+    final selectedCategoryId = useState<int?>(
+      (filters?.getFilter(ItemFilterCriteriaByCategory) as ItemFilterCriteriaByCategory?)?.categoryId
+    );
     final selectedBox = useProvider(boxesStateProvider).safeGet(selectedBoxId.value);
     final selectedCategory = useProvider(categoriesStateProvider).safeGet(selectedCategoryId.value);
+
+    final countRange = filters?.getFilter(ItemFilterCriteriaByQuantityRange) as ItemFilterCriteriaByQuantityRange?;
     final minCountEditingController = useTextEditingController();
+    minCountEditingController.text = countRange?.min?.toString()?? '';
+
     final maxCountEditingController = useTextEditingController();
-    final beganDate = useState<DateTime?>(null);
-    final endDate = useState<DateTime?>(null);
-    final expirationDateRange = useState<DateTimeRange?>(null);
+    maxCountEditingController.text = countRange?.max?.toString()?? '';
+
+    final dateRange = filters?.getFilter(ItemFilterCriteriaByStockExpirationDateRange) as ItemFilterCriteriaByStockExpirationDateRange?;
+
+    final expirationDateRange = useState<DateTimeRange?>(dateRange?.range);
     final expirationDateRangeEditingController = useTextEditingController();
 
     // NOTE: TextFieldには入力しない＆useStateを源流にするため、毎回更新する。
@@ -69,8 +82,9 @@ class FilterScreen extends HookWidget {
     Future<DateTime?> showDateRangePickerDialog() async{
       final res = await showDateRangePicker(
         context: context,
-        firstDate: beganDate.value?? DateTime.now(),
-        lastDate: endDate.value?? DateTime.now().add(
+        initialDateRange: expirationDateRange.value,
+        firstDate: DateTime.now().add(Duration(days: - 360 * 10)),
+        lastDate: DateTime.now().add(
           Duration(days: 360 * 10)
         )
       );

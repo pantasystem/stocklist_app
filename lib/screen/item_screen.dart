@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/filter/item_filter.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/state/items_state.dart';
 import 'package:stocklist_app/widget/item_widget.dart';
@@ -14,14 +15,16 @@ class ItemsScreen extends HookWidget {
 
     //final items = useProvider(itemsStateProvider);
     final sortSrc = useState(ItemSortSrc.CREATED);
+    final filters = useState(ItemFilter.fromList([]));
     final isSortDesc = useState(false);
-    final items = useProvider(itemsStateProvider).sorted(src: sortSrc.value, isReverse: isSortDesc.value);
+    final items = useProvider(itemsStateProvider).filterAndSort(filter: filters.value,src: sortSrc.value, isReverse: isSortDesc.value);
 
-    final fetch = useProvider(itemsStateProvider.notifier);
+    final itemStore = useProvider(itemsStateProvider.notifier);
+
 
     print("before useEffect");
     useEffect((){
-      Future.microtask(() => fetch.fetchAll());
+      Future.microtask(() => itemStore.fetchAll());
     },[]);
 
     void showSortBottomSheet() async{
@@ -30,6 +33,13 @@ class ItemsScreen extends HookWidget {
       });
       if(src != null) {
         sortSrc.value = src;
+      }
+    }
+
+    void showFilterScreen() async {
+      final res = await Navigator.of(context).pushNamed('/items/filter', arguments: filters.value);
+      if(res is ItemFilter) {
+        filters.value = res;
       }
     }
 
@@ -46,7 +56,7 @@ class ItemsScreen extends HookWidget {
               children: [
 
                 TextButton(onPressed: (){
-                  Navigator.of(context).pushNamed('/items/filter');
+                  showFilterScreen();
                 }, child: Text("絞り込み"))
               ],
             ),
