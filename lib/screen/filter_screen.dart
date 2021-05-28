@@ -26,12 +26,14 @@ class FilterScreen extends HookWidget {
     final maxCountEditingController = useTextEditingController();
     final beganDate = useState<DateTime?>(null);
     final endDate = useState<DateTime?>(null);
+    final expirationDateRange = useState<DateTimeRange?>(null);
+    final expirationDateRangeEditingController = useTextEditingController();
 
-    final beganDateEditingController = useTextEditingController();
-    final endDateEditingController = useTextEditingController();
     // NOTE: TextFieldには入力しない＆useStateを源流にするため、毎回更新する。
-    beganDateEditingController.text = beganDate.value == null ? '' : DateFormat.yMd().format(beganDate.value!);
-    endDateEditingController.text = endDate.value == null ? '' : DateFormat.yMd().format(endDate.value!);
+    expirationDateRangeEditingController.value = TextEditingValue(
+      text:expirationDateRange.value == null ? ''
+            : (DateFormat.yMd().format(expirationDateRange.value!.start) + "～" + DateFormat.yMd().format(expirationDateRange.value!.end)),
+    );
 
     void showSelectBoxScreen() async {
       final args = BoxesScreenArgs(
@@ -65,13 +67,14 @@ class FilterScreen extends HookWidget {
     }
 
     Future<DateTime?> showDateRangePickerDialog() async{
-      showDateRangePicker(
+      final res = await showDateRangePicker(
         context: context,
         firstDate: beganDate.value?? DateTime.now(),
         lastDate: endDate.value?? DateTime.now().add(
           Duration(days: 360 * 10)
         )
       );
+      expirationDateRange.value = res;
     }
 
     Widget buildCountRageForm() {
@@ -110,6 +113,7 @@ class FilterScreen extends HookWidget {
         onTap: () {
           showDateRangePickerDialog();
         },
+        controller: expirationDateRangeEditingController,
       );
     }
     return Scaffold(
