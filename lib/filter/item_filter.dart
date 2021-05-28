@@ -2,6 +2,23 @@
 import 'package:flutter/material.dart';
 import 'package:stocklist_app/entity/item.dart';
 
+class ItemFilter {
+  final List<ItemFilterCriteria> filters;
+  ItemFilter({ required this.filters });
+
+  List<Item> filter(List<Item> items) {
+    List<Item> targetItems = items;
+    filters.forEach((element) {
+      targetItems = element.filter(targetItems);
+    });
+    return targetItems;
+  }
+
+  ItemFilter? getFilter(Type type) {
+    return filters.firstWhere((element) => element.runtimeType == type) as ItemFilter?;
+  }
+}
+
 class ItemFilterCriteria {
   ItemFilterCriteria._();
   
