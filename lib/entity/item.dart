@@ -20,6 +20,8 @@ class Item with _$Item{
     required DateTime createdAt,
     required DateTime updatedAt,
     required String? categoryPath,
-    required int? categoryId
+    required int? categoryId,
+    required List<int> boxIds,
+    required List<DateTime> stockExpiries,
   }) = _Item;
 }
