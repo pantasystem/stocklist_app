@@ -24,6 +24,7 @@ class FilterScreen extends HookWidget {
     final selectedBoxId = useState<int?>(
       (filters?.getFilter(ItemFilterCriteriaByBox) as ItemFilterCriteriaByBox?)?.boxId
     );
+    print("boxId: ${selectedBoxId.value}");
     final selectedCategoryId = useState<int?>(
       (filters?.getFilter(ItemFilterCriteriaByCategory) as ItemFilterCriteriaByCategory?)?.categoryId
     );
@@ -91,6 +92,24 @@ class FilterScreen extends HookWidget {
       expirationDateRange.value = res;
     }
 
+    void pop() {
+      Navigator.of(context).pop(
+        ItemFilter.fromList([
+          if(int.tryParse(maxCountEditingController.value.text) != null || int.tryParse(minCountEditingController.value.text) != null)
+            ItemFilterCriteria.quantityRange(
+              int.tryParse(minCountEditingController.value.text),
+              int.tryParse(maxCountEditingController.value.text)
+            ),
+          if(expirationDateRange.value != null)
+            ItemFilterCriteria.stockExpireDateRange(expirationDateRange.value!),
+          if(selectedBoxId.value != null)
+            ItemFilterCriteria.box(selectedBoxId.value!),
+          if(selectedCategoryId.value != null)
+            ItemFilterCriteria.category(selectedCategoryId.value!)
+        ])
+      );
+    }
+
     Widget buildCountRageForm() {
       return Row(
         children: [
@@ -132,7 +151,13 @@ class FilterScreen extends HookWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("条件を選択")
+        title: Text("条件を選択"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: pop,
+          )
+        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(8),
