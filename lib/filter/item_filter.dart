@@ -3,19 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:stocklist_app/entity/item.dart';
 
 class ItemFilter {
-  final List<ItemFilterCriteria> filters;
+  final Map<String, ItemFilterCriteria> filters;
   ItemFilter({ required this.filters });
+
+  factory ItemFilter.fromList(List<ItemFilterCriteria> list){
+    final map = {
+      for(final v in list)
+        v.runtimeType.toString() : v
+    };
+    return ItemFilter(filters: map);
+  }
 
   List<Item> filter(List<Item> items) {
     List<Item> targetItems = items;
-    filters.forEach((element) {
+    filters.values.forEach((element) {
       targetItems = element.filter(targetItems);
     });
     return targetItems;
   }
 
-  ItemFilter? getFilter(Type type) {
-    return filters.firstWhere((element) => element.runtimeType == type) as ItemFilter?;
+  ItemFilterCriteria? getFilter(Type type) {
+    return filters[type.toString()];
   }
 }
 
