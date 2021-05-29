@@ -30,7 +30,9 @@ class _$ItemTearOff {
       required DateTime createdAt,
       required DateTime updatedAt,
       required String? categoryPath,
-      required int? categoryId}) {
+      required int? categoryId,
+      required List<int> boxIds,
+      required List<DateTime> stockExpiries}) {
     return _Item(
       id: id,
       name: name,
@@ -46,6 +48,8 @@ class _$ItemTearOff {
       updatedAt: updatedAt,
       categoryPath: categoryPath,
       categoryId: categoryId,
+      boxIds: boxIds,
+      stockExpiries: stockExpiries,
     );
   }
 }
@@ -69,6 +73,8 @@ mixin _$Item {
   DateTime get updatedAt => throw _privateConstructorUsedError;
   String? get categoryPath => throw _privateConstructorUsedError;
   int? get categoryId => throw _privateConstructorUsedError;
+  List<int> get boxIds => throw _privateConstructorUsedError;
+  List<DateTime> get stockExpiries => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
@@ -92,7 +98,9 @@ abstract class $ItemCopyWith<$Res> {
       DateTime createdAt,
       DateTime updatedAt,
       String? categoryPath,
-      int? categoryId});
+      int? categoryId,
+      List<int> boxIds,
+      List<DateTime> stockExpiries});
 }
 
 /// @nodoc
@@ -119,6 +127,8 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
     Object? updatedAt = freezed,
     Object? categoryPath = freezed,
     Object? categoryId = freezed,
+    Object? boxIds = freezed,
+    Object? stockExpiries = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -177,6 +187,14 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
               as int?,
+      boxIds: boxIds == freezed
+          ? _value.boxIds
+          : boxIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      stockExpiries: stockExpiries == freezed
+          ? _value.stockExpiries
+          : stockExpiries // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>,
     ));
   }
 }
@@ -200,7 +218,9 @@ abstract class _$ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       DateTime createdAt,
       DateTime updatedAt,
       String? categoryPath,
-      int? categoryId});
+      int? categoryId,
+      List<int> boxIds,
+      List<DateTime> stockExpiries});
 }
 
 /// @nodoc
@@ -228,6 +248,8 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? categoryPath = freezed,
     Object? categoryId = freezed,
+    Object? boxIds = freezed,
+    Object? stockExpiries = freezed,
   }) {
     return _then(_Item(
       id: id == freezed
@@ -286,6 +308,14 @@ class __$ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
               as int?,
+      boxIds: boxIds == freezed
+          ? _value.boxIds
+          : boxIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+      stockExpiries: stockExpiries == freezed
+          ? _value.stockExpiries
+          : stockExpiries // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>,
     ));
   }
 }
@@ -307,7 +337,9 @@ class _$_Item implements _Item {
       required this.createdAt,
       required this.updatedAt,
       required this.categoryPath,
-      required this.categoryId});
+      required this.categoryId,
+      required this.boxIds,
+      required this.stockExpiries});
 
   @override
   final int id;
@@ -337,10 +369,14 @@ class _$_Item implements _Item {
   final String? categoryPath;
   @override
   final int? categoryId;
+  @override
+  final List<int> boxIds;
+  @override
+  final List<DateTime> stockExpiries;
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description, isDisposable: $isDisposable, createdAt: $createdAt, updatedAt: $updatedAt, categoryPath: $categoryPath, categoryId: $categoryId)';
+    return 'Item(id: $id, name: $name, imagePath: $imagePath, homeId: $homeId, owners: $owners, stockIds: $stockIds, imageUrl: $imageUrl, itemQuantity: $itemQuantity, description: $description, isDisposable: $isDisposable, createdAt: $createdAt, updatedAt: $updatedAt, categoryPath: $categoryPath, categoryId: $categoryId, boxIds: $boxIds, stockExpiries: $stockExpiries)';
   }
 
   @override
@@ -384,7 +420,12 @@ class _$_Item implements _Item {
                     .equals(other.categoryPath, categoryPath)) &&
             (identical(other.categoryId, categoryId) ||
                 const DeepCollectionEquality()
-                    .equals(other.categoryId, categoryId)));
+                    .equals(other.categoryId, categoryId)) &&
+            (identical(other.boxIds, boxIds) ||
+                const DeepCollectionEquality().equals(other.boxIds, boxIds)) &&
+            (identical(other.stockExpiries, stockExpiries) ||
+                const DeepCollectionEquality()
+                    .equals(other.stockExpiries, stockExpiries)));
   }
 
   @override
@@ -403,7 +444,9 @@ class _$_Item implements _Item {
       const DeepCollectionEquality().hash(createdAt) ^
       const DeepCollectionEquality().hash(updatedAt) ^
       const DeepCollectionEquality().hash(categoryPath) ^
-      const DeepCollectionEquality().hash(categoryId);
+      const DeepCollectionEquality().hash(categoryId) ^
+      const DeepCollectionEquality().hash(boxIds) ^
+      const DeepCollectionEquality().hash(stockExpiries);
 
   @JsonKey(ignore: true)
   @override
@@ -426,7 +469,9 @@ abstract class _Item implements Item {
       required DateTime createdAt,
       required DateTime updatedAt,
       required String? categoryPath,
-      required int? categoryId}) = _$_Item;
+      required int? categoryId,
+      required List<int> boxIds,
+      required List<DateTime> stockExpiries}) = _$_Item;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -456,6 +501,10 @@ abstract class _Item implements Item {
   String? get categoryPath => throw _privateConstructorUsedError;
   @override
   int? get categoryId => throw _privateConstructorUsedError;
+  @override
+  List<int> get boxIds => throw _privateConstructorUsedError;
+  @override
+  List<DateTime> get stockExpiries => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ItemCopyWith<_Item> get copyWith => throw _privateConstructorUsedError;

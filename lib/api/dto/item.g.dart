@@ -28,6 +28,10 @@ _$_ItemDTO _$_$_ItemDTOFromJson(Map<String, dynamic> json) {
     updatedAt: DateTime.parse(json['updated_at'] as String),
     categoryPath: json['category_path'] as String?,
     categoryId: json['category_id'] as int?,
+    boxIds: (json['box_ids'] as List<dynamic>).map((e) => e as int).toList(),
+    stockExpiries: (json['stock_expiries'] as List<dynamic>)
+        .map((e) => DateTime.parse(e as String))
+        .toList(),
   );
 }
 
@@ -48,4 +52,7 @@ Map<String, dynamic> _$_$_ItemDTOToJson(_$_ItemDTO instance) =>
       'updated_at': instance.updatedAt.toIso8601String(),
       'category_path': instance.categoryPath,
       'category_id': instance.categoryId,
+      'box_ids': instance.boxIds,
+      'stock_expiries':
+          instance.stockExpiries.map((e) => e.toIso8601String()).toList(),
     };

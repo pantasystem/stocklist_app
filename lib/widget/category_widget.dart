@@ -44,7 +44,8 @@ class CategoryListView extends StatelessWidget {
           },
           isSelected: this.isSelectable && (selectedCategoryIds?.any((element) => element == categories[index].id)?? false),
         );
-      }
+      },
+      itemCount: categories.length,
     );
   }
 }

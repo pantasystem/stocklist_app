@@ -34,7 +34,9 @@ class StoreAdder {
       updatedAt: itemDTO.updatedAt,
       createdAt: itemDTO.createdAt,
       categoryId: itemDTO.categoryId,
-      categoryPath: itemDTO.categoryPath
+      categoryPath: itemDTO.categoryPath,
+      stockExpiries: itemDTO.stockExpiries,
+      boxIds: itemDTO.boxIds
     );
     addAllStockDTOs(itemDTO.stocks);
     read(itemsStateProvider.notifier).addAll([item]);
