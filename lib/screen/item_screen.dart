@@ -17,14 +17,12 @@ class ItemsScreen extends HookWidget {
     //final items = useProvider(itemsStateProvider);
     final sortSrc = useState(ItemSortSrc.CREATED);
     final itemFilter = useState(ItemFilter.fromList([]));
-    final itemFilterCriteriaList = itemFilter.value.filters.values.toList();
     final isSortDesc = useState(false);
     final items = useProvider(itemsStateProvider).filterAndSort(filter: itemFilter.value,src: sortSrc.value, isReverse: isSortDesc.value);
 
     final itemStore = useProvider(itemsStateProvider.notifier);
 
 
-    print("before useEffect");
     useEffect((){
       Future.microtask(() => itemStore.fetchAll());
     },[]);
@@ -58,10 +56,19 @@ class ItemsScreen extends HookWidget {
               children: [
                 Expanded(child:
                   ListView.builder(
+                    padding: EdgeInsets.only(left: 2, right: 2),
                     itemBuilder: (BuildContext context, int index) {
-                      return ItemFilterChip(itemFilterCriteriaList[index]);
+                      return ItemFilterChip(
+                        itemFilter.value.toList()[index],
+                        selected: true,
+                        onSelected: (bool value) {
+                          print("selected");
+                          itemFilter.value = itemFilter.value.removeAndCopy(itemFilter.value.toList()[index].runtimeType);
+
+                        },
+                      );
                     },
-                    itemCount: itemFilterCriteriaList.length,
+                    itemCount: itemFilter.value.toList().length,
                     scrollDirection: Axis.horizontal,
                   )
                 ),

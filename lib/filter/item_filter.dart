@@ -35,6 +35,20 @@ class ItemFilter {
     }
     return ItemFilter(filters: map);
   }
+
+  ItemFilter removeAndCopy(Type type) {
+    final map = {
+      ...filters
+    };
+    map.remove(type.toString());
+    return ItemFilter(filters: map);
+  }
+
+  List<ItemFilterCriteria> toList() {
+    final list = filters.values.toList();
+    list.sort((a, b) => a.runtimeType.toString().compareTo(b.runtimeType.toString()));
+    return list;
+  }
 }
 
 class ItemFilterCriteria {
