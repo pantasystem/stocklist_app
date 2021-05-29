@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/filter/item_filter.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/state/items_state.dart';
+import 'package:stocklist_app/widget/item_filter_chip.dart';
 import 'package:stocklist_app/widget/item_widget.dart';
 
 class ItemsScreen extends HookWidget {
@@ -15,9 +16,10 @@ class ItemsScreen extends HookWidget {
 
     //final items = useProvider(itemsStateProvider);
     final sortSrc = useState(ItemSortSrc.CREATED);
-    final filters = useState(ItemFilter.fromList([]));
+    final itemFilter = useState(ItemFilter.fromList([]));
+    final itemFilterCriteriaList = itemFilter.value.filters.values.toList();
     final isSortDesc = useState(false);
-    final items = useProvider(itemsStateProvider).filterAndSort(filter: filters.value,src: sortSrc.value, isReverse: isSortDesc.value);
+    final items = useProvider(itemsStateProvider).filterAndSort(filter: itemFilter.value,src: sortSrc.value, isReverse: isSortDesc.value);
 
     final itemStore = useProvider(itemsStateProvider.notifier);
 
@@ -37,9 +39,9 @@ class ItemsScreen extends HookWidget {
     }
 
     void showFilterScreen() async {
-      final res = await Navigator.of(context).pushNamed('/items/filter', arguments: filters.value);
+      final res = await Navigator.of(context).pushNamed('/items/filter', arguments: itemFilter.value);
       if(res is ItemFilter) {
-        filters.value = res;
+        itemFilter.value = res;
       }
     }
 
@@ -54,7 +56,15 @@ class ItemsScreen extends HookWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-
+                Expanded(child:
+                  ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      return ItemFilterChip(itemFilterCriteriaList[index]);
+                    },
+                    itemCount: itemFilterCriteriaList.length,
+                    scrollDirection: Axis.horizontal,
+                  )
+                ),
                 TextButton(onPressed: (){
                   showFilterScreen();
                 }, child: Text("絞り込み"))
