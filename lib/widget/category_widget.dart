@@ -61,7 +61,6 @@ class CategorySelectionListTile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("カテゴリ"),
         if(category == null)
           ListTile(
             trailing: Icon(Icons.arrow_forward),

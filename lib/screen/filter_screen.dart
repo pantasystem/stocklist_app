@@ -180,7 +180,7 @@ class FilterScreen extends HookWidget {
               },
             ),
 
-
+          Text("カテゴリー"),
           CategorySelectionListTile(
             category: selectedCategory,
             onTap: (){
