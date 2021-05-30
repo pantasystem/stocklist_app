@@ -77,6 +77,22 @@ class ItemEditorScreen extends HookWidget {
         }
       );
     }
+
+    Widget _buildImage() {
+      Widget image;
+      if(pickedFile.value == null) {
+        image = Image.asset(
+          "images/no_image_500.png",
+          fit: BoxFit.cover,
+        );
+      }else{
+        image = Image.file(
+          pickedFile.value!,
+          fit: BoxFit.cover,
+        );
+      }
+      return image;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("物を追加する"),
@@ -95,17 +111,13 @@ class ItemEditorScreen extends HookWidget {
 
             ),
           ),
-          if(pickedFile.value == null)
-            Container(
-              child: Image.asset("images/no_image_500.png"),
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            )
-          else
-            Container(
-              child: Image.file(pickedFile.value!),
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          Container(
+            child: AspectRatio(
+              aspectRatio: 4/3,
+              child: _buildImage(),
             ),
-
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          ),
           ElevatedButton(
             onPressed: (){
               _showPickTypeDialog();
