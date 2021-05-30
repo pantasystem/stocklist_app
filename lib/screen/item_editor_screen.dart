@@ -100,17 +100,7 @@ class ItemEditorScreen extends HookWidget {
       body: ListView(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
         children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-            child: TextField(
-              controller: _nameFieldController,
-              decoration: InputDecoration(
-                labelText: "名称",
-                hintText: "物の名称を入力して下さい"
-              ),
 
-            ),
-          ),
           Container(
             child: AspectRatio(
               aspectRatio: 4/3,
@@ -122,7 +112,19 @@ class ItemEditorScreen extends HookWidget {
             onPressed: (){
               _showPickTypeDialog();
             },
-            child: Text("写真を変更する")),
+            child: Text("写真を変更する")
+          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+            child: TextField(
+              controller: _nameFieldController,
+              decoration: InputDecoration(
+                  labelText: "名称",
+                  hintText: "物の名称を入力して下さい"
+              ),
+
+            ),
+          ),
           SwitchListTile(
             title: Text("消耗品です"),
             value: isDisposable.value,

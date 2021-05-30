@@ -49,3 +49,32 @@ class CategoryListView extends StatelessWidget {
     );
   }
 }
+
+class CategorySelectionListTile extends StatelessWidget {
+  final VoidCallback? onTap;
+  final Category? category;
+
+  CategorySelectionListTile({ this.onTap, this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("カテゴリ"),
+        if(category == null)
+          ListTile(
+            trailing: Icon(Icons.arrow_forward),
+            title: Text("カテゴリを選択"),
+            leading: Icon(Icons.category),
+            onTap: onTap,
+          ),
+        if(category != null)
+          CategoryListTile(
+            category!,
+            onTap: onTap,
+          ),
+      ],
+    );
+  }
+}
