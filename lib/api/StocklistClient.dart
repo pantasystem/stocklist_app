@@ -59,7 +59,7 @@ class ItemAPI {
     print(res.body);
     return ItemDTO.fromJson(json.decode(res.body));
   }
-  Future<ItemDTO> create({ required String name, required bool isDisposable, required File image, String? description}) async {
+  Future<ItemDTO> create({ required String name, required bool isDisposable, required File image, String? description, int? categoryId }) async {
     final builder = Fluri.from(Fluri(baseURL))
       ..appendToPath('api/items');
     final request = http.MultipartRequest('POST', builder.uri)
@@ -67,6 +67,9 @@ class ItemAPI {
     ..fields['is_disposable'] = isDisposable.toString();
     if(description != null) {
       request.fields['description'] = description;
+    }
+    if(categoryId != null) {
+      request.fields['category_id'] = categoryId.toString();
     }
     request.headers.addAll(makeHeader(token));
     request.files.add(await MultipartFile.fromPath('image', image.path));

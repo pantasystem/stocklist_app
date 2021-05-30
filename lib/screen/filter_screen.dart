@@ -180,24 +180,13 @@ class FilterScreen extends HookWidget {
               },
             ),
 
-
-          Text("カテゴリ"),
-          if(selectedCategory == null)
-            ListTile(
-              trailing: Icon(Icons.arrow_forward),
-              title: Text("カテゴリを選択"),
-              leading: Icon(Icons.category),
-              onTap: () {
-                showSelectCategoryScreen();
-              },
-            ),
-          if(selectedCategory != null)
-            CategoryListTile(
-              selectedCategory,
-              onTap: () {
-                showSelectCategoryScreen();
-              },
-            ),
+          Text("カテゴリー"),
+          CategorySelectionListTile(
+            category: selectedCategory,
+            onTap: (){
+              showSelectCategoryScreen();
+            },
+          ),
           Text("消費期限"),
           Container(
             padding: EdgeInsets.only(
