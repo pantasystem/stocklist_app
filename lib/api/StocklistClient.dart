@@ -231,9 +231,9 @@ class BoxAPI {
     return BoxDTO.fromJson(json.decode(res.body));
   }
 
-  Future<List<BoxDTO>> all(int boxId) async {
+  Future<List<BoxDTO>> all() async {
     final res = await http.get(
-        buildWithBaseURLAndPath(baseURL, 'api/boxes/$boxId').uri,
+        buildWithBaseURLAndPath(baseURL, 'api/boxes').uri,
         headers: makeHeader(token)
     );
     handleError(res);
