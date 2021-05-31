@@ -1,9 +1,11 @@
 
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
+import 'package:stocklist_app/api/dto/box.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:fluri/fluri.dart';
@@ -16,14 +18,16 @@ class StocklistClient {
   ItemAPI itemAPI;
   StockAPI stockAPI;
   CategoryAPI categoryAPI;
+  BoxAPI boxAPI;
 
-  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI, required this.categoryAPI});
+  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI, required this.categoryAPI, required this.boxAPI});
 
   factory StocklistClient(String baseURL, String token) {
     final itemAPI = ItemAPI(baseURL: baseURL, token: token);
     final stockAPI = StockAPI(baseURL, token);
     final categoryAPI = CategoryAPI(baseURL, token);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI, categoryAPI: categoryAPI);
+    final boxAPI = BoxAPI(baseURL, token);
+    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI);
   }
 
 
@@ -179,6 +183,64 @@ class CategoryAPI {
   }
 
 
+}
+
+class BoxAPI {
+
+  final String baseURL;
+  final String token;
+  BoxAPI(this.baseURL, this.token);
+
+  Future<BoxDTO> create({ required String name, String? description }) async {
+    final res = await http.post(
+        buildWithBaseURLAndPath(this.baseURL, "api/boxes").uri,
+        headers: makeHeader(this.token),
+        body: json.encode(
+            {
+              'name': name,
+              if(description != null)
+                'description': description
+            }
+        )
+    );
+    handleError(res);
+    return BoxDTO.fromJson(json.decode(res.body));
+  }
+
+  Future update( int boxId ,{ required String name, String? description }) async {
+    final res = await http.put(
+        buildWithBaseURLAndPath(this.baseURL, "api/boxes/$boxId").uri,
+        headers: makeHeader(token),
+        body: json.encode(
+            {
+              'name': name,
+              if(description != null)
+                'description': description
+            }
+        )
+    );
+    handleError(res);
+  }
+
+  Future<BoxDTO> show(int boxId) async {
+    final res = await http.get(
+        buildWithBaseURLAndPath(baseURL, 'api/boxes/$boxId').uri,
+        headers: makeHeader(token)
+    );
+    handleError(res);
+    return BoxDTO.fromJson(json.decode(res.body));
+  }
+
+  Future<List<BoxDTO>> all(int boxId) async {
+    final res = await http.get(
+        buildWithBaseURLAndPath(baseURL, 'api/boxes/$boxId').uri,
+        headers: makeHeader(token)
+    );
+    handleError(res);
+    final list = json.decode(res.body) as List<dynamic>;
+
+    return list.map((map)=> BoxDTO.fromJson(map)).toList();
+  }
 }
 
 Map<String, String> makeHeader(String? token) {
