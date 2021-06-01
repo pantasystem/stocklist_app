@@ -27,10 +27,22 @@ class BoxesScreen extends HookWidget {
   Widget build(BuildContext context) {
     //final boxes = makeBoxes();
 
+
     final boxes = useProvider(boxesStateProvider).boxes;
     final args = ModalRoute.of(context)?.settings.arguments as BoxesScreenArgs?;
     final selectedBoxIds = useState(args?.selectable?.selectedBoxIds?? []);
     final selectable = selectedBoxIds.value.length < (args?.selectable?.maxSelectableCount ?? -1);
+
+    final boxStore = useProvider(boxesStateProvider.notifier);
+    useEffect((){
+      Future.microtask(() async {
+        boxStore.fetchAll().onError((error, stackTrace){
+          print(error);
+          print(stackTrace);
+        });
+      });
+    }, []);
+
     return Scaffold(
         appBar: AppBar(
           title: args?.selectable == null ? Text("収納別") : Text("収納選択(${selectedBoxIds.value.length}/${args?.selectable?.maxSelectableCount})"),

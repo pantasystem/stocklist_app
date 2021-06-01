@@ -20,7 +20,7 @@ import 'package:stocklist_app/store_adder.dart';
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([], ref.read));
 final stocksStateProvider = StateNotifierProvider((ref)=> StockStore(ref.read));
-final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore());
+final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore(ref.read));
 final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), '1|test-1');
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
