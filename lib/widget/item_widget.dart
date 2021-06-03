@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
+import 'package:stocklist_app/widget/item_category_chip.dart';
 
 typedef OnSelectItemCallback = Function(int index, Item item);
+typedef OnCategorySelected = Function(int);
 
 class ItemListTileWidget extends StatelessWidget{
 
   final Item item;
-  ItemListTileWidget({required this.item});
+  final OnCategorySelected? onCategorySelected;
+  ItemListTileWidget({required this.item, this.onCategorySelected});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,22 @@ class ItemListTileWidget extends StatelessWidget{
             70.0
         ),
       ),
-      title: Text(
-        item.name
+      title: Row(
+        children: [
+          Text(
+              item.name,
+            style: TextStyle(
+              fontSize: 24
+            ),
+          ),
+          if(this.item.categoryPath != null)
+            Container(
+              child: ItemCategoryChip(this.item.categoryPath!, (){
+                onCategorySelected?.call(this.item.categoryId!);
+              }),
+              margin: EdgeInsets.only(left: 4),
+            )
+        ],
       ),
       subtitle: Text("総数:${item.itemQuantity}"),
       onTap: (){
