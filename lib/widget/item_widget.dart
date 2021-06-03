@@ -55,8 +55,9 @@ class ItemListView extends StatelessWidget {
   final List<Item> items;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
+  final OnCategorySelected? onCategorySelected;
   ItemListView({
-    required this.items, this.physics, this.shrinkWrap = false});
+    required this.items, this.physics, this.shrinkWrap = false, this.onCategorySelected});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -70,6 +71,7 @@ class ItemListView extends StatelessWidget {
   Widget buildListItem(BuildContext context, int index) {
     return ItemListTileWidget(
       item: items[index],
+      onCategorySelected: this.onCategorySelected,
     );
   }
 }
