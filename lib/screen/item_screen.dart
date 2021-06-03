@@ -10,13 +10,19 @@ import 'package:stocklist_app/state/items_state.dart';
 import 'package:stocklist_app/widget/item_filter_chip.dart';
 import 'package:stocklist_app/widget/item_widget.dart';
 
+
+class ItemScreenArgs {
+  final ItemFilter? itemFilter;
+  ItemScreenArgs({this.itemFilter});
+}
 class ItemsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
 
     //final items = useProvider(itemsStateProvider);
+    final args = ModalRoute.of(context)?.settings.arguments as ItemScreenArgs?;
     final sortSrc = useState(ItemSortSrc.CREATED);
-    final itemFilter = useState(ItemFilter.fromList([]));
+    final itemFilter = useState(args?.itemFilter?? ItemFilter.fromList([]));
     final isSortDesc = useState(false);
     final items = useProvider(itemsStateProvider).filterAndSort(filter: itemFilter.value,src: sortSrc.value, isReverse: isSortDesc.value);
 
@@ -100,7 +106,12 @@ class ItemsScreen extends HookWidget {
           ItemListView(
             items: items,
             shrinkWrap: true,
-            physics: ClampingScrollPhysics(),)
+            physics: ClampingScrollPhysics(),
+            onCategorySelected: (int categoryId) {
+              final newFilter = itemFilter.value.mergeAndCopy([ItemFilterCriteria.category(categoryId)]);
+              Navigator.of(context).pushNamed('/items', arguments: ItemScreenArgs(itemFilter: newFilter));
+            },
+          )
         ],
       ),
     );
