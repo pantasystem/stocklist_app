@@ -1,10 +1,13 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/box.dart';
+import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/state/boxes_state.dart';
+import 'package:stocklist_app/store_adder.dart';
 
 class BoxStore extends StateNotifier<BoxesState> {
-  BoxStore() : super(BoxesState(boxes: []));
+  final Reader reader;
+  BoxStore(this.reader) : super(BoxesState(boxes: []));
 
 
   void addAll(List<Box> list) {
@@ -28,6 +31,14 @@ class BoxStore extends StateNotifier<BoxesState> {
     this.state = this.state.copyWith(
       boxes: this.state.boxes.where((element) => element.id == boxId).toList()
     );
+  }
+
+  Future fetchAll() async{
+    this.state = this.state.copyWith(
+        boxes: []
+    );
+    final res = await stocklistClient.boxAPI.all();
+    reader(storeAdder).addAllBoxDTOs(res);
   }
 
 
