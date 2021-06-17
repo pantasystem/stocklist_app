@@ -36,6 +36,7 @@ class StockEditorScreen extends HookWidget {
     final boxId = useState(args.stock?.boxId);
     final itemId = useState(args.stock?.itemId ?? args.item?.id);
     final selectedBox = useProvider(boxesStateProvider).safeGet(boxId.value);
+    final selectedItem = useProvider(itemsStateProvider).safeGet(itemId.value);
     final stocksStore = useProvider(stocksStateProvider.notifier);
 
     final inputCounter = useTextEditingController.fromValue(
@@ -136,14 +137,20 @@ class StockEditorScreen extends HookWidget {
         padding: EdgeInsets.all(16),
         children: [
           Text("収納する物"),
-          if(itemId.value == null)
+          if(selectedItem == null)
             ListTile(
               title: Text("収納する物を選択してください。"),
+              leading: Icon(Icons.arrow_forward_ios),
               subtitle: boxError == null ? null :
                 Text(
                   boxError,
                   style: TextStyle(color: Theme.of(context).errorColor),
                 ),
+              onTap: selectItem,
+            ),
+          if(selectedItem != null)
+            ItemListTileWidget(
+              item: selectedItem,
               onTap: selectItem,
             ),
 

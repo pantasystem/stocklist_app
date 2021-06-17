@@ -23,7 +23,7 @@ class ItemsState with _$ItemsState {
     if(itemId == null) {
       return null;
     }
-    this.items.firstWhereOrNull((element) => element.id == itemId);
+    return this.items.firstWhereOrNull((element) => element.id == itemId);
   }
 
   Set<Item> getAll(List<int> itemIds) {
