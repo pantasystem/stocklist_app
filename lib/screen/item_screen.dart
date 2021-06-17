@@ -36,8 +36,10 @@ class ItemsScreen extends HookWidget {
     final isSortDesc = useState(false);
     final items = useProvider(itemsStateProvider).filterAndSort(filter: itemFilter.value,src: sortSrc.value, isReverse: isSortDesc.value);
 
+    final selectedItemIds = useState<List<int>>([]);
     final itemStore = useProvider(itemsStateProvider.notifier);
 
+    final isSelectMode = args?.selectable != null;
 
     useEffect((){
       Future.microtask(() => itemStore.fetchAll());
@@ -121,8 +123,21 @@ class ItemsScreen extends HookWidget {
               final newFilter = itemFilter.value.mergeAndCopy([ItemFilterCriteria.category(categoryId)]);
               Navigator.of(context).pushNamed('/items', arguments: ItemScreenArgs(itemFilter: newFilter));
             },
+            selectedItemIds: selectedItemIds.value,
             onItemSelected: (int index, Item item) {
-              Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
+              if(isSelectMode) {
+                if(selectedItemIds.value.length < args!.selectable!.max) {
+                  selectedItemIds.value = [
+                    ...selectedItemIds.value,
+                    item.id
+                  ];
+                }else if(selectedItemIds.value.any((element) => element == item.id)){
+                  selectedItemIds.value = selectedItemIds.value.where((element) => element != item.id).toList();
+                }
+
+              }else{
+                Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
+              }
             },
           )
         ],

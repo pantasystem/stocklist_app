@@ -13,7 +13,8 @@ class ItemListTileWidget extends StatelessWidget{
   final Item item;
   final OnCategorySelected? onCategorySelected;
   final VoidCallback? onTap;
-  ItemListTileWidget({required this.item, this.onCategorySelected, this.onTap});
+  final bool isSelected;
+  ItemListTileWidget({required this.item, this.onCategorySelected, this.onTap, this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class ItemListTileWidget extends StatelessWidget{
       /*onTap: (){
         Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
       }*/
+      selected: this.isSelected,
     );
   }
 
@@ -59,8 +61,9 @@ class ItemListView extends StatelessWidget {
   final bool shrinkWrap;
   final OnCategorySelected? onCategorySelected;
   final OnItemSelected? onItemSelected;
+  final List<int> selectedItemIds;
   ItemListView({
-    required this.items, this.physics, this.shrinkWrap = false, this.onCategorySelected, this.onItemSelected});
+    required this.items, this.physics, this.shrinkWrap = false, this.onCategorySelected, this.onItemSelected, this.selectedItemIds = const []});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -78,6 +81,7 @@ class ItemListView extends StatelessWidget {
       onTap: onItemSelected == null ? null : () {
         onItemSelected?.call(index, items[index]);
       },
+      isSelected: selectedItemIds.any((element) => element == items[index].id),
     );
   }
 }
