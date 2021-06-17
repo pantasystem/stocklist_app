@@ -11,6 +11,7 @@ import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/boxes_screen.dart';
+import 'package:stocklist_app/screen/item_screen.dart';
 import 'package:stocklist_app/widget/box_widget.dart';
 
 /// StockEditorScreenにデータを渡すためのオブジェクト
@@ -66,6 +67,21 @@ class StockEditorScreen extends HookWidget {
         print("box選択:" + res.toString());
       }else if(res is List){
         boxId.value = null;
+      }
+    }
+
+    Future<void> selectItem() async {
+      final args = ItemScreenArgs(
+        selectable: ItemSelectable(
+          max: 1,
+          selectedItemIds: itemId.value == null ? [] : [itemId.value!]
+        )
+      );
+      final res = await Navigator.of(context).pushNamed('/items', arguments: args);
+      if(res is List && res.isNotEmpty) {
+        itemId.value = res[0];
+      }else{
+        itemId.value = null;
       }
     }
 
