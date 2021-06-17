@@ -110,7 +110,14 @@ class ItemsScreen extends HookWidget {
               isSortDesc.value = !isSortDesc.value;
             },
             icon: isSortDesc.value ? Icon(Icons.arrow_downward) : Icon(Icons.arrow_upward)
-          )
+          ),
+          if(isSelectMode)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop(selectedItemIds.value);
+              },
+              icon: Icon(Icons.check)
+            )
         ],
       ),
       body: ListView(
