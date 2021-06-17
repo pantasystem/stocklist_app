@@ -63,7 +63,7 @@ class ItemsScreen extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("物一覧"),
+        title: isSelectMode ? Text("物を選択(${selectedItemIds.value.length}/${args?.selectable?.max})") : Text("物一覧"),
         bottom: PreferredSize(
           child: Container(
             alignment: Alignment.center,
