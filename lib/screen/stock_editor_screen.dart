@@ -13,6 +13,7 @@ import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/boxes_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
 import 'package:stocklist_app/widget/box_widget.dart';
+import 'package:stocklist_app/widget/item_widget.dart';
 
 /// StockEditorScreenにデータを渡すためのオブジェクト
 class StockEditorArgs {
@@ -34,6 +35,7 @@ class StockEditorScreen extends HookWidget {
     final args = ModalRoute.of(context)?.settings.arguments as StockEditorArgs;
     final boxId = useState(args.stock?.boxId);
     final itemId = useState(args.stock?.itemId ?? args.item?.id);
+    final selectedBox = useProvider(boxesStateProvider).safeGet(boxId.value);
     final stocksStore = useProvider(stocksStateProvider.notifier);
 
     final inputCounter = useTextEditingController.fromValue(
@@ -133,6 +135,18 @@ class StockEditorScreen extends HookWidget {
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
+          Text("収納する物"),
+          if(itemId.value == null)
+            ListTile(
+              title: Text("収納する物を選択してください。"),
+              subtitle: boxError == null ? null :
+                Text(
+                  boxError,
+                  style: TextStyle(color: Theme.of(context).errorColor),
+                ),
+              onTap: selectItem,
+            ),
+
           Text("収納場所"),
           if(boxId.value == null)
             ListTile(
@@ -147,9 +161,9 @@ class StockEditorScreen extends HookWidget {
               leading: Icon(Icons.arrow_forward_ios),
               onTap: selectBox,
             ),
-          if(boxId.value != null)
+          if(selectedBox != null)
             BoxListTile(
-              box: useProvider(boxesStateProvider).get(boxId.value),
+              box: selectedBox,
               listener: selectBox,
             ),
           TextField(
