@@ -19,6 +19,13 @@ class ItemsState with _$ItemsState {
     return this.items.firstWhere((element) => element.id == itemId);
   }
 
+  Item? safeGet(int? itemId) {
+    if(itemId == null) {
+      return null;
+    }
+    return this.items.firstWhereOrNull((element) => element.id == itemId);
+  }
+
   Set<Item> getAll(List<int> itemIds) {
     final sets = itemIds.toSet();
     return this.items.where((element) => sets.contains(element.id)).toSet();

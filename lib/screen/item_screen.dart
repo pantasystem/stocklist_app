@@ -4,16 +4,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/filter/item_filter.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/state/items_state.dart';
 import 'package:stocklist_app/widget/item_filter_chip.dart';
 import 'package:stocklist_app/widget/item_widget.dart';
 
+import 'item_detail_screen.dart';
+
 
 class ItemScreenArgs {
   final ItemFilter? itemFilter;
-  ItemScreenArgs({this.itemFilter});
+  final ItemSelectable? selectable;
+  ItemScreenArgs({this.itemFilter, this.selectable});
+}
+
+class ItemSelectable {
+  final int max;
+  final List<int> selectedItemIds;
+  ItemSelectable({required this.max, this.selectedItemIds = const []});
 }
 class ItemsScreen extends HookWidget {
   @override
@@ -26,8 +36,10 @@ class ItemsScreen extends HookWidget {
     final isSortDesc = useState(false);
     final items = useProvider(itemsStateProvider).filterAndSort(filter: itemFilter.value,src: sortSrc.value, isReverse: isSortDesc.value);
 
+    final selectedItemIds = useState<List<int>>([]);
     final itemStore = useProvider(itemsStateProvider.notifier);
 
+    final isSelectMode = args?.selectable != null;
 
     useEffect((){
       Future.microtask(() => itemStore.fetchAll());
@@ -51,7 +63,7 @@ class ItemsScreen extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("物一覧"),
+        title: isSelectMode ? Text("物を選択(${selectedItemIds.value.length}/${args?.selectable?.max})") : Text("物一覧"),
         bottom: PreferredSize(
           child: Container(
             alignment: Alignment.center,
@@ -98,7 +110,14 @@ class ItemsScreen extends HookWidget {
               isSortDesc.value = !isSortDesc.value;
             },
             icon: isSortDesc.value ? Icon(Icons.arrow_downward) : Icon(Icons.arrow_upward)
-          )
+          ),
+          if(isSelectMode)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop(selectedItemIds.value);
+              },
+              icon: Icon(Icons.check)
+            )
         ],
       ),
       body: ListView(
@@ -110,6 +129,22 @@ class ItemsScreen extends HookWidget {
             onCategorySelected: (int categoryId) {
               final newFilter = itemFilter.value.mergeAndCopy([ItemFilterCriteria.category(categoryId)]);
               Navigator.of(context).pushNamed('/items', arguments: ItemScreenArgs(itemFilter: newFilter));
+            },
+            selectedItemIds: selectedItemIds.value,
+            onItemSelected: (int index, Item item) {
+              if(isSelectMode) {
+                if(selectedItemIds.value.length < args!.selectable!.max) {
+                  selectedItemIds.value = [
+                    ...selectedItemIds.value,
+                    item.id
+                  ];
+                }else if(selectedItemIds.value.any((element) => element == item.id)){
+                  selectedItemIds.value = selectedItemIds.value.where((element) => element != item.id).toList();
+                }
+
+              }else{
+                Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
+              }
             },
           )
         ],
