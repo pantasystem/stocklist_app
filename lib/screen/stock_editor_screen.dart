@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/StocklistClient.dart';
-import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/main.dart';
@@ -153,7 +152,9 @@ class StockEditorScreen extends HookWidget {
               item: selectedItem,
               onTap: selectItem,
             ),
-
+          Divider(
+            height: 8,
+          ),
           Text("収納場所"),
           if(boxId.value == null)
             ListTile(
