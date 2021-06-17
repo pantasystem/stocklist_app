@@ -5,14 +5,15 @@ import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/widget/item_category_chip.dart';
 
-typedef OnSelectItemCallback = Function(int index, Item item);
+typedef OnItemSelected = Function(int index, Item item);
 typedef OnCategorySelected = Function(int);
 
 class ItemListTileWidget extends StatelessWidget{
 
   final Item item;
   final OnCategorySelected? onCategorySelected;
-  ItemListTileWidget({required this.item, this.onCategorySelected});
+  final VoidCallback? onTap;
+  ItemListTileWidget({required this.item, this.onCategorySelected, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +44,10 @@ class ItemListTileWidget extends StatelessWidget{
         ],
       ),
       subtitle: Text("総数:${item.itemQuantity}"),
-      onTap: (){
+      onTap: onTap,
+      /*onTap: (){
         Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
-      },
+      }*/
     );
   }
 
@@ -56,8 +58,9 @@ class ItemListView extends StatelessWidget {
   final ScrollPhysics? physics;
   final bool shrinkWrap;
   final OnCategorySelected? onCategorySelected;
+  final OnItemSelected? onItemSelected;
   ItemListView({
-    required this.items, this.physics, this.shrinkWrap = false, this.onCategorySelected});
+    required this.items, this.physics, this.shrinkWrap = false, this.onCategorySelected, this.onItemSelected});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -72,6 +75,9 @@ class ItemListView extends StatelessWidget {
     return ItemListTileWidget(
       item: items[index],
       onCategorySelected: this.onCategorySelected,
+      onTap: onItemSelected == null ? null : () {
+        onItemSelected?.call(index, items[index]);
+      },
     );
   }
 }

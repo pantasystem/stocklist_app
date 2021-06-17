@@ -4,16 +4,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/filter/item_filter.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/state/items_state.dart';
 import 'package:stocklist_app/widget/item_filter_chip.dart';
 import 'package:stocklist_app/widget/item_widget.dart';
 
+import 'item_detail_screen.dart';
+
 
 class ItemScreenArgs {
   final ItemFilter? itemFilter;
-  ItemScreenArgs({this.itemFilter});
+  final ItemSelectable? selectable;
+  ItemScreenArgs({this.itemFilter, this.selectable});
+}
+
+class ItemSelectable {
+  final int max;
+  final List<int> selectedItemIds;
+  ItemSelectable({required this.max, this.selectedItemIds = const []});
 }
 class ItemsScreen extends HookWidget {
   @override
@@ -110,6 +120,9 @@ class ItemsScreen extends HookWidget {
             onCategorySelected: (int categoryId) {
               final newFilter = itemFilter.value.mergeAndCopy([ItemFilterCriteria.category(categoryId)]);
               Navigator.of(context).pushNamed('/items', arguments: ItemScreenArgs(itemFilter: newFilter));
+            },
+            onItemSelected: (int index, Item item) {
+              Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
             },
           )
         ],
