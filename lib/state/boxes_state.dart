@@ -14,6 +14,6 @@ class BoxesState with _$BoxesState {
     if(boxId == null) {
       return null;
     }
-    return this.get(boxId);
+    return this.boxes.firstWhereOrNull((element) => element.id == boxId);
   }
 }
