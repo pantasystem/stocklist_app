@@ -131,17 +131,14 @@ class StockCountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if(count > 0)
-          IconButton(onPressed: (){
-            countChangedListener(count + 1);
-          }, icon: Icon(Icons.remove)),
-        Text(count.toString()),
-        IconButton(onPressed: (){}, icon: Icon(Icons.add)),
-
-      ],
-      mainAxisAlignment: MainAxisAlignment.end,
+    return TextButton(onPressed: (){},
+      child: Row(
+        children: [
+          Icon(Icons.remove_circle_outline),
+          Text('$count個')
+        ],
+        mainAxisAlignment: MainAxisAlignment.end,
+      )
     );
   }
 }
