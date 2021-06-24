@@ -33,7 +33,7 @@ class ItemStore extends StateNotifier<ItemsState> {
 
 
 
-  Future create({ required String name, String? description, required File image, required bool isDisposable, required int? categoryId}) async{
+  Future create({ required String name, String? description, required File? image, required bool isDisposable, required int? categoryId}) async{
     final created = await stocklistClient.itemAPI.create(name: name, isDisposable: isDisposable, image: image, description: description, categoryId: categoryId);
     reader(storeAdder).addItemDTO(created);
   }
