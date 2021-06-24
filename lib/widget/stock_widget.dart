@@ -30,6 +30,20 @@ class StockCardWidget extends HookWidget {
     final box = useProvider(boxesStateProvider).boxes.firstWhere((Box box)=> box.id == stock.boxId);
     final item = useProvider(itemsStateProvider).items.firstWhere((Item item) => item.id == stock.itemId);
     final stockStore = useProvider(stocksStateProvider.notifier);
+    final isUpdating = useState(false);
+
+    void patchCount(count)  {
+      isUpdating.value = true;
+      stockStore.updateOrCreate(
+          itemId: stock.itemId,
+          boxId: stock.boxId,
+          count: count,
+          expirationDate: stock.expirationDate,
+          stockId: stock.id
+      ).whenComplete(() {
+        isUpdating.value = false;
+      });
+    }
     return Card(
       child: Container(
         child: Column(
@@ -103,31 +117,15 @@ class StockCardWidget extends HookWidget {
                 if(stock.expirationDate == null)
                   Container(),
                 StockCountWidget(count: stock.count,
-                  onPressed: () {
-                    stockStore.updateOrCreate(
-                        itemId: stock.itemId,
-                        boxId: stock.boxId,
-                        count: stock.count - 1,
-                        expirationDate: stock.expirationDate,
-                        stockId: stock.id
-                    ).catchError((e){
-                      print('error:$e');
-                    });
+                  onPressed: isUpdating.value || stock.count <= 0 ? null : () {
+                    patchCount(stock.count - 1);
                   },
-                  onLongPressed: () async {
+                  onLongPressed: isUpdating.value || stock.count <= 0 ? null : () async {
                     final res = await showDialog(context: context, builder: (context){
                       return UsedCountDialog(stock.count);
                     });
                     if(res != null && res is int) {
-                      stockStore.updateOrCreate(
-                          itemId: stock.itemId,
-                          boxId: stock.boxId,
-                          count: stock.count - res,
-                          expirationDate: stock.expirationDate,
-                          stockId: stock.id
-                      ).catchError((e){
-                        print('error:$e');
-                      });
+                      patchCount(stock.count - res);
                     }
                   },
                 ),
