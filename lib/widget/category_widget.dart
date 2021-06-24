@@ -53,8 +53,9 @@ class CategoryListView extends StatelessWidget {
 class CategorySelectionListTile extends StatelessWidget {
   final VoidCallback? onTap;
   final Category? category;
+  final String? errorText;
 
-  CategorySelectionListTile({ this.onTap, this.category});
+  CategorySelectionListTile({ this.onTap, this.category, this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +68,27 @@ class CategorySelectionListTile extends StatelessWidget {
             title: Text("カテゴリを選択"),
             leading: Icon(Icons.category),
             onTap: onTap,
+            subtitle: errorText == null ? null : Text(
+              errorText!,
+              style: TextStyle(
+                  color: Theme.of(context).errorColor
+              ),
+            ),
           ),
         if(category != null)
-          CategoryListTile(
-            category!,
-            onTap: onTap,
-          ),
+          ListTile(
+            leading: Icon(Icons.category),
+            title: Text(category!.path),
+            onTap: this.onTap ,
+            selected: true,
+            subtitle: errorText == null ? null : Text(
+              errorText!,
+              style: TextStyle(
+                color: Theme.of(context).errorColor
+              ),
+            ),
+
+          )
       ],
     );
   }

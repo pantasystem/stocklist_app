@@ -165,6 +165,7 @@ class ItemEditorScreen extends HookWidget {
                   onChanged: (bool state){
                     isDisposable.value = state;
                   }
+
               ),
               TextField(
                 controller: _descriptionFieldController,
@@ -172,7 +173,8 @@ class ItemEditorScreen extends HookWidget {
                 maxLines: null,
                 decoration: InputDecoration(
                   hintText: "物についての説明",
-                  labelText: "説明"
+                  labelText: "説明",
+                  errorText: validationError.value?.safeGetErrorMessage('description')
                 ),
               )
 
