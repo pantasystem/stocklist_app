@@ -6,6 +6,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:stocklist_app/api/StocklistClient.dart';
+import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/widget/category_widget.dart';
 
 import '../main.dart';
@@ -21,6 +23,8 @@ class ItemEditorScreen extends HookWidget {
     final pickedFile = useState<File?>(null);
     final isDisposable = useState<bool>(false);
     final categoryId = useState<int?>(null);
+
+    final validationError = useState<ValidationException?>(null);
 
     Future _pickImageFromCamera() async{
       final image = await picker.getImage(source: ImageSource.camera);
@@ -56,17 +60,20 @@ class ItemEditorScreen extends HookWidget {
     void create() {
 
       final file = pickedFile.value;
-      if(file == null) {
-        return;
-      }
+
       context.read(itemsStateProvider.notifier).create(
         name: _nameFieldController.text,
         isDisposable: isDisposable.value,
         description: _descriptionFieldController.text,
         image: file,
         categoryId: categoryId.value
-      );
-      Navigator.pop(context);
+      ).then((value){
+        Navigator.of(context).popAndPushNamed('/items/show', arguments: ItemArgs(value.id));
+      }).catchError((e){
+        if(e is ValidationException) {
+          validationError.value = e;
+        }
+      });
 
     }
 
@@ -121,12 +128,20 @@ class ItemEditorScreen extends HookWidget {
         children: [
 
           Container(
+
             child: AspectRatio(
               aspectRatio: 4/3,
-              child: _buildImage(),
+              child: _buildImage()
             ),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
           ),
+          if(validationError.value?.safeGetErrorMessage('image') != null)
+            Text(
+              validationError.value!.safeGetErrorMessage('image')!,
+              style: TextStyle(
+                  color: Theme.of(context).errorColor
+              ),
+            ),
           ElevatedButton(
             onPressed: (){
               _showPickTypeDialog();
@@ -140,7 +155,8 @@ class ItemEditorScreen extends HookWidget {
                 controller: _nameFieldController,
                 decoration: InputDecoration(
                   labelText: "名称",
-                  hintText: "物の名称を入力して下さい"
+                  hintText: "物の名称を入力して下さい",
+                  errorText: validationError.value?.safeGetErrorMessage('name')
                 ),
               ),
               Container(
@@ -158,6 +174,7 @@ class ItemEditorScreen extends HookWidget {
                   onChanged: (bool state){
                     isDisposable.value = state;
                   }
+
               ),
               TextField(
                 controller: _descriptionFieldController,
@@ -165,7 +182,8 @@ class ItemEditorScreen extends HookWidget {
                 maxLines: null,
                 decoration: InputDecoration(
                   hintText: "物についての説明",
-                  labelText: "説明"
+                  labelText: "説明",
+                  errorText: validationError.value?.safeGetErrorMessage('description')
                 ),
               )
 
