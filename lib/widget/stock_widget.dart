@@ -29,6 +29,7 @@ class StockCardWidget extends HookWidget {
   Widget build(BuildContext context) {
     final box = useProvider(boxesStateProvider).boxes.firstWhere((Box box)=> box.id == stock.boxId);
     final item = useProvider(itemsStateProvider).items.firstWhere((Item item) => item.id == stock.itemId);
+    final stockStore = useProvider(stocksStateProvider.notifier);
     return Card(
       child: Container(
         child: Column(
@@ -103,22 +104,37 @@ class StockCardWidget extends HookWidget {
                   Container(),
                 StockCountWidget(count: stock.count,
                   onPressed: () {
-
+                    stockStore.updateOrCreate(
+                        itemId: stock.itemId,
+                        boxId: stock.boxId,
+                        count: stock.count - 1,
+                        expirationDate: stock.expirationDate,
+                        stockId: stock.id
+                    ).catchError((e){
+                      print('error:$e');
+                    });
                   },
-                  onLongPressed: () {
-                    showDialog(context: context, builder: (context){
+                  onLongPressed: () async {
+                    final res = await showDialog(context: context, builder: (context){
                       return UsedCountDialog(stock.count);
                     });
+                    if(res != null && res is int) {
+                      stockStore.updateOrCreate(
+                          itemId: stock.itemId,
+                          boxId: stock.boxId,
+                          count: stock.count - res,
+                          expirationDate: stock.expirationDate,
+                          stockId: stock.id
+                      ).catchError((e){
+                        print('error:$e');
+                      });
+                    }
                   },
                 ),
 
               ],
             ),
-
-
-
           ],
-
         ),
       )
 
