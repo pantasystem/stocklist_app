@@ -73,7 +73,7 @@ class MainScreen extends HookWidget {
     return Scaffold(
       body: screens[selectedIndex.value],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed("/items/create");
         },
@@ -82,8 +82,8 @@ class MainScreen extends HookWidget {
           child: Icon(Icons.add),
         ),
         elevation: 4.0,
-      ),
-      bottomNavigationBar: BottomAppBar(
+      ),*/
+      /*bottomNavigationBar: BottomAppBar(
         child: Container(
           margin: EdgeInsets.only(left: 12.0, right: 12.0),
           child: Row(
@@ -100,7 +100,23 @@ class MainScreen extends HookWidget {
         ),
         shape: CircularNotchedRectangle(),
         color: Colors.white
-      )
+      )*/
+
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'ホーム'
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'ものを探す'),
+          BottomNavigationBarItem(icon: Icon(Icons.storage), label: '収納'),
+          BottomNavigationBarItem(icon: Icon(Icons.category), label: 'カテゴリー'),
+        ],
+        currentIndex: selectedIndex.value,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Theme.of(context).iconTheme.color,
+        onTap: selected,
+      ),
     );
   }
 
