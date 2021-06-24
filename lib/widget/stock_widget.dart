@@ -29,6 +29,21 @@ class StockCardWidget extends HookWidget {
   Widget build(BuildContext context) {
     final box = useProvider(boxesStateProvider).boxes.firstWhere((Box box)=> box.id == stock.boxId);
     final item = useProvider(itemsStateProvider).items.firstWhere((Item item) => item.id == stock.itemId);
+    final stockStore = useProvider(stocksStateProvider.notifier);
+    final isUpdating = useState(false);
+
+    void patchCount(count)  {
+      isUpdating.value = true;
+      stockStore.updateOrCreate(
+          itemId: stock.itemId,
+          boxId: stock.boxId,
+          count: count,
+          expirationDate: stock.expirationDate,
+          stockId: stock.id
+      ).whenComplete(() {
+        isUpdating.value = false;
+      });
+    }
     return Card(
       child: Container(
         child: Column(
@@ -101,17 +116,23 @@ class StockCardWidget extends HookWidget {
                   ),
                 if(stock.expirationDate == null)
                   Container(),
-                StockCountWidget(count: stock.count, countChangedListener: (int count){
-
-                }),
+                StockCountWidget(count: stock.count,
+                  onPressed: isUpdating.value || stock.count <= 0 ? null : () {
+                    patchCount(stock.count - 1);
+                  },
+                  onLongPressed: isUpdating.value || stock.count <= 0 ? null : () async {
+                    final res = await showDialog(context: context, builder: (context){
+                      return UsedCountDialog(stock.count);
+                    });
+                    if(res != null && res is int) {
+                      patchCount(stock.count - res);
+                    }
+                  },
+                ),
 
               ],
             ),
-
-
-
           ],
-
         ),
       )
 
@@ -120,28 +141,28 @@ class StockCardWidget extends HookWidget {
   }
 }
 
-typedef CountChangedListener = void Function(int count);
 
 class StockCountWidget extends StatelessWidget {
 
   final int count;
-  final CountChangedListener countChangedListener;
+  final VoidCallback? onPressed;
+  final VoidCallback? onLongPressed;
 
-  StockCountWidget({ required this.count, required this.countChangedListener });
+  StockCountWidget({ required this.count, this.onPressed, this.onLongPressed });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if(count > 0)
-          IconButton(onPressed: (){
-            countChangedListener(count + 1);
-          }, icon: Icon(Icons.remove)),
-        Text(count.toString()),
-        IconButton(onPressed: (){}, icon: Icon(Icons.add)),
+    return TextButton(
+      onPressed: onPressed,
+      onLongPress: onLongPressed,
+      child: Row(
+        children: [
+          Icon(Icons.remove_circle_outline),
+          Text('$count個')
+        ],
+        mainAxisAlignment: MainAxisAlignment.end,
+      ),
 
-      ],
-      mainAxisAlignment: MainAxisAlignment.end,
     );
   }
 }
@@ -175,6 +196,45 @@ class StockPopupMenu extends StatelessWidget {
         ];
       },
       onSelected: listener,
+    );
+  }
+}
+
+class UsedCountDialog extends HookWidget {
+  final int max;
+
+  UsedCountDialog(this.max);
+  @override
+  Widget build(BuildContext context) {
+    final inputCounterField = useTextEditingController.fromValue(TextEditingValue(text: 1.toString()));
+    final inputCount = useValueListenable(inputCounterField);
+    final count = int.tryParse(inputCount.text)?? 0;
+    final isMaxCountOk = count <= max;
+    final isMinCountOk = (count >= 1);
+
+    print(isMaxCountOk);
+    return AlertDialog(
+      title: Text('使った個数',),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            keyboardType: TextInputType.number,
+            controller: inputCounterField,
+            decoration: InputDecoration(
+            labelText: '使った個数',
+            errorText: isMaxCountOk ? isMinCountOk ? null: '1個以上減らす必要があります' : '${this.max}より多く減らすことはできません',
+          ),)
+        ],
+      ),
+      actions: [
+        TextButton(onPressed: (){
+          Navigator.of(context).pop();
+        }, child: Text('キャンセル')),
+        TextButton(onPressed: isMinCountOk && isMaxCountOk ?  (){
+          Navigator.of(context).pop(int.tryParse(inputCounterField.text));
+        } : null, child: Text('確定'))
+      ],
     );
   }
 }
