@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:stocklist_app/api/StocklistClient.dart';
+import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/widget/category_widget.dart';
 
 import '../main.dart';
@@ -67,7 +68,7 @@ class ItemEditorScreen extends HookWidget {
         image: file,
         categoryId: categoryId.value
       ).then((value){
-        Navigator.pop(context);
+        Navigator.of(context).popAndPushNamed('/items/show', arguments: ItemArgs(value.id));
       }).catchError((e){
         if(e is ValidationException) {
           validationError.value = e;
