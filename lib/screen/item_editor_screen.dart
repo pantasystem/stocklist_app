@@ -127,12 +127,20 @@ class ItemEditorScreen extends HookWidget {
         children: [
 
           Container(
+
             child: AspectRatio(
               aspectRatio: 4/3,
-              child: _buildImage(),
+              child: _buildImage()
             ),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
           ),
+          if(validationError.value?.safeGetErrorMessage('image') != null)
+            Text(
+              validationError.value!.safeGetErrorMessage('image')!,
+              style: TextStyle(
+                  color: Theme.of(context).errorColor
+              ),
+            ),
           ElevatedButton(
             onPressed: (){
               _showPickTypeDialog();
