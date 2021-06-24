@@ -149,6 +149,12 @@ class ItemsScreen extends HookWidget {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/items/create');
+        },
+      ),
     );
   }
 
