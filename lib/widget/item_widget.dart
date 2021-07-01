@@ -14,7 +14,8 @@ class ItemListTileWidget extends StatelessWidget{
   final OnCategorySelected? onCategorySelected;
   final VoidCallback? onTap;
   final bool isSelected;
-  ItemListTileWidget({required this.item, this.onCategorySelected, this.onTap, this.isSelected = false});
+  final Widget? trailing;
+  ItemListTileWidget({required this.item, this.onCategorySelected, this.onTap, this.isSelected = false, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,7 @@ class ItemListTileWidget extends StatelessWidget{
         ],
       ),
       subtitle: Text("総数:${item.itemQuantity}"),
+      trailing: this.trailing,
       onTap: onTap,
       /*onTap: (){
         Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
@@ -82,6 +84,31 @@ class ItemListView extends StatelessWidget {
         onItemSelected?.call(index, items[index]);
       },
       isSelected: selectedItemIds.any((element) => element == items[index].id),
+      trailing: PopupMenuButton(
+        icon: Icon(Icons.more_vert),
+        itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: [
+                  Icon(Icons.add),
+                  Text('買い物リスト')
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: [
+                  Icon(Icons.remove),
+                  Text('使った')
+                ],
+              ),
+            ),
+          ];
+        },
+      ),
     );
   }
 }
