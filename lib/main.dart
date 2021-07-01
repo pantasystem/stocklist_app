@@ -113,8 +113,11 @@ class MainScreen extends HookWidget {
           BottomNavigationBarItem(icon: Icon(Icons.category), label: 'カテゴリー'),
         ],
         currentIndex: selectedIndex.value,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Theme.of(context).iconTheme.color,
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
         onTap: selected,
       ),
     );

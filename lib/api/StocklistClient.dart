@@ -246,6 +246,14 @@ class BoxAPI {
   }
 }
 
+class ShoppingListAPI {
+  final String baseURL;
+  final String token;
+  ShoppingListAPI(this.baseURL, this.token);
+
+
+}
+
 Map<String, String> makeHeader(String? token) {
   return {
     'Content-Type': 'application/json',
