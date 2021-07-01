@@ -11,6 +11,7 @@ import 'package:stocklist_app/screen/home_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
+import 'package:stocklist_app/screen/shopping_list_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
 import 'package:stocklist_app/store/box_store.dart';
 import 'package:stocklist_app/store/category_store.dart';
@@ -61,7 +62,8 @@ class MainScreen extends HookWidget {
     HomeScreen(),
     ItemsScreen(),
     BoxesScreen(),
-    CategoryScreen()
+    CategoryScreen(),
+    ShoppingListScreen()
   ];
 
   @override
@@ -112,6 +114,7 @@ class MainScreen extends HookWidget {
           BottomNavigationBarItem(icon: Icon(Icons.all_out), label: 'ものを探す'),
           BottomNavigationBarItem(icon: Icon(Icons.storage), label: '収納'),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: 'カテゴリー'),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart,), label: '買い物リスト')
         ],
         currentIndex: selectedIndex.value,
         selectedFontSize: 14,
