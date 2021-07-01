@@ -109,7 +109,7 @@ class MainScreen extends HookWidget {
             icon: Icon(Icons.home),
             label: 'ホーム'
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'ものを探す'),
+          BottomNavigationBarItem(icon: Icon(Icons.all_out), label: 'ものを探す'),
           BottomNavigationBarItem(icon: Icon(Icons.storage), label: '収納'),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: 'カテゴリー'),
         ],
