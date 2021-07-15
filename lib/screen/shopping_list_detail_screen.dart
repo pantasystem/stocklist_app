@@ -65,6 +65,11 @@ class TaskListTile extends HookWidget {
       title: Text(item.name),
       leading: ItemThumbnail(item.imageUrl, 40),
       trailing: Checkbox(onChanged: onChanged, value: task.isCompleted,),
+      subtitle: Row(
+        children: [
+          Text("必要個数:${task.count}")
+        ],
+      ),
     );
   }
 }

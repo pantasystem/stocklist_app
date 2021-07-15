@@ -30,7 +30,8 @@ class _$ShoppingTaskDTOTearOff {
       @JsonKey(name: 'item') required ItemDTO? item,
       @JsonKey(name: 'completed_at') required DateTime? completedAt,
       @JsonKey(name: 'shopping_list_id') required int shoppingListId,
-      @JsonKey(name: 'is_completed') required bool isCompleted}) {
+      @JsonKey(name: 'is_completed') required bool isCompleted,
+      @JsonKey(name: 'count') required int? count}) {
     return _ShoppingTaskDTO(
       id: id,
       createdAt: createdAt,
@@ -42,6 +43,7 @@ class _$ShoppingTaskDTOTearOff {
       completedAt: completedAt,
       shoppingListId: shoppingListId,
       isCompleted: isCompleted,
+      count: count,
     );
   }
 
@@ -75,6 +77,8 @@ mixin _$ShoppingTaskDTO {
   int get shoppingListId => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_completed')
   bool get isCompleted => throw _privateConstructorUsedError;
+  @JsonKey(name: 'count')
+  int? get count => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -97,7 +101,8 @@ abstract class $ShoppingTaskDTOCopyWith<$Res> {
       @JsonKey(name: 'item') ItemDTO? item,
       @JsonKey(name: 'completed_at') DateTime? completedAt,
       @JsonKey(name: 'shopping_list_id') int shoppingListId,
-      @JsonKey(name: 'is_completed') bool isCompleted});
+      @JsonKey(name: 'is_completed') bool isCompleted,
+      @JsonKey(name: 'count') int? count});
 
   $BoxDTOCopyWith<$Res>? get box;
   $ItemDTOCopyWith<$Res>? get item;
@@ -124,6 +129,7 @@ class _$ShoppingTaskDTOCopyWithImpl<$Res>
     Object? completedAt = freezed,
     Object? shoppingListId = freezed,
     Object? isCompleted = freezed,
+    Object? count = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -166,6 +172,10 @@ class _$ShoppingTaskDTOCopyWithImpl<$Res>
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      count: count == freezed
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 
@@ -209,7 +219,8 @@ abstract class _$ShoppingTaskDTOCopyWith<$Res>
       @JsonKey(name: 'item') ItemDTO? item,
       @JsonKey(name: 'completed_at') DateTime? completedAt,
       @JsonKey(name: 'shopping_list_id') int shoppingListId,
-      @JsonKey(name: 'is_completed') bool isCompleted});
+      @JsonKey(name: 'is_completed') bool isCompleted,
+      @JsonKey(name: 'count') int? count});
 
   @override
   $BoxDTOCopyWith<$Res>? get box;
@@ -240,6 +251,7 @@ class __$ShoppingTaskDTOCopyWithImpl<$Res>
     Object? completedAt = freezed,
     Object? shoppingListId = freezed,
     Object? isCompleted = freezed,
+    Object? count = freezed,
   }) {
     return _then(_ShoppingTaskDTO(
       id: id == freezed
@@ -282,6 +294,10 @@ class __$ShoppingTaskDTOCopyWithImpl<$Res>
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      count: count == freezed
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -299,7 +315,8 @@ class _$_ShoppingTaskDTO implements _ShoppingTaskDTO {
       @JsonKey(name: 'item') required this.item,
       @JsonKey(name: 'completed_at') required this.completedAt,
       @JsonKey(name: 'shopping_list_id') required this.shoppingListId,
-      @JsonKey(name: 'is_completed') required this.isCompleted});
+      @JsonKey(name: 'is_completed') required this.isCompleted,
+      @JsonKey(name: 'count') required this.count});
 
   factory _$_ShoppingTaskDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_ShoppingTaskDTOFromJson(json);
@@ -334,10 +351,13 @@ class _$_ShoppingTaskDTO implements _ShoppingTaskDTO {
   @override
   @JsonKey(name: 'is_completed')
   final bool isCompleted;
+  @override
+  @JsonKey(name: 'count')
+  final int? count;
 
   @override
   String toString() {
-    return 'ShoppingTaskDTO(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, itemId: $itemId, boxId: $boxId, box: $box, item: $item, completedAt: $completedAt, shoppingListId: $shoppingListId, isCompleted: $isCompleted)';
+    return 'ShoppingTaskDTO(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, itemId: $itemId, boxId: $boxId, box: $box, item: $item, completedAt: $completedAt, shoppingListId: $shoppingListId, isCompleted: $isCompleted, count: $count)';
   }
 
   @override
@@ -368,7 +388,9 @@ class _$_ShoppingTaskDTO implements _ShoppingTaskDTO {
                     .equals(other.shoppingListId, shoppingListId)) &&
             (identical(other.isCompleted, isCompleted) ||
                 const DeepCollectionEquality()
-                    .equals(other.isCompleted, isCompleted)));
+                    .equals(other.isCompleted, isCompleted)) &&
+            (identical(other.count, count) ||
+                const DeepCollectionEquality().equals(other.count, count)));
   }
 
   @override
@@ -383,7 +405,8 @@ class _$_ShoppingTaskDTO implements _ShoppingTaskDTO {
       const DeepCollectionEquality().hash(item) ^
       const DeepCollectionEquality().hash(completedAt) ^
       const DeepCollectionEquality().hash(shoppingListId) ^
-      const DeepCollectionEquality().hash(isCompleted);
+      const DeepCollectionEquality().hash(isCompleted) ^
+      const DeepCollectionEquality().hash(count);
 
   @JsonKey(ignore: true)
   @override
@@ -398,17 +421,17 @@ class _$_ShoppingTaskDTO implements _ShoppingTaskDTO {
 
 abstract class _ShoppingTaskDTO implements ShoppingTaskDTO {
   factory _ShoppingTaskDTO(
-          {@JsonKey(name: 'id') required int id,
-          @JsonKey(name: 'created_at') required DateTime createdAt,
-          @JsonKey(name: 'updated_at') required DateTime updatedAt,
-          @JsonKey(name: 'item_id') required int itemId,
-          @JsonKey(name: 'box_id') required int? boxId,
-          @JsonKey(name: 'box') required BoxDTO? box,
-          @JsonKey(name: 'item') required ItemDTO? item,
-          @JsonKey(name: 'completed_at') required DateTime? completedAt,
-          @JsonKey(name: 'shopping_list_id') required int shoppingListId,
-          @JsonKey(name: 'is_completed') required bool isCompleted}) =
-      _$_ShoppingTaskDTO;
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt,
+      @JsonKey(name: 'item_id') required int itemId,
+      @JsonKey(name: 'box_id') required int? boxId,
+      @JsonKey(name: 'box') required BoxDTO? box,
+      @JsonKey(name: 'item') required ItemDTO? item,
+      @JsonKey(name: 'completed_at') required DateTime? completedAt,
+      @JsonKey(name: 'shopping_list_id') required int shoppingListId,
+      @JsonKey(name: 'is_completed') required bool isCompleted,
+      @JsonKey(name: 'count') required int? count}) = _$_ShoppingTaskDTO;
 
   factory _ShoppingTaskDTO.fromJson(Map<String, dynamic> json) =
       _$_ShoppingTaskDTO.fromJson;
@@ -443,6 +466,9 @@ abstract class _ShoppingTaskDTO implements ShoppingTaskDTO {
   @override
   @JsonKey(name: 'is_completed')
   bool get isCompleted => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'count')
+  int? get count => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ShoppingTaskDTOCopyWith<_ShoppingTaskDTO> get copyWith =>

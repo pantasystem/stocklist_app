@@ -24,6 +24,7 @@ _$_ShoppingTaskDTO _$_$_ShoppingTaskDTOFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['completed_at'] as String),
     shoppingListId: json['shopping_list_id'] as int,
     isCompleted: json['is_completed'] as bool,
+    count: json['count'] as int?,
   );
 }
 
@@ -39,4 +40,5 @@ Map<String, dynamic> _$_$_ShoppingTaskDTOToJson(_$_ShoppingTaskDTO instance) =>
       'completed_at': instance.completedAt?.toIso8601String(),
       'shopping_list_id': instance.shoppingListId,
       'is_completed': instance.isCompleted,
+      'count': instance.count,
     };

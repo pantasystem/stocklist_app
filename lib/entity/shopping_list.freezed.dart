@@ -75,6 +75,8 @@ abstract class $ShoppingListCopyWith<$Res> {
       bool isAllCompleted,
       List<ShoppingTask> tasks,
       User? user});
+
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -136,6 +138,17 @@ class _$ShoppingListCopyWithImpl<$Res> implements $ShoppingListCopyWith<$Res> {
               as User?,
     ));
   }
+
+  @override
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -155,6 +168,9 @@ abstract class _$ShoppingListCopyWith<$Res>
       bool isAllCompleted,
       List<ShoppingTask> tasks,
       User? user});
+
+  @override
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc

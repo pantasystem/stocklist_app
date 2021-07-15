@@ -12,6 +12,7 @@ class ShoppingTask with _$ShoppingTask {
     required DateTime? completedAt,
     required int shoppingListId,
     required bool isCompleted,
+    required int count,
 
   }) = _ShoppingTask;
 }

@@ -98,7 +98,7 @@ class StoreAdder {
     final tasks = dto.tasks.map((e){
       addItemDTO(e.item);
       addBoxDTO(e.box);
-      return ShoppingTask(id: e.id, createdAt: e.createdAt, updatedAt: e.updatedAt, itemId: e.itemId, boxId: e.boxId, completedAt: e.completedAt, shoppingListId: e.shoppingListId, isCompleted: e.isCompleted);
+      return ShoppingTask(id: e.id, createdAt: e.createdAt, updatedAt: e.updatedAt, itemId: e.itemId, boxId: e.boxId, completedAt: e.completedAt, shoppingListId: e.shoppingListId, isCompleted: e.isCompleted, count: e.count ?? 0);
 
     }).toList();
     User? user;

@@ -18,6 +18,7 @@ class ShoppingTaskDTO with _$ShoppingTaskDTO {
     @JsonKey(name: 'completed_at') required DateTime? completedAt,
     @JsonKey(name: 'shopping_list_id') required int shoppingListId,
     @JsonKey(name: 'is_completed') required bool isCompleted,
+    @JsonKey(name: 'count') required int? count
 
   }) = _ShoppingTaskDTO;
 
