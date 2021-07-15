@@ -10,7 +10,7 @@ class ShoppingList with _$ShoppingList {
     required DateTime createdAt,
     required DateTime updatedAt,
     required String title,
-    required int userId,
+    required int? userId,
     required int homeId,
     required bool isAllCompleted,
     required List<ShoppingTask> tasks
