@@ -13,6 +13,7 @@ class ShoppingList with _$ShoppingList {
     required int? userId,
     required int homeId,
     required bool isAllCompleted,
-    required List<ShoppingTask> tasks
+    required List<ShoppingTask> tasks,
+    required User? user,
   }) = _ShoppingList;
 }
