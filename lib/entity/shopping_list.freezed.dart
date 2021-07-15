@@ -24,7 +24,8 @@ class _$ShoppingListTearOff {
       required int? userId,
       required int homeId,
       required bool isAllCompleted,
-      required List<ShoppingTask> tasks}) {
+      required List<ShoppingTask> tasks,
+      required User? user}) {
     return _ShoppingList(
       id: id,
       createdAt: createdAt,
@@ -34,6 +35,7 @@ class _$ShoppingListTearOff {
       homeId: homeId,
       isAllCompleted: isAllCompleted,
       tasks: tasks,
+      user: user,
     );
   }
 }
@@ -51,6 +53,7 @@ mixin _$ShoppingList {
   int get homeId => throw _privateConstructorUsedError;
   bool get isAllCompleted => throw _privateConstructorUsedError;
   List<ShoppingTask> get tasks => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ShoppingListCopyWith<ShoppingList> get copyWith =>
@@ -70,7 +73,8 @@ abstract class $ShoppingListCopyWith<$Res> {
       int? userId,
       int homeId,
       bool isAllCompleted,
-      List<ShoppingTask> tasks});
+      List<ShoppingTask> tasks,
+      User? user});
 }
 
 /// @nodoc
@@ -91,6 +95,7 @@ class _$ShoppingListCopyWithImpl<$Res> implements $ShoppingListCopyWith<$Res> {
     Object? homeId = freezed,
     Object? isAllCompleted = freezed,
     Object? tasks = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -125,6 +130,10 @@ class _$ShoppingListCopyWithImpl<$Res> implements $ShoppingListCopyWith<$Res> {
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<ShoppingTask>,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ));
   }
 }
@@ -144,7 +153,8 @@ abstract class _$ShoppingListCopyWith<$Res>
       int? userId,
       int homeId,
       bool isAllCompleted,
-      List<ShoppingTask> tasks});
+      List<ShoppingTask> tasks,
+      User? user});
 }
 
 /// @nodoc
@@ -167,6 +177,7 @@ class __$ShoppingListCopyWithImpl<$Res> extends _$ShoppingListCopyWithImpl<$Res>
     Object? homeId = freezed,
     Object? isAllCompleted = freezed,
     Object? tasks = freezed,
+    Object? user = freezed,
   }) {
     return _then(_ShoppingList(
       id: id == freezed
@@ -201,6 +212,10 @@ class __$ShoppingListCopyWithImpl<$Res> extends _$ShoppingListCopyWithImpl<$Res>
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<ShoppingTask>,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ));
   }
 }
@@ -216,7 +231,8 @@ class _$_ShoppingList implements _ShoppingList {
       required this.userId,
       required this.homeId,
       required this.isAllCompleted,
-      required this.tasks});
+      required this.tasks,
+      required this.user});
 
   @override
   final int id;
@@ -234,10 +250,12 @@ class _$_ShoppingList implements _ShoppingList {
   final bool isAllCompleted;
   @override
   final List<ShoppingTask> tasks;
+  @override
+  final User? user;
 
   @override
   String toString() {
-    return 'ShoppingList(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, userId: $userId, homeId: $homeId, isAllCompleted: $isAllCompleted, tasks: $tasks)';
+    return 'ShoppingList(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, userId: $userId, homeId: $homeId, isAllCompleted: $isAllCompleted, tasks: $tasks, user: $user)';
   }
 
   @override
@@ -262,7 +280,9 @@ class _$_ShoppingList implements _ShoppingList {
                 const DeepCollectionEquality()
                     .equals(other.isAllCompleted, isAllCompleted)) &&
             (identical(other.tasks, tasks) ||
-                const DeepCollectionEquality().equals(other.tasks, tasks)));
+                const DeepCollectionEquality().equals(other.tasks, tasks)) &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)));
   }
 
   @override
@@ -275,7 +295,8 @@ class _$_ShoppingList implements _ShoppingList {
       const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(homeId) ^
       const DeepCollectionEquality().hash(isAllCompleted) ^
-      const DeepCollectionEquality().hash(tasks);
+      const DeepCollectionEquality().hash(tasks) ^
+      const DeepCollectionEquality().hash(user);
 
   @JsonKey(ignore: true)
   @override
@@ -292,7 +313,8 @@ abstract class _ShoppingList implements ShoppingList {
       required int? userId,
       required int homeId,
       required bool isAllCompleted,
-      required List<ShoppingTask> tasks}) = _$_ShoppingList;
+      required List<ShoppingTask> tasks,
+      required User? user}) = _$_ShoppingList;
 
   @override
   int get id => throw _privateConstructorUsedError;
@@ -310,6 +332,8 @@ abstract class _ShoppingList implements ShoppingList {
   bool get isAllCompleted => throw _privateConstructorUsedError;
   @override
   List<ShoppingTask> get tasks => throw _privateConstructorUsedError;
+  @override
+  User? get user => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ShoppingListCopyWith<_ShoppingList> get copyWith =>
