@@ -12,6 +12,8 @@ import 'package:fluri/fluri.dart';
 import 'package:http/http.dart' as http;
 import 'package:stocklist_app/entity/category.dart';
 
+import 'dto/shopping_list.dart';
+
 class StocklistClient {
   final String baseURL;
   final String token;
@@ -250,6 +252,61 @@ class ShoppingListAPI {
   final String baseURL;
   final String token;
   ShoppingListAPI(this.baseURL, this.token);
+
+  Future<List<ShoppingListDTO>> all() async {
+    final res = await http.get(
+    buildWithBaseURLAndPath(baseURL, 'api/shopping-lists').uri,
+    headers: makeHeader(token)
+    );
+    handleError(res);
+    final list = json.decode(res.body) as List<dynamic>;
+
+    return list.map((map)=> ShoppingListDTO.fromJson(map)).toList();
+  }
+
+  Future<ShoppingListDTO> show(int id) async {
+    final res = await http.get(
+        buildWithBaseURLAndPath(baseURL, 'api/shopping-lists/$id').uri,
+        headers: makeHeader(token)
+    );
+    handleError(res);
+    return ShoppingListDTO.fromJson(json.decode(res.body));
+  }
+
+  Future update(int id, {required String title, required int? userId }) async {
+    final res = await http.put(
+        buildWithBaseURLAndPath(this.baseURL, "api/shopping-lists/$id").uri,
+        headers: makeHeader(token),
+        body: json.encode(
+            {
+              'title': title,
+              if(userId != null)
+                'user_id': userId
+            }
+        )
+    );
+    handleError(res);
+  }
+
+  Future<ShoppingListDTO> create({required String title, required int? userId }) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath("api/shopping-lists");
+
+    final res = await http.post(builder.uri, headers: makeHeader(this.token), body: json.encode({
+      'title': title,
+      if(userId != null)
+        'user_id': userId
+    }));
+    handleError(res);
+    return ShoppingListDTO.fromJson(json.decode(res.body));
+  }
+
+  Future delete(int id) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath('api/shopping-lists/$id');
+    final res = await http.delete(builder.uri);
+    handleError(res);
+  }
 
 
 }

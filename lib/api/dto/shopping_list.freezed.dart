@@ -21,15 +21,15 @@ class _$ShoppingListDTOTearOff {
   const _$ShoppingListDTOTearOff();
 
   _ShoppingListDTO call(
-      {required int id,
-      required DateTime createdAt,
-      required DateTime updatedAt,
-      required String title,
-      required int? userId,
-      required int homeId,
-      required UserDTO? user,
-      required bool isAllCompleted,
-      required List<ShoppingTaskDTO> tasks}) {
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'updated_at') required DateTime updatedAt,
+      @JsonKey(name: 'title') required String title,
+      @JsonKey(name: 'user_id') required int? userId,
+      @JsonKey(name: 'home_id') required int homeId,
+      @JsonKey(name: 'user') required UserDTO? user,
+      @JsonKey(name: 'is_all_completed') required bool isAllCompleted,
+      @JsonKey(name: 'tasks') required List<ShoppingTaskDTO> tasks}) {
     return _ShoppingListDTO(
       id: id,
       createdAt: createdAt,
@@ -53,14 +53,23 @@ const $ShoppingListDTO = _$ShoppingListDTOTearOff();
 
 /// @nodoc
 mixin _$ShoppingListDTO {
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'title')
   String get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
   int? get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'home_id')
   int get homeId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user')
   UserDTO? get user => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_all_completed')
   bool get isAllCompleted => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tasks')
   List<ShoppingTaskDTO> get tasks => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -75,15 +84,15 @@ abstract class $ShoppingListDTOCopyWith<$Res> {
           ShoppingListDTO value, $Res Function(ShoppingListDTO) then) =
       _$ShoppingListDTOCopyWithImpl<$Res>;
   $Res call(
-      {int id,
-      DateTime createdAt,
-      DateTime updatedAt,
-      String title,
-      int? userId,
-      int homeId,
-      UserDTO? user,
-      bool isAllCompleted,
-      List<ShoppingTaskDTO> tasks});
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
+      @JsonKey(name: 'title') String title,
+      @JsonKey(name: 'user_id') int? userId,
+      @JsonKey(name: 'home_id') int homeId,
+      @JsonKey(name: 'user') UserDTO? user,
+      @JsonKey(name: 'is_all_completed') bool isAllCompleted,
+      @JsonKey(name: 'tasks') List<ShoppingTaskDTO> tasks});
 
   $UserDTOCopyWith<$Res>? get user;
 }
@@ -169,15 +178,15 @@ abstract class _$ShoppingListDTOCopyWith<$Res>
       __$ShoppingListDTOCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id,
-      DateTime createdAt,
-      DateTime updatedAt,
-      String title,
-      int? userId,
-      int homeId,
-      UserDTO? user,
-      bool isAllCompleted,
-      List<ShoppingTaskDTO> tasks});
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
+      @JsonKey(name: 'title') String title,
+      @JsonKey(name: 'user_id') int? userId,
+      @JsonKey(name: 'home_id') int homeId,
+      @JsonKey(name: 'user') UserDTO? user,
+      @JsonKey(name: 'is_all_completed') bool isAllCompleted,
+      @JsonKey(name: 'tasks') List<ShoppingTaskDTO> tasks});
 
   @override
   $UserDTOCopyWith<$Res>? get user;
@@ -251,36 +260,45 @@ class __$ShoppingListDTOCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ShoppingListDTO implements _ShoppingListDTO {
   _$_ShoppingListDTO(
-      {required this.id,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.title,
-      required this.userId,
-      required this.homeId,
-      required this.user,
-      required this.isAllCompleted,
-      required this.tasks});
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt,
+      @JsonKey(name: 'title') required this.title,
+      @JsonKey(name: 'user_id') required this.userId,
+      @JsonKey(name: 'home_id') required this.homeId,
+      @JsonKey(name: 'user') required this.user,
+      @JsonKey(name: 'is_all_completed') required this.isAllCompleted,
+      @JsonKey(name: 'tasks') required this.tasks});
 
   factory _$_ShoppingListDTO.fromJson(Map<String, dynamic> json) =>
       _$_$_ShoppingListDTOFromJson(json);
 
   @override
+  @JsonKey(name: 'id')
   final int id;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @override
+  @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
   @override
+  @JsonKey(name: 'title')
   final String title;
   @override
+  @JsonKey(name: 'user_id')
   final int? userId;
   @override
+  @JsonKey(name: 'home_id')
   final int homeId;
   @override
+  @JsonKey(name: 'user')
   final UserDTO? user;
   @override
+  @JsonKey(name: 'is_all_completed')
   final bool isAllCompleted;
   @override
+  @JsonKey(name: 'tasks')
   final List<ShoppingTaskDTO> tasks;
 
   @override
@@ -341,36 +359,46 @@ class _$_ShoppingListDTO implements _ShoppingListDTO {
 
 abstract class _ShoppingListDTO implements ShoppingListDTO {
   factory _ShoppingListDTO(
-      {required int id,
-      required DateTime createdAt,
-      required DateTime updatedAt,
-      required String title,
-      required int? userId,
-      required int homeId,
-      required UserDTO? user,
-      required bool isAllCompleted,
-      required List<ShoppingTaskDTO> tasks}) = _$_ShoppingListDTO;
+          {@JsonKey(name: 'id') required int id,
+          @JsonKey(name: 'created_at') required DateTime createdAt,
+          @JsonKey(name: 'updated_at') required DateTime updatedAt,
+          @JsonKey(name: 'title') required String title,
+          @JsonKey(name: 'user_id') required int? userId,
+          @JsonKey(name: 'home_id') required int homeId,
+          @JsonKey(name: 'user') required UserDTO? user,
+          @JsonKey(name: 'is_all_completed') required bool isAllCompleted,
+          @JsonKey(name: 'tasks') required List<ShoppingTaskDTO> tasks}) =
+      _$_ShoppingListDTO;
 
   factory _ShoppingListDTO.fromJson(Map<String, dynamic> json) =
       _$_ShoppingListDTO.fromJson;
 
   @override
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'updated_at')
   DateTime get updatedAt => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'title')
   String get title => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'user_id')
   int? get userId => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'home_id')
   int get homeId => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'user')
   UserDTO? get user => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'is_all_completed')
   bool get isAllCompleted => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'tasks')
   List<ShoppingTaskDTO> get tasks => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
