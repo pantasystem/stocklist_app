@@ -27,7 +27,7 @@ final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore(ref.read));
 final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), '1|test-1');
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
-final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore());
+final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore(ref.read));
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));

@@ -1,6 +1,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stocklist_app/entity/shopping_task.dart';
+import 'package:stocklist_app/entity/user.dart';
 part 'shopping_list.freezed.dart';
 
 @freezed
