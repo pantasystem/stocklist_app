@@ -28,7 +28,7 @@ class ShoppingListStore extends StateNotifier<ShoppingListsState> {
       final l = [
         ...this.state.shoppingLists,
       ];
-      l.add(sl);
+      l[index] = sl;
       this.state = this.state.copyWith(
           shoppingLists:l
       );
