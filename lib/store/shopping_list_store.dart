@@ -55,7 +55,17 @@ class ShoppingListStore extends StateNotifier<ShoppingListsState> {
 
   }
 
-  Future update() async {
+  Future update(int id, ) async {
 
+  }
+
+  Future completeTask(int shoppingListId, int taskId) async {
+    await stocklistClient.shoppingListAPI.tasks(shoppingListId).complete(taskId);
+    await fetch(shoppingListId);
+  }
+
+  Future incompleteTask(int shoppingListId, int taskId) async {
+    await stocklistClient.shoppingListAPI.tasks(shoppingListId).incomplete(taskId);
+    await fetch(shoppingListId);
   }
 }

@@ -21,21 +21,32 @@ class ShoppingListDetailScreen extends HookWidget {
     useEffect(() {
       Future.microtask(() => shoppingListStore.fetch(args.shoppingListId));
     }, const []);
+
+    void onTaskCompleteChanged(ShoppingTask task) {
+      if(task.isCompleted) {
+        shoppingListStore.incompleteTask(task.shoppingListId, task.id);
+      }else{
+        shoppingListStore.completeTask(task.shoppingListId, task.id);
+      }
+    }
     return Scaffold(
       appBar: AppBar(),
-      body: shoppingList == null || shoppingList.tasks.isEmpty ? CircleProgress() : TasksView(shoppingList.tasks),
+      body: shoppingList == null || shoppingList.tasks.isEmpty ? CircleProgress() : TasksView(shoppingList.tasks, onTaskCompleteChanged),
     );
   }
 }
 
+typedef OnTaskToggleComplete = Function(ShoppingTask);
+
 class TasksView extends StatelessWidget {
   final List<ShoppingTask> tasks;
-  TasksView(this.tasks);
+  final OnTaskToggleComplete onTaskToggleComplete;
+  TasksView(this.tasks, this.onTaskToggleComplete);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) {
-        return TaskListTile(tasks[index], () { });
+        return TaskListTile(tasks[index], () { }, (v) { onTaskToggleComplete(tasks[index]);});
       },
       itemCount: tasks.length,
     );
@@ -46,13 +57,14 @@ class TasksView extends StatelessWidget {
 class TaskListTile extends HookWidget {
   final ShoppingTask task;
   final VoidCallback onTap;
-  TaskListTile(this.task, this.onTap);
+  final ValueChanged onChanged;
+  TaskListTile(this.task, this.onTap, this.onChanged);
   Widget build(BuildContext context) {
     final Item item = useProvider(itemsStateProvider).get(task.itemId);
     return ListTile(
       title: Text(item.name),
       leading: ItemThumbnail(item.imageUrl, 40),
-      trailing: Checkbox(onChanged: (v) {}, value: task.isCompleted,),
+      trailing: Checkbox(onChanged: onChanged, value: task.isCompleted,),
     );
   }
 }
