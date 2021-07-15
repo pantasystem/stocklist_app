@@ -18,4 +18,11 @@ class ShoppingListsState with _$ShoppingListsState{
   }
 
 
+  List<ShoppingList> filterByCompleted() {
+    return this.shoppingLists.where((element) => element.isAllCompleted && element.tasks.isNotEmpty).toList();
+  }
+
+  List<ShoppingList> filterByIncomplete() {
+    return this.shoppingLists.whereNot((element) => element.isAllCompleted && element.tasks.isNotEmpty).toList();
+  }
 }
