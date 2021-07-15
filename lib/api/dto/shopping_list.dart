@@ -7,15 +7,15 @@ part 'shopping_list.g.dart';
 @freezed
 class ShoppingListDTO with _$ShoppingListDTO {
   factory ShoppingListDTO({
-    required int id,
-    required DateTime createdAt,
-    required DateTime updatedAt,
-    required String title,
-    required int? userId,
-    required int homeId,
-    required UserDTO? user,
-    required bool isAllCompleted,
-    required List<ShoppingTaskDTO> tasks
+    @JsonKey(name: 'id') required int id,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    @JsonKey(name: 'title') required String title,
+    @JsonKey(name: 'user_id') required int? userId,
+    @JsonKey(name: 'home_id') required int homeId,
+    @JsonKey(name: 'user') required UserDTO? user,
+    @JsonKey(name: 'is_all_completed') required bool isAllCompleted,
+    @JsonKey(name: 'tasks') required List<ShoppingTaskDTO> tasks
   }) = _ShoppingListDTO;
 
   factory ShoppingListDTO.fromJson(Map<String, dynamic> json) => _$ShoppingListDTOFromJson(json);
