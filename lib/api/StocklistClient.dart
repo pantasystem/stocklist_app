@@ -385,21 +385,21 @@ class ShoppingTaskAPI {
 
     final builder =  Fluri.from(Fluri(baseURL))
       ..appendToPath('api/shopping-lists/$shoppingTaskId/tasks/$id');
-    final res = await http.delete(builder.uri);
+    final res = await http.delete(builder.uri, headers: makeHeader(token));
     handleError(res);
   }
 
   Future complete(int id) async {
     final builder =  Fluri.from(Fluri(baseURL))
       ..appendToPath('api/shopping-lists/$shoppingTaskId/tasks/$id/complete');
-    final res = await http.post(builder.uri);
+    final res = await http.post(builder.uri, headers: makeHeader(token));
     handleError(res);
   }
 
   Future incomplete(int id) async {
     final builder =  Fluri.from(Fluri(baseURL))
       ..appendToPath('api/shopping-lists/$shoppingTaskId/tasks/$id/incomplete');
-    final res = await http.post(builder.uri);
+    final res = await http.post(builder.uri, headers: makeHeader(token));
     handleError(res);
   }
 }
