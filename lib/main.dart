@@ -60,8 +60,8 @@ class MainScreen extends HookWidget {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> screens = [
     HomeScreen(),
-    ItemsScreen(),
     BoxesScreen(),
+    ItemsScreen(),
     CategoryScreen(),
     ShoppingListScreen()
   ];
@@ -111,8 +111,8 @@ class MainScreen extends HookWidget {
             icon: Icon(Icons.home),
             label: 'ホーム'
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.all_out), label: 'ものを探す'),
           BottomNavigationBarItem(icon: Icon(Icons.storage), label: '収納'),
+          BottomNavigationBarItem(icon: Icon(Icons.all_out), label: 'ものを探す'),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: 'カテゴリー'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart,), label: '買い物リスト')
         ],
