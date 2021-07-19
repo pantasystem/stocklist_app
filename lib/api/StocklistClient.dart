@@ -344,9 +344,9 @@ class ShoppingTaskAPI {
     return ShoppingTaskDTO.fromJson(json.decode(res.body));
   }
 
-  Future update(int id, {required int itemId, required int count, required int? boxId, required DateTime? completedAt}) async {
+  Future update(int id, int taskId, {required int itemId, required int count, required int? boxId, required DateTime? completedAt}) async {
     final res = await http.put(
-        buildWithBaseURLAndPath(this.baseURL, "api/shopping-lists/$id").uri,
+        buildWithBaseURLAndPath(this.baseURL, "api/shopping-lists/$id/tasks/$taskId").uri,
         headers: makeHeader(token),
         body: json.encode(
             {
@@ -355,7 +355,7 @@ class ShoppingTaskAPI {
               if(boxId != null)
                 'box_id': boxId,
               if(completedAt != null)
-                'completed_at': completedAt
+                'completed_at': completedAt.toIso8601String()
             }
         )
     );

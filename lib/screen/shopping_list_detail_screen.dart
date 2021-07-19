@@ -40,6 +40,9 @@ class ShoppingListDetailScreen extends HookWidget {
         return TasksView(
           shoppingList.tasks, onTaskCompleteChanged,
           editMode: editMode.value,
+          onCountChanged: (ShoppingTask task, int count) {
+            shoppingListStore.updateTaskCount(task, count);
+          },
         );
       }
 
