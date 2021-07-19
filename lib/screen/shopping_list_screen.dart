@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/entity/shopping_list.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
@@ -38,10 +39,11 @@ class ShoppingListScreen extends HookWidget {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () async {
-            final res = await showDialog(context: context, builder: (context){
+          onPressed: () {
+            showDialog(context: context, builder: (context){
               return ShoppingListTitleEditorDialog(null);
             });
+
           },
         ),
         body: TabBarView(
@@ -55,6 +57,7 @@ class ShoppingListScreen extends HookWidget {
   }
 }
 
+
 class ShoppingListTitleEditorDialog extends HookWidget{
 
   final ShoppingList? shoppingList;
@@ -63,11 +66,33 @@ class ShoppingListTitleEditorDialog extends HookWidget{
   @override
   Widget build(BuildContext context) {
     final title = useTextEditingController.fromValue(TextEditingValue(text: this.shoppingList?.title ?? ''));
+    final store = useProvider(shoppingListStoreProvider.notifier);
+    final errors = useState<ValidationException?>(null);
     return AlertDialog(
       title: Text(shoppingList == null ? 'ショッピングリストを作成' : 'ショッピングリストを編集'),
       actions: [
         TextButton(onPressed: (){  Navigator.of(context).pop(); }, child: Text('キャンセル')),
-        TextButton(onPressed: () { Navigator.of(context).pop(title.value); }, child: Text('保存'),),
+        TextButton(onPressed: () async {
+            if(shoppingList == null) {
+              await store.create(title: title.value.text, userId: null).then((value){
+                Navigator.of(context).pop();
+              }).onError((error, stackTrace){
+                if(error is ValidationException) {
+                  errors.value = error;
+                }
+              });
+            }else{
+              await store.update(shoppingList!.id, title: title.value.text, userId: shoppingList!.userId).then((value){
+                Navigator.of(context).pop();
+              }).onError((error, stackTrace){
+                if(error is ValidationException) {
+                  errors.value = error;
+                }
+              });
+            }
+          },
+          child: Text('保存'),
+        ),
       ],
       content: SingleChildScrollView(
         child: Column(
@@ -75,7 +100,8 @@ class ShoppingListTitleEditorDialog extends HookWidget{
             TextField(
               controller: title,
               decoration: InputDecoration(
-                  hintText: 'タイトル'
+                  hintText: 'タイトル',
+                errorText: errors.value?.safeGetErrorMessage('title')
               ),
             )
           ],
