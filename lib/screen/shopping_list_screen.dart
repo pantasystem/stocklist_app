@@ -38,8 +38,10 @@ class ShoppingListScreen extends HookWidget {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () {
-
+          onPressed: () async {
+            final res = await showDialog(context: context, builder: (context){
+              return ShoppingListTitleEditorDialog(null);
+            });
           },
         ),
         body: TabBarView(
@@ -50,6 +52,37 @@ class ShoppingListScreen extends HookWidget {
         ),
       ),
     );
+  }
+}
+
+class ShoppingListTitleEditorDialog extends HookWidget{
+
+  final ShoppingList? shoppingList;
+  ShoppingListTitleEditorDialog(this.shoppingList);
+
+  @override
+  Widget build(BuildContext context) {
+    final title = useTextEditingController.fromValue(TextEditingValue(text: this.shoppingList?.title ?? ''));
+    return AlertDialog(
+      title: Text(shoppingList == null ? 'ショッピングリストを作成' : 'ショッピングリストを編集'),
+      actions: [
+        TextButton(onPressed: (){  Navigator.of(context).pop(); }, child: Text('キャンセル')),
+        TextButton(onPressed: () { Navigator.of(context).pop(title.value); }, child: Text('保存'),),
+      ],
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextField(
+              controller: title,
+              decoration: InputDecoration(
+                  hintText: 'タイトル'
+              ),
+            )
+          ],
+        ),
+      )
+    );
+
   }
 }
 
