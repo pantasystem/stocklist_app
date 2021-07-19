@@ -93,7 +93,12 @@ class ShoppingListDetailScreen extends HookWidget {
             final removed = tasks.where((element) => !selected.any((s) => element.itemId == s)).toList();
             print('削除対象:$removed');
             final addedItemIds = selected.where((element) => !tasks.any((t) => element == t.itemId)).toList();
-
+            await Future.wait(
+              [
+                shoppingListStore.deleteTasks(shoppingList!.id, removed.map((e) => e.id).toList()),
+                shoppingListStore.createTasksFromItemIds(shoppingList.id, addedItemIds as List<int>)
+              ]
+            );
           }
 
         },
