@@ -81,13 +81,21 @@ class ShoppingListDetailScreen extends HookWidget {
         child: Icon(Icons.add),
         onPressed: () async {
           // アイテムを選択しに行く
-          final selected = Navigator.of(context).pushNamed('/items',
+          final selected = await Navigator.of(context).pushNamed('/items',
             arguments: ItemScreenArgs(
               selectable: ItemSelectable(
                 selectedItemIds: shoppingList?.tasks.map((e) => e.itemId).toList() ?? [], max: 1000,
               )
             )
           );
+          if(selected is List) {
+            final tasks = shoppingList?.tasks ?? [];
+            final removed = tasks.where((element) => !selected.any((s) => element.itemId == s)).toList();
+            print('削除対象:$removed');
+            final addedItemIds = selected.where((element) => !tasks.any((t) => element == t.itemId)).toList();
+
+          }
+
         },
       ),
     );
@@ -131,7 +139,7 @@ class TaskListTile extends HookWidget {
   final OnCountChanged? onCountChanged;
   TaskListTile(this.task, this.onTap, this.onChanged, { this.editMode = false, this.onLongPress, this.onCountChanged });
   Widget buildTrailing(Item item) {
-    final count = task.count >= 100 ? task.count : 100;
+    final count = task.count >= 10 ? task.count : 10;
     if(editMode) {
       return DropdownButton<int>(
         value: task.count,
