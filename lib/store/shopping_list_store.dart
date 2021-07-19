@@ -51,11 +51,17 @@ class ShoppingListStore extends StateNotifier<ShoppingListsState> {
     read(storeAdder).addShoppingListDTO(sl);
   }
 
-  Future create() async {
-
+  Future create({required String title, required int? userId}) async {
+    final res = await stocklistClient.shoppingListAPI.create(title: title, userId: userId);
+    read(storeAdder).addShoppingListDTO(res);
   }
 
-  Future update(int id, ) async {
+  Future update(int id, {required String title, required int? userId}) async {
+    final res = await stocklistClient.shoppingListAPI.update(id, title: title, userId: userId);
+    await fetch(id);
+  }
+
+  Future createTask({required int itemId}) async {
 
   }
 
