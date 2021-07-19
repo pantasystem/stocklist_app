@@ -12,6 +12,9 @@ import 'package:fluri/fluri.dart';
 import 'package:http/http.dart' as http;
 import 'package:stocklist_app/entity/category.dart';
 
+import 'dto/shopping_list.dart';
+import 'dto/shopping_task.dart';
+
 class StocklistClient {
   final String baseURL;
   final String token;
@@ -19,15 +22,17 @@ class StocklistClient {
   StockAPI stockAPI;
   CategoryAPI categoryAPI;
   BoxAPI boxAPI;
+  ShoppingListAPI shoppingListAPI;
 
-  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI, required this.categoryAPI, required this.boxAPI});
+  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI, required this.categoryAPI, required this.boxAPI, required this.shoppingListAPI});
 
   factory StocklistClient(String baseURL, String token) {
     final itemAPI = ItemAPI(baseURL: baseURL, token: token);
     final stockAPI = StockAPI(baseURL, token);
     final categoryAPI = CategoryAPI(baseURL, token);
     final boxAPI = BoxAPI(baseURL, token);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI);
+    final shoppingListAPI = ShoppingListAPI(baseURL, token);
+    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI, shoppingListAPI: shoppingListAPI);
   }
 
 
@@ -251,7 +256,152 @@ class ShoppingListAPI {
   final String token;
   ShoppingListAPI(this.baseURL, this.token);
 
+  Future<List<ShoppingListDTO>> all() async {
+    final res = await http.get(
+    buildWithBaseURLAndPath(baseURL, 'api/shopping-lists').uri,
+    headers: makeHeader(token)
+    );
+    handleError(res);
+    final list = json.decode(res.body) as List<dynamic>;
 
+    return list.map((map)=> ShoppingListDTO.fromJson(map)).toList();
+  }
+
+  Future<ShoppingListDTO> show(int id) async {
+    final res = await http.get(
+        buildWithBaseURLAndPath(baseURL, 'api/shopping-lists/$id').uri,
+        headers: makeHeader(token)
+    );
+    handleError(res);
+    return ShoppingListDTO.fromJson(json.decode(res.body));
+  }
+
+  Future update(int id, {required String title, required int? userId }) async {
+    final res = await http.put(
+        buildWithBaseURLAndPath(this.baseURL, "api/shopping-lists/$id").uri,
+        headers: makeHeader(token),
+        body: json.encode(
+            {
+              'title': title,
+              if(userId != null)
+                'user_id': userId
+            }
+        )
+    );
+    handleError(res);
+  }
+
+  Future<ShoppingListDTO> create({required String title, required int? userId }) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath("api/shopping-lists");
+
+    final res = await http.post(builder.uri, headers: makeHeader(this.token), body: json.encode({
+      'title': title,
+      if(userId != null)
+        'user_id': userId
+    }));
+    handleError(res);
+    return ShoppingListDTO.fromJson(json.decode(res.body));
+  }
+
+  Future delete(int id) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath('api/shopping-lists/$id');
+    final res = await http.delete(builder.uri);
+    handleError(res);
+  }
+
+  ShoppingTaskAPI tasks(int shoppingListId) {
+    return ShoppingTaskAPI(baseURL, token, shoppingListId);
+  }
+
+
+}
+
+class ShoppingTaskAPI {
+  final String baseURL;
+  final String token;
+  final int shoppingTaskId;
+  ShoppingTaskAPI(this.baseURL, this.token, this.shoppingTaskId);
+
+  Future<List<ShoppingTaskDTO>> all() async{
+    final res = await http.get(
+        buildWithBaseURLAndPath(baseURL, 'api/shopping-lists/$shoppingTaskId/tasks').uri,
+        headers: makeHeader(token)
+    );
+    handleError(res);
+    final list = json.decode(res.body) as List<dynamic>;
+
+    return list.map((map)=> ShoppingTaskDTO.fromJson(map)).toList();
+  }
+
+  Future<ShoppingTaskDTO> show(int id) async {
+    final res = await http.get(
+        buildWithBaseURLAndPath(baseURL, 'api/shopping-lists/$shoppingTaskId/tasks/$id').uri,
+        headers: makeHeader(token)
+    );
+    handleError(res);
+    return ShoppingTaskDTO.fromJson(json.decode(res.body));
+  }
+
+  Future update(int id, int taskId, {required int itemId, required int count, required int? boxId, required DateTime? completedAt}) async {
+    final res = await http.put(
+        buildWithBaseURLAndPath(this.baseURL, "api/shopping-lists/$id/tasks/$taskId").uri,
+        headers: makeHeader(token),
+        body: json.encode(
+            {
+              'item_id': itemId,
+              'count': count,
+              if(boxId != null)
+                'box_id': boxId,
+              if(completedAt != null)
+                'completed_at': completedAt.toIso8601String()
+            }
+        )
+    );
+    handleError(res);
+  }
+
+  Future create({required int itemId, required int count, required int? boxId, required DateTime? completedAt}) async {
+    final res = await http.post(
+        buildWithBaseURLAndPath(this.baseURL, "api/shopping-lists/$shoppingTaskId/tasks").uri,
+        headers: makeHeader(token),
+        body: json.encode(
+            {
+              'item_id': itemId,
+              'count': count,
+              if(boxId != null)
+                'box_id': boxId,
+              if(completedAt != null)
+                'completed_at': completedAt
+            }
+        )
+    );
+    handleError(res);
+    return ShoppingTaskDTO.fromJson(json.decode(res.body));
+  }
+
+  Future delete(int id) async {
+
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath('api/shopping-lists/$shoppingTaskId/tasks/$id');
+    final res = await http.delete(builder.uri, headers: makeHeader(token));
+    handleError(res);
+  }
+
+  Future complete(int id) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath('api/shopping-lists/$shoppingTaskId/tasks/$id/complete');
+    final res = await http.post(builder.uri, headers: makeHeader(token));
+    handleError(res);
+  }
+
+  Future incomplete(int id) async {
+    final builder =  Fluri.from(Fluri(baseURL))
+      ..appendToPath('api/shopping-lists/$shoppingTaskId/tasks/$id/incomplete');
+    final res = await http.post(builder.uri, headers: makeHeader(token));
+    handleError(res);
+  }
 }
 
 Map<String, String> makeHeader(String? token) {

@@ -36,7 +36,7 @@ class ItemsScreen extends HookWidget {
     final isSortDesc = useState(false);
     final items = useProvider(itemsStateProvider).filterAndSort(filter: itemFilter.value,src: sortSrc.value, isReverse: isSortDesc.value);
 
-    final selectedItemIds = useState<List<int>>([]);
+    final selectedItemIds = useState<List<int>>(args?.selectable?.selectedItemIds ?? []);
     final itemStore = useProvider(itemsStateProvider.notifier);
 
     final isSelectMode = args?.selectable != null;
@@ -133,13 +133,13 @@ class ItemsScreen extends HookWidget {
             selectedItemIds: selectedItemIds.value,
             onItemSelected: (int index, Item item) {
               if(isSelectMode) {
-                if(selectedItemIds.value.length < args!.selectable!.max) {
+                if(selectedItemIds.value.any((element) => element == item.id)){
+                  selectedItemIds.value = selectedItemIds.value.where((element) => element != item.id).toList();
+                }else if(selectedItemIds.value.length < args!.selectable!.max) {
                   selectedItemIds.value = [
                     ...selectedItemIds.value,
                     item.id
                   ];
-                }else if(selectedItemIds.value.any((element) => element == item.id)){
-                  selectedItemIds.value = selectedItemIds.value.where((element) => element != item.id).toList();
                 }
 
               }else{

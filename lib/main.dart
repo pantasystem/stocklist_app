@@ -11,10 +11,13 @@ import 'package:stocklist_app/screen/home_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
+import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
+import 'package:stocklist_app/screen/shopping_list_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
 import 'package:stocklist_app/store/box_store.dart';
 import 'package:stocklist_app/store/category_store.dart';
 import 'package:stocklist_app/store/item_store.dart';
+import 'package:stocklist_app/store/shopping_list_store.dart';
 import 'package:stocklist_app/store/stock_store.dart';
 import 'package:stocklist_app/store_adder.dart';
 
@@ -25,6 +28,7 @@ final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore(ref.read));
 final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), '1|test-1');
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
+final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore(ref.read));
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));
@@ -49,6 +53,7 @@ class StocklistApp extends StatelessWidget {
         '/boxes': (BuildContext context) => BoxesScreen(),
         '/items/filter': (BuildContext context) => FilterScreen(),
         '/categories': (BuildContext context) => CategoryScreen(),
+        '/shopping-lists': (BuildContext context) => ShoppingListDetailScreen(),
       }
     );
 
@@ -59,9 +64,10 @@ class MainScreen extends HookWidget {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> screens = [
     HomeScreen(),
-    ItemsScreen(),
     BoxesScreen(),
-    CategoryScreen()
+    ItemsScreen(),
+    CategoryScreen(),
+    ShoppingListScreen()
   ];
 
   @override
@@ -109,9 +115,10 @@ class MainScreen extends HookWidget {
             icon: Icon(Icons.home),
             label: 'ホーム'
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.all_out), label: 'ものを探す'),
           BottomNavigationBarItem(icon: Icon(Icons.storage), label: '収納'),
+          BottomNavigationBarItem(icon: Icon(Icons.all_out), label: 'ものを探す'),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: 'カテゴリー'),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart,), label: '買い物リスト')
         ],
         currentIndex: selectedIndex.value,
         selectedFontSize: 14,

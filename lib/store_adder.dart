@@ -3,9 +3,13 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/dto/box.dart';
 import 'package:stocklist_app/api/dto/item.dart';
+import 'package:stocklist_app/api/dto/shopping_list.dart';
+import 'package:stocklist_app/api/dto/shopping_task.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:stocklist_app/entity/box.dart';
 import 'package:stocklist_app/entity/item.dart';
+import 'package:stocklist_app/entity/shopping_list.dart';
+import 'package:stocklist_app/entity/shopping_task.dart';
 import 'package:stocklist_app/entity/stock.dart';
 import 'package:stocklist_app/entity/user.dart';
 import 'package:stocklist_app/main.dart';
@@ -84,6 +88,40 @@ class StoreAdder {
   void addAllBoxDTOs(List<BoxDTO>? boxDTOs) {
     boxDTOs?.forEach((element) {
       addBoxDTO(element);
+    });
+  }
+
+  void addShoppingListDTO(ShoppingListDTO? dto) {
+    if(dto == null) {
+      return;
+    }
+    final tasks = dto.tasks.map((e){
+      addItemDTO(e.item);
+      addBoxDTO(e.box);
+      return ShoppingTask(id: e.id, createdAt: e.createdAt, updatedAt: e.updatedAt, itemId: e.itemId, boxId: e.boxId, completedAt: e.completedAt, shoppingListId: e.shoppingListId, isCompleted: e.isCompleted, count: e.count ?? 0);
+
+    }).toList();
+    User? user;
+    if(dto.user != null) {
+      user = User(id: dto.user!.id, homeId: dto.user!.homeId, name: dto.user!.name);
+    }
+    final sl = ShoppingList(
+      id: dto.id,
+      createdAt: dto.createdAt,
+      updatedAt: dto.updatedAt,
+      title: dto.title,
+      userId: dto.userId,
+      homeId: dto.homeId,
+      isAllCompleted: dto.isAllCompleted,
+      tasks: tasks,
+      user: user
+    );
+    read(shoppingListStoreProvider.notifier).add(sl);
+  }
+
+  void addShoppingListDTOs(List<ShoppingListDTO> list) {
+    list.forEach((element) {
+      addShoppingListDTO(element);
     });
   }
 
