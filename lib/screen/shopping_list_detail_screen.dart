@@ -18,8 +18,12 @@ class ShoppingListDetailScreen extends HookWidget {
     final args = ModalRoute.of(context)?.settings.arguments as ShoppingListDetailScreenArgs;
     final ShoppingList? shoppingList = useProvider(shoppingListStoreProvider).safeGet(args.shoppingListId);
     final shoppingListStore = useProvider(shoppingListStoreProvider.notifier);
+    final loadError = useState<Exception?>(null);
+    final isLoading = useState<bool>(true);
     useEffect(() {
-      Future.microtask(() => shoppingListStore.fetch(args.shoppingListId));
+      Future.microtask(() => shoppingListStore.fetch(args.shoppingListId)
+          .onError((Exception error, stackTrace) => loadError.value  = error)
+          .whenComplete(() => isLoading.value = false));
     }, const []);
 
     void onTaskCompleteChanged(ShoppingTask task) {
@@ -29,9 +33,30 @@ class ShoppingListDetailScreen extends HookWidget {
         shoppingListStore.completeTask(task.shoppingListId, task.id);
       }
     }
+    Widget buildTaskList() {
+      if(shoppingList != null && shoppingList.tasks.isNotEmpty) {
+        return TasksView(shoppingList.tasks, onTaskCompleteChanged);
+      }
+
+      if(!isLoading.value && loadError.value != null) {
+        return Center(
+          child: Text('読み込みエラー'),
+        );
+      }
+
+      if(!isLoading.value && shoppingList?.tasks.isEmpty == true) {
+        return Center(
+          child: Text('タスクが一つも登録されていません'),
+        );
+      }
+
+      return CircleProgress();
+
+
+    }
     return Scaffold(
       appBar: AppBar(),
-      body: shoppingList == null || shoppingList.tasks.isEmpty ? CircleProgress() : TasksView(shoppingList.tasks, onTaskCompleteChanged),
+      body: buildTaskList(),
     );
   }
 }

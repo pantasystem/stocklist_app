@@ -8,7 +8,6 @@ import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/entity/shopping_list.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
-import 'package:stocklist_app/state/shopping_list_state.dart';
 
 class ShoppingListScreen extends HookWidget {
 
