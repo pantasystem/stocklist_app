@@ -87,7 +87,7 @@ class ItemsScreen extends HookWidget {
         bottom: PreferredSize(
           child: Container(
             alignment: Alignment.center,
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             constraints: BoxConstraints.expand(height: 50),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,

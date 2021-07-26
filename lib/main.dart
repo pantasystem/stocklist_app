@@ -41,9 +41,15 @@ class StocklistApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //final items = makeItems(homeId: 1, count: 20);
     //context.read(itemsStateProvider.notifier).addAll(items);
+    final isDark = false;
 
+    final normalTheme = ThemeData(
+      primaryColor: Color.fromARGB(0xff, 0x00, 0x96, 0x88),
+      accentColor: Color.fromARGB(0xff, 0x4c, 0xaf, 0x50),
+    );
     return MaterialApp(
       initialRoute: '/home',
+      theme: isDark ? ThemeData.dark() : normalTheme,
       routes: <String, WidgetBuilder> {
         '/home': (BuildContext context) => MainScreen(),
         '/items/create': (BuildContext context) => ItemEditorScreen(),
