@@ -53,7 +53,8 @@ class StocklistApp extends StatelessWidget {
         '/boxes': (BuildContext context) => BoxesScreen(),
         '/items/filter': (BuildContext context) => FilterScreen(),
         '/categories': (BuildContext context) => CategoryScreen(),
-        '/shopping-lists': (BuildContext context) => ShoppingListDetailScreen(),
+        '/shopping-lists/detial': (BuildContext context) => ShoppingListDetailScreen(),
+        '/shopping-lists': (BuildContext context) => ShoppingListScreen(),
       }
     );
 

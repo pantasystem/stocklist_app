@@ -9,9 +9,21 @@ import 'package:stocklist_app/entity/shopping_list.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
 
+class ShoppingListScreenArgs {
+  ShoppingListSelectable? selectable;
+  ShoppingListScreenArgs({this.selectable});
+}
+
+class ShoppingListSelectable {
+  final List<int> selectedShoppingListIds;
+  final int max;
+  final bool once;
+  ShoppingListSelectable({this.selectedShoppingListIds = const [], required this.max, this.once = false});
+}
 class ShoppingListScreen extends HookWidget {
 
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as ShoppingListScreenArgs?;
 
     final shoppingListsState = useProvider(shoppingListStoreProvider);
     final shoppingListStore = useProvider(shoppingListStoreProvider.notifier);
@@ -21,20 +33,52 @@ class ShoppingListScreen extends HookWidget {
     final completeList = shoppingListsState.filterByCompleted();
     final incompleteList = shoppingListsState.filterByIncomplete();
 
+    final selectedIds = useState<List<int>>([]);
+
     void onShoppingListSelected(ShoppingList list) {
-      Navigator.of(context).pushNamed('/shopping-lists', arguments: ShoppingListDetailScreenArgs(list.id));
+      if(args?.selectable == null) {
+        Navigator.of(context).pushNamed('/shopping-lists/detail', arguments: ShoppingListDetailScreenArgs(list.id));
+      }else if(args!.selectable!.once == true){
+        Navigator.of(context).pop([list.id]);
+      }else{
+        if(selectedIds.value.contains(list.id)) {
+          selectedIds.value = selectedIds.value.where((element) => element != list.id).toList();
+        }else if(selectedIds.value.length < args.selectable!.max) {
+          selectedIds.value = [
+            ...selectedIds.value,
+            list.id
+          ];
+        }
+      }
+    }
+
+    Widget buildTitle() {
+      if(args?.selectable == null) {
+        return Text('買い物リスト');
+      }else{
+        return Text('買い物リストを選択');
+      }
     }
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('買い物リスト'),
+          title: buildTitle(),
           bottom: TabBar(
             tabs: [
               Tab(child: Text('未達成'),),
               Tab( child: Text('達成済み'))
             ],
           ),
+          actions: [
+            if(args?.selectable != null && args?.selectable?.once != true)
+              IconButton(
+                icon: Icon(Icons.check),
+                onPressed: (){
+                  Navigator.of(context).pop(selectedIds.value);
+                },
+              )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
