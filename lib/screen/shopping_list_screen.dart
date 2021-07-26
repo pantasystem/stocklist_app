@@ -37,7 +37,7 @@ class ShoppingListScreen extends HookWidget {
         Navigator.of(context).pushNamed('/shopping-lists/detail', arguments: ShoppingListDetailScreenArgs(list.id));
       }else{
         final res = await showDialog(context: context, builder: (BuildContext context) {
-          return ConfirmAddItemDialog();
+          return CreateTaskFromItemDialog();
         });
 
       }
@@ -178,7 +178,7 @@ class ShoppingListListTile extends StatelessWidget{
 }
 
 
-class ConfirmAddItemDialog extends HookWidget {
+class CreateTaskFromItemDialog extends HookWidget {
   @override
   Widget build(BuildContext context) {
 
