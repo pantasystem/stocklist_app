@@ -62,8 +62,9 @@ class ShoppingListStore extends StateNotifier<ShoppingListsState> {
     await fetch(id);
   }
 
-  Future createTask(int listId, {required int itemId, required int count, required int boxId}) async {
-
+  Future createTask(int listId, {required int itemId, required int count, required int? boxId}) async {
+    await stocklistClient.shoppingListAPI.tasks(listId).create(itemId: itemId, count: count, boxId: boxId, completedAt: null);
+    await fetch(listId);
   }
 
   Future deleteTasks(int listId, List<int> taskIds) async {
