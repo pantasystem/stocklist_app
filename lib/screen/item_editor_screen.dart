@@ -146,6 +146,7 @@ class ItemEditorScreen extends HookWidget {
             onPressed: (){
               _showPickTypeDialog();
             },
+            style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
             child: Text("写真を変更する")
           ),
           ListView(

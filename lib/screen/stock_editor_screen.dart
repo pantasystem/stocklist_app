@@ -194,7 +194,8 @@ class StockEditorScreen extends HookWidget {
             print('onPressd save');
             save();
           },
-          child: Text("保存する")
+          child: Text("保存する"),
+          style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
         )
       ],
 
