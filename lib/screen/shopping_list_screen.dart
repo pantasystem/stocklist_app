@@ -10,15 +10,13 @@ import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
 
 class ShoppingListScreenArgs {
-  ShoppingListSelectable? selectable;
-  ShoppingListScreenArgs({this.selectable});
+  AddItem? addable;
+  ShoppingListScreenArgs({this.addable});
 }
 
-class ShoppingListSelectable {
-  final List<int> selectedShoppingListIds;
-  final int max;
-  final bool once;
-  ShoppingListSelectable({this.selectedShoppingListIds = const [], required this.max, this.once = false});
+class AddItem {
+  final int itemId;
+  AddItem({required this.itemId});
 }
 class ShoppingListScreen extends HookWidget {
 
@@ -33,32 +31,26 @@ class ShoppingListScreen extends HookWidget {
     final completeList = shoppingListsState.filterByCompleted();
     final incompleteList = shoppingListsState.filterByIncomplete();
 
-    final selectedIds = useState<List<int>>([]);
 
-    void onShoppingListSelected(ShoppingList list) {
-      if(args?.selectable == null) {
+    void onShoppingListSelected(ShoppingList list) async {
+      if(args?.addable == null) {
         Navigator.of(context).pushNamed('/shopping-lists/detail', arguments: ShoppingListDetailScreenArgs(list.id));
-      }else if(args!.selectable!.once == true){
-        Navigator.of(context).pop([list.id]);
       }else{
-        if(selectedIds.value.contains(list.id)) {
-          selectedIds.value = selectedIds.value.where((element) => element != list.id).toList();
-        }else if(selectedIds.value.length < args.selectable!.max) {
-          selectedIds.value = [
-            ...selectedIds.value,
-            list.id
-          ];
-        }
+        final res = await showDialog(context: context, builder: (BuildContext context) {
+          return ConfirmAddItemDialog();
+        });
+
       }
     }
 
     Widget buildTitle() {
-      if(args?.selectable == null) {
+      if(args?.addable == null) {
         return Text('買い物リスト');
       }else{
-        return Text('買い物リストを選択');
+        return Text('買い物リストにものを追加');
       }
     }
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -70,15 +62,6 @@ class ShoppingListScreen extends HookWidget {
               Tab( child: Text('達成済み'))
             ],
           ),
-          actions: [
-            if(args?.selectable != null && args?.selectable?.once != true)
-              IconButton(
-                icon: Icon(Icons.check),
-                onPressed: (){
-                  Navigator.of(context).pop(selectedIds.value);
-                },
-              )
-          ],
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
@@ -190,6 +173,56 @@ class ShoppingListListTile extends StatelessWidget{
       title: Text(shoppingList.title),
       subtitle: Text("タスク数:${shoppingList.tasks.length}, 達成済み:${shoppingList.tasks.where((element) => element.isCompleted).length}"),
       onTap: onTap,
+    );
+  }
+}
+
+
+class ConfirmAddItemDialog extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    final count = useState(1);
+    return AlertDialog(
+      actions: [
+        TextButton(onPressed: () {
+          Navigator.of(context).pop();
+        }, child: Text("やめる")),
+        TextButton(
+          onPressed: () {
+
+          },
+          child: Text("作成")
+        )
+      ],
+      title: Text('買い物リストへ追加'),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('個数'),
+                DropdownButton<int>(
+                    hint: Text('購入個数'),
+                    value: count.value,
+                    items: <int>[for(int i = 0; i <= 10; i++) i].map((e){
+                      return DropdownMenuItem(child: Text(e.toString()), value: e,);
+                    }).toList(),
+                    onChanged: (i) {
+                      if(i != null) {
+                        count.value = i;
+                      }
+                    }
+                )
+              ],
+            ),
+
+
+          ],
+        ),
+      ),
     );
   }
 }

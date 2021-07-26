@@ -62,13 +62,10 @@ class ItemsScreen extends HookWidget {
       }
     }
 
-    void selectWithAddShoppingList() async {
-      final res = await Navigator.of(context).pushNamed(
-          '/shopping-lists', arguments: ShoppingListScreenArgs(selectable: ShoppingListSelectable(once: true, max: 1))
+    void selectWithAddShoppingList(Item item) async {
+      Navigator.of(context).pushNamed(
+          '/shopping-lists', arguments: ShoppingListScreenArgs(addable: AddItem(itemId: item.id))
       );
-      if(res is List<int> && res.length > 0) {
-
-      }
     }
 
     void onItemAction(Item item, ItemAction action) async {
@@ -79,7 +76,7 @@ class ItemsScreen extends HookWidget {
           break;
         case ItemAction.ADD_SHOPPING_LIST:
           /// 買い物リスト選択画面を表示
-          selectWithAddShoppingList();
+          selectWithAddShoppingList(item);
           break;
       }
     }
