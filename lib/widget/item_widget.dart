@@ -7,6 +7,7 @@ import 'package:stocklist_app/widget/item_category_chip.dart';
 
 typedef OnItemSelected = Function(int index, Item item);
 typedef OnCategorySelected = Function(int);
+typedef OnItemAction = Function(Item, ItemAction);
 
 class ItemListTileWidget extends StatelessWidget{
 
@@ -56,7 +57,9 @@ class ItemListTileWidget extends StatelessWidget{
   }
 
 }
-
+enum ItemAction {
+  USED, ADD_SHOPPING_LIST
+}
 class ItemListView extends StatelessWidget {
   final List<Item> items;
   final ScrollPhysics? physics;
@@ -64,8 +67,9 @@ class ItemListView extends StatelessWidget {
   final OnCategorySelected? onCategorySelected;
   final OnItemSelected? onItemSelected;
   final List<int> selectedItemIds;
+  final OnItemAction? onItemAction;
   ItemListView({
-    required this.items, this.physics, this.shrinkWrap = false, this.onCategorySelected, this.onItemSelected, this.selectedItemIds = const []});
+    required this.items, this.physics, this.shrinkWrap = false, this.onCategorySelected, this.onItemSelected, this.selectedItemIds = const [], this.onItemAction});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -84,12 +88,15 @@ class ItemListView extends StatelessWidget {
         onItemSelected?.call(index, items[index]);
       },
       isSelected: selectedItemIds.any((element) => element == items[index].id),
-      trailing: PopupMenuButton(
+      trailing: PopupMenuButton<ItemAction>(
         icon: Icon(Icons.more_vert),
+        onSelected: (v) {
+          onItemAction?.call(items[index], v);
+        },
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem(
-              value: 1,
+              value: ItemAction.ADD_SHOPPING_LIST,
               child: Row(
                 children: [
                   Icon(Icons.add),
@@ -98,7 +105,7 @@ class ItemListView extends StatelessWidget {
               ),
             ),
             PopupMenuItem(
-              value: 1,
+              value: ItemAction.USED,
               child: Row(
                 children: [
                   Icon(Icons.remove),

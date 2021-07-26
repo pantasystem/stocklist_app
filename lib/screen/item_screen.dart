@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/filter/item_filter.dart';
 import 'package:stocklist_app/main.dart';
+import 'package:stocklist_app/screen/shopping_list_screen.dart';
 import 'package:stocklist_app/state/items_state.dart';
 import 'package:stocklist_app/widget/item_filter_chip.dart';
 import 'package:stocklist_app/widget/item_widget.dart';
@@ -58,6 +59,25 @@ class ItemsScreen extends HookWidget {
       final res = await Navigator.of(context).pushNamed('/items/filter', arguments: itemFilter.value);
       if(res is ItemFilter) {
         itemFilter.value = res;
+      }
+    }
+
+    void selectWithAddShoppingList(Item item) async {
+      Navigator.of(context).pushNamed(
+          '/shopping-lists', arguments: ShoppingListScreenArgs(addable: AddItem(itemId: item.id))
+      );
+    }
+
+    void onItemAction(Item item, ItemAction action) async {
+      switch(action) {
+        case ItemAction.USED:
+          /// 収納場所選択ダイアログ＆個数選択ダイアログを表示
+
+          break;
+        case ItemAction.ADD_SHOPPING_LIST:
+          /// 買い物リスト選択画面を表示
+          selectWithAddShoppingList(item);
+          break;
       }
     }
 
@@ -146,6 +166,7 @@ class ItemsScreen extends HookWidget {
                 Navigator.of(context).pushNamed("/items/show", arguments: ItemArgs(item.id));
               }
             },
+            onItemAction: onItemAction,
           )
         ],
       ),
