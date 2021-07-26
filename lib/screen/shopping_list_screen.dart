@@ -209,6 +209,7 @@ class CreateTaskFromItemDialog extends HookWidget {
   Widget build(BuildContext context) {
     final Item item = useProvider(itemsStateProvider).get(itemId);
     final count = useState(1);
+    final isAdded = list.tasks.any((element) => element.itemId == item.id);
     return AlertDialog(
       actions: [
         TextButton(onPressed: () {
@@ -226,6 +227,13 @@ class CreateTaskFromItemDialog extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if(isAdded)
+              Text(
+                '${item.name}は既に追加済みです',
+                style: TextStyle(
+                  color: Theme.of(context).errorColor
+                ),
+              ),
             Text('${item.name}→'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
