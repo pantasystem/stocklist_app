@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/StocklistClient.dart';
+import 'package:stocklist_app/entity/create_shopping_task.dart';
+import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/entity/shopping_list.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
@@ -37,8 +39,29 @@ class ShoppingListScreen extends HookWidget {
         Navigator.of(context).pushNamed('/shopping-lists/detail', arguments: ShoppingListDetailScreenArgs(list.id));
       }else{
         final res = await showDialog(context: context, builder: (BuildContext context) {
-          return CreateTaskFromItemDialog();
+          return CreateTaskFromItemDialog(list, args!.addable!.itemId);
         });
+        if(res is CreateShoppingTask) {
+          shoppingListStore.createTask(res.listId, itemId: res.itemId, count: res.count, boxId: res.boxId).then((value){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("買い物リストへ追加しました"),
+                action: SnackBarAction(
+                  label: "表示",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/shopping-lists/detail', arguments: ShoppingListDetailScreenArgs(res.listId));
+                  },
+                ),
+              )
+            );
+          }).onError((error, stackTrace){
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text("買い物リストへの追加に失敗しました")
+                )
+            );
+          });
+        }
 
       }
     }
@@ -47,7 +70,7 @@ class ShoppingListScreen extends HookWidget {
       if(args?.addable == null) {
         return Text('買い物リスト');
       }else{
-        return Text('買い物リストにものを追加');
+        return Text('作成先買い物リストを選択');
       }
     }
 
@@ -179,9 +202,12 @@ class ShoppingListListTile extends StatelessWidget{
 
 
 class CreateTaskFromItemDialog extends HookWidget {
+  final ShoppingList list;
+  final int itemId;
+  CreateTaskFromItemDialog(this.list, this.itemId);
   @override
   Widget build(BuildContext context) {
-
+    final Item item = useProvider(itemsStateProvider).get(itemId);
     final count = useState(1);
     return AlertDialog(
       actions: [
@@ -190,7 +216,7 @@ class CreateTaskFromItemDialog extends HookWidget {
         }, child: Text("やめる")),
         TextButton(
           onPressed: () {
-
+            Navigator.of(context).pop(CreateShoppingTask(listId: list.id, count: count.value, boxId: null, itemId: itemId));
           },
           child: Text("作成")
         )
@@ -200,6 +226,7 @@ class CreateTaskFromItemDialog extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text('${item.name}→'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -215,9 +242,11 @@ class CreateTaskFromItemDialog extends HookWidget {
                         count.value = i;
                       }
                     }
-                )
+                ),
+
               ],
             ),
+            Text('→${list.title}'),
 
 
           ],
