@@ -7,6 +7,7 @@ import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/entity/box.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/widget/box_widget.dart';
+import 'package:collection/collection.dart';
 
 class BoxSelectable {
   final int maxSelectableCount;
@@ -29,7 +30,7 @@ class BoxesScreen extends HookWidget {
   Widget build(BuildContext context) {
     //final boxes = makeBoxes();
 
-    final boxes = useProvider(boxesStateProvider).boxes;
+    final boxes = (useProvider(boxesStateProvider).boxes as List<Box>).sortedBy((element) => element.name).toList();
     final args = ModalRoute.of(context)?.settings.arguments as BoxesScreenArgs?;
     final selectedBoxIds = useState(args?.selectable?.selectedBoxIds?? []);
     final selectable = selectedBoxIds.value.length < (args?.selectable?.maxSelectableCount ?? -1);
@@ -60,14 +61,16 @@ class BoxesScreen extends HookWidget {
           boxes: boxes,
           selectedBoxIds: selectedBoxIds.value,
           isSelectable: selectable,
-          listener: (id) {
-            if(selectedBoxIds.value.any((element) => element == id)) {
-              selectedBoxIds.value = selectedBoxIds.value.where((element) => element != id).toSet().toList();
+          listener: (box) {
+            if(selectedBoxIds.value.any((element) => element == box.id)) {
+              selectedBoxIds.value = selectedBoxIds.value.where((element) => element != box.id).toSet().toList();
             }else if(selectable){
               selectedBoxIds.value = [
                 ...selectedBoxIds.value,
-                id
+                box.id
               ];
+            }else{
+              showBoxEditorDialog(box);
             }
           },
         ),
@@ -100,7 +103,13 @@ class BoxEditorDialog extends HookWidget {
     final boxStore = useProvider(boxesStateProvider.notifier);
 
     void submit() {
-      boxStore.create(name: name.text, description: description.text).then((value){
+      Future future;
+      if(box == null) {
+        future = boxStore.create(name: name.text, description: description.text);
+      }else{
+        future = boxStore.update(box!.id, name: name.text, description: description.text);
+      }
+      future.then((value){
         Navigator.of(context).pop();
       }).catchError((e, _){
         if(e is ValidationException) {
