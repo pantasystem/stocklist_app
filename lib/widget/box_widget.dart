@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stocklist_app/entity/box.dart';
 
-typedef OnBoxSelectedListener = Function(int);
+typedef OnBoxSelectedListener = Function(Box);
 
 class BoxListView extends StatelessWidget {
 
@@ -26,7 +26,7 @@ class BoxListView extends StatelessWidget {
           isSelectable: this.isSelectable,
           isSelected: selectedBoxIds.any((element) => element == boxes[index].id),
           listener: this.listener == null ? null : () {
-            this.listener?.call(boxes[index].id);
+            this.listener?.call(boxes[index]);
           }
         );
       },
