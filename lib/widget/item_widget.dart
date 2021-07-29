@@ -80,6 +80,39 @@ class ItemListView extends StatelessWidget {
     );
   }
 
+  Widget? buildTrailing(int index) {
+    if(onItemAction == null) {
+      return null;
+    }
+    return PopupMenuButton<ItemAction>(
+      icon: Icon(Icons.more_vert),
+      onSelected: (v) {
+        onItemAction?.call(items[index], v);
+      },
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            value: ItemAction.ADD_SHOPPING_LIST,
+            child: Row(
+              children: [
+                Icon(Icons.add),
+                Text('買い物リスト')
+              ],
+            ),
+          ),
+          PopupMenuItem(
+            value: ItemAction.USED,
+            child: Row(
+              children: [
+                Icon(Icons.remove),
+                Text('使った')
+              ],
+            ),
+          ),
+        ];
+      },
+    );
+  }
   Widget buildListItem(BuildContext context, int index) {
     return ItemListTileWidget(
       item: items[index],
@@ -88,34 +121,7 @@ class ItemListView extends StatelessWidget {
         onItemSelected?.call(index, items[index]);
       },
       isSelected: selectedItemIds.any((element) => element == items[index].id),
-      trailing: PopupMenuButton<ItemAction>(
-        icon: Icon(Icons.more_vert),
-        onSelected: (v) {
-          onItemAction?.call(items[index], v);
-        },
-        itemBuilder: (BuildContext context) {
-          return [
-            PopupMenuItem(
-              value: ItemAction.ADD_SHOPPING_LIST,
-              child: Row(
-                children: [
-                  Icon(Icons.add),
-                  Text('買い物リスト')
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: ItemAction.USED,
-              child: Row(
-                children: [
-                  Icon(Icons.remove),
-                  Text('使った')
-                ],
-              ),
-            ),
-          ];
-        },
-      ),
+      trailing: buildTrailing(index)
     );
   }
 }
