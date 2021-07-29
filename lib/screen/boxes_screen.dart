@@ -97,8 +97,18 @@ class BoxEditorDialog extends HookWidget {
 
     final validationErrors = useState<ValidationException?>(null);
 
-    void submit() {
+    final boxStore = useProvider(boxesStateProvider.notifier);
 
+    void submit() {
+      boxStore.create(name: name.text, description: description.text).then((value){
+        Navigator.of(context).pop();
+      }).catchError((e, _){
+        if(e is ValidationException) {
+          validationErrors.value = e;
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("作成に失敗しました")));
+        }
+      });
     }
 
     return AlertDialog(
