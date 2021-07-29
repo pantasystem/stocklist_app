@@ -98,7 +98,7 @@ class BoxEditorDialog extends HookWidget {
     final validationErrors = useState<ValidationException?>(null);
 
     void submit() {
-      
+
     }
 
     return AlertDialog(
