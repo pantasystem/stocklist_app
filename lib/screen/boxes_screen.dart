@@ -112,6 +112,7 @@ class BoxEditorDialog extends HookWidget {
     }
 
     return AlertDialog(
+      title: Text(box == null ? "収納を作成" : "収納を編集"),
       actions: [
         TextButton(
           onPressed: (){
