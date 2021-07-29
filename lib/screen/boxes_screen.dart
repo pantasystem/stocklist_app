@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stocklist_app/api/StocklistClient.dart';
+import 'package:stocklist_app/entity/box.dart';
 import 'package:stocklist_app/main.dart';
 import 'package:stocklist_app/widget/box_widget.dart';
 
@@ -37,6 +39,10 @@ class BoxesScreen extends HookWidget {
         boxStore.fetchAll()
       });
     }, []);
+
+    void showBoxEditorDialog(Box? box) {
+      showDialog(context: context, builder: (context)=>BoxEditorDialog(box: box));
+    }
     return Scaffold(
         appBar: AppBar(
           title: args?.selectable == null ? Text("収納別") : Text("収納選択(${selectedBoxIds.value.length}/${args?.selectable?.maxSelectableCount})"),
@@ -64,9 +70,73 @@ class BoxesScreen extends HookWidget {
               ];
             }
           },
-        )
+        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          showBoxEditorDialog(null);
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
 
+
+class BoxEditorDialog extends HookWidget {
+  final Box? box;
+  BoxEditorDialog({required this.box});
+
+  @override
+  Widget build(BuildContext context) {
+    final name = useTextEditingController.fromValue(
+      TextEditingValue(text: box?.name ?? '')
+    );
+    final description = useTextEditingController.fromValue(
+      TextEditingValue(text: box?.description ?? '')
+    );
+
+    final validationErrors = useState<ValidationException?>(null);
+
+    void submit() {
+      
+    }
+
+    return AlertDialog(
+      actions: [
+        TextButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          child: Text("取り消し")
+        ),
+        TextButton(
+          onPressed: (){
+            submit();
+          },
+          child: Text("作成")
+        )
+      ],
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextField(
+              controller: name,
+              decoration: InputDecoration(
+                hintText: "収納名",
+                errorText: validationErrors.value?.safeGetErrorMessage("name")
+              ),
+            ),
+            TextField(
+              controller: description,
+              decoration: InputDecoration(
+                hintText: "説明",
+                errorText: validationErrors.value?.safeGetErrorMessage("description")
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
 
