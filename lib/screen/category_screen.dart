@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:stocklist_app/display_type.dart';
+import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/entity/category.dart';
-import 'package:stocklist_app/entity/item.dart';
 import 'package:stocklist_app/widget/category_widget.dart';
-import 'package:stocklist_app/widget/item_widget.dart';
 import 'package:stocklist_app/main.dart';
-import 'package:stocklist_app/widget/display_type.dart';
 
 class CategoryScreenArgs {
   final CategorySelectable? selectable;
@@ -48,9 +44,10 @@ class CategoryScreen extends HookWidget {
       appBar: AppBar(
         title: Text("カテゴリー"),
         actions: [
-          IconButton(icon: Icon(Icons.check), onPressed: () {
-            Navigator.pop(context, selectedCategoryIds.value.toList());
-          })
+          if(args?.selectable != null)
+            IconButton(icon: Icon(Icons.check), onPressed: () {
+              Navigator.pop(context, selectedCategoryIds.value.toList());
+            })
         ],
       ),
       body: CategoryListView(
@@ -76,6 +73,58 @@ class CategoryScreen extends HookWidget {
   }
 
 
+}
 
 
+class CategoryEditorDialog extends HookWidget {
+  final Category? category;
+  CategoryEditorDialog(this.category);
+  @override
+  Widget build(BuildContext context) {
+    final path = useTextEditingController.fromValue(TextEditingValue(text: category?.path ?? ''));
+    final validationErrors = useState<ValidationException?>(null);
+    final categoryStore = useProvider(categoriesStateProvider.notifier);
+    void save() {
+      Future task;
+      if(category == null) {
+        task = categoryStore.create(path.text);
+      }else{
+        task = categoryStore.update(category!.id, path.text);
+      }
+      task.onError((error, stackTrace){
+        if(error is ValidationException) {
+          validationErrors.value = error;
+        }
+      }).then((value) => Navigator.of(context).pop());
+    }
+
+    return AlertDialog(
+      title: Text(category == null ? 'カテゴリーを作成' : 'カテゴリーを編集'),
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextField(
+              controller: path,
+              decoration: InputDecoration(
+                hintText: "カテゴリ名",
+                errorText: validationErrors.value?.safeGetErrorMessage("path")
+              ),
+            )
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          child: Text("やめる")
+        ),
+        TextButton(
+          child: Text("保存"),
+          onPressed: save,
+        )
+      ],
+    );
+  }
 }
