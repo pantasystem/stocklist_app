@@ -51,6 +51,55 @@ class HomeScreen extends HookWidget {
         children: [
           NearExpirationDateItemsCard(),
           SizedBox(height: 8),
+          StockoutItemsCard(),
+
+
+        ],
+      ),
+    );
+  }
+}
+
+class StockoutItemsCard extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    final List<Item> items = useProvider(itemsStateProvider).items;
+    var filteredItems = items.where((element) => element.boxIds.isNotEmpty && element.itemQuantity == 0).toList();
+    var itemsAllShow = useState(false);
+    if(itemsAllShow.value && filteredItems.length > 3) {
+      filteredItems = filteredItems.sublist(0, 3);
+    }
+
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CardTitle('在庫切れ'),
+          Divider(
+            height: 2,
+          ),
+          if(filteredItems.isNotEmpty)
+            ItemListView(
+              items: filteredItems,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              onItemSelected: (int index, Item item) {
+                Navigator.of(context).pushNamed('/items/show', arguments: ItemArgs(item.id));
+              },
+            )
+          else
+            Container(
+              child: Text("在庫は十分あります"),
+              padding: EdgeInsets.all(16),
+            ),
+          Divider(
+            height: 2,
+          ),
+          if(filteredItems.isNotEmpty)
+            Container(
+                alignment: Alignment.center,
+                child: ExpandableButton(expanded: itemsAllShow.value, onPressed: ()=>itemsAllShow.value = !itemsAllShow.value)
+            ),
 
 
         ],
@@ -62,7 +111,6 @@ class HomeScreen extends HookWidget {
 class NearExpirationDateItemsCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final itemStore = useProvider(itemsStateProvider.notifier);
     final List<Item> items = useProvider(itemsStateProvider).items;
     final itemsAllShow = useState(false);
 
@@ -91,15 +139,7 @@ class NearExpirationDateItemsCard extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Text(
-                '消費期限が近い物',
-                style: TextStyle(
-                    fontSize: 20
-                ),
-              ),
-              padding: EdgeInsets.all(16),
-            ),
+            CardTitle('消費期限が近い物'),
             Divider(
               height: 2,
             ),
@@ -115,15 +155,39 @@ class NearExpirationDateItemsCard extends HookWidget {
               height: 2,
             ),
             Container(
-                alignment: Alignment.center,
-                child: IconButton(
-                    icon: itemsAllShow.value ? Icon(Icons.expand_less) : Icon(Icons.expand_more_outlined), onPressed: (){
-                  itemsAllShow.value = !itemsAllShow.value;
-                })
+              alignment: Alignment.center,
+              child: ExpandableButton(expanded: itemsAllShow.value, onPressed: ()=>itemsAllShow.value = !itemsAllShow.value)
             )
 
           ],
         )
+    );
+  }
+}
+
+class ExpandableButton extends StatelessWidget {
+  final bool expanded;
+  final VoidCallback onPressed;
+  ExpandableButton({required this.expanded, required this.onPressed});
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: expanded ? Icon(Icons.expand_less) : Icon(Icons.expand_more_outlined), onPressed: onPressed);
+  }
+}
+class CardTitle extends StatelessWidget {
+  final String title;
+  CardTitle(this.title);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(
+        this.title,
+        style: TextStyle(
+            fontSize: 20
+        ),
+      ),
+      padding: EdgeInsets.all(16),
     );
   }
 }
