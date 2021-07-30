@@ -3,8 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/entity/category.dart';
+import 'package:stocklist_app/filter/item_filter.dart';
 import 'package:stocklist_app/widget/category_widget.dart';
 import 'package:stocklist_app/main.dart';
+
+import 'item_screen.dart';
 
 class CategoryScreenArgs {
   final CategorySelectable? selectable;
@@ -40,6 +43,17 @@ class CategoryScreen extends HookWidget {
       });
     }, []);
 
+    void confirmDelete(Category category) async {
+      final result = await showDialog(context: context, builder: (context)=>ConfirmDeleteCategoryDialog(category));
+      if(result is bool && result) {
+        categoryStore.delete(category.id).then((value){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("削除に成功しました"),));
+        }).onError((error, stackTrace){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("削除に失敗しました"),));
+        });
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("カテゴリー"),
@@ -66,8 +80,20 @@ class CategoryScreen extends HookWidget {
               newList.add(category.id);
             }
             selectedCategoryIds.value = newList.toSet();
+          }else{
+            Navigator.of(context).pushNamed("/items", arguments: ItemScreenArgs(itemFilter: ItemFilter.fromList([ItemFilterCriteria.category(category.id)])));
           }
-        }
+        },
+        onCategoryActioned: (category, action) {
+          switch(action) {
+            case CategoryListTileAction.EDIT:
+              showDialog(context: context, builder: (context)=>CategoryEditorDialog(category));
+              break;
+            case CategoryListTileAction.DELETE:
+              confirmDelete(category);
+              break;
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -83,6 +109,24 @@ class CategoryScreen extends HookWidget {
 
 }
 
+class ConfirmDeleteCategoryDialog extends StatelessWidget {
+  final Category category;
+  ConfirmDeleteCategoryDialog(this.category);
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("削除の確認"),
+      actions: [
+        TextButton(child: Text("キャンセル"), onPressed: () {
+          Navigator.of(context).pop();
+        },),
+        TextButton(child: Text("削除"), onPressed: () {
+          Navigator.of(context).pop(true);
+        },)
+      ],
+    );
+  }
+}
 
 class CategoryEditorDialog extends HookWidget {
   final Category? category;
