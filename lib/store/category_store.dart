@@ -14,7 +14,7 @@ class CategoryStore extends StateNotifier<CategoriesState> {
 
   void remove(int categoryId) {
     this.state = this.state.copyWith(
-      categories: this.state.categories.where((element) => element.id == categoryId).toList()
+      categories: this.state.categories.where((element) => element.id != categoryId).toList()
     );
   }
 

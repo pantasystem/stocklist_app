@@ -9,22 +9,46 @@ class CategoryListTile extends StatelessWidget {
   final Category category;
   final bool isSelected;
   final VoidCallback? onTap;
+  final OnCategoryActioned? onCategoryActioned;
 
-  CategoryListTile(this.category, { this.isSelected = false, this.onTap});
+  CategoryListTile(this.category, { this.isSelected = false, this.onTap, this.onCategoryActioned});
 
   @override
   Widget build(BuildContext context) {
+    Widget? buildTrailing() {
+      if(onCategoryActioned == null) {
+        return null;
+      }
+      return PopupMenuButton<CategoryListTileAction>(
+        icon: Icon(Icons.more_vert),
+        itemBuilder: (context){
+          return [
+            PopupMenuItem(child: Text("削除"),value: CategoryListTileAction.DELETE),
+            PopupMenuItem(child: Text("編集"),value: CategoryListTileAction.EDIT),
+          ];
+        },
+        onSelected: (v){
+          onCategoryActioned?.call(category, v);
+        },
+      );
+    }
     return ListTile(
       leading: Icon(Icons.category),
       title: Text(category.path),
       onTap: this.onTap ,
       selected: isSelected,
+      trailing: buildTrailing(),
 
     );
   }
 }
 
+enum CategoryListTileAction {
+  EDIT, DELETE
+}
+
 typedef OnClickCategoryListener = Function(Category);
+typedef OnCategoryActioned = Function(Category, CategoryListTileAction);
 
 class CategoryListView extends StatelessWidget {
 
@@ -32,7 +56,8 @@ class CategoryListView extends StatelessWidget {
   final Set<int>? selectedCategoryIds;
   final OnClickCategoryListener? listener;
   final bool isSelectable;
-  CategoryListView({required this.categories, this.selectedCategoryIds, this.listener, this.isSelectable = false});
+  final OnCategoryActioned? onCategoryActioned;
+  CategoryListView({required this.categories, this.selectedCategoryIds, this.listener, this.isSelectable = false, this.onCategoryActioned});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -43,6 +68,7 @@ class CategoryListView extends StatelessWidget {
             listener!(categories[index]);
           },
           isSelected: this.isSelectable && (selectedCategoryIds?.any((element) => element == categories[index].id)?? false),
+          onCategoryActioned: onCategoryActioned,
         );
       },
       itemCount: categories.length,
