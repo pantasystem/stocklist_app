@@ -69,6 +69,14 @@ class CategoryScreen extends HookWidget {
           }
         }
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: (){
+          showDialog(context: context, builder: (context){
+            return CategoryEditorDialog(null);
+          });
+        },
+      ),
     );
   }
 
@@ -91,11 +99,11 @@ class CategoryEditorDialog extends HookWidget {
       }else{
         task = categoryStore.update(category!.id, path.text);
       }
-      task.onError((error, stackTrace){
+      task.then((value) => Navigator.of(context).pop()).onError((error, stackTrace){
         if(error is ValidationException) {
           validationErrors.value = error;
         }
-      }).then((value) => Navigator.of(context).pop());
+      });
     }
 
     return AlertDialog(
