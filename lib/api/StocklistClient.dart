@@ -10,6 +10,7 @@ import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:fluri/fluri.dart';
 import 'package:http/http.dart' as http;
+import 'package:stocklist_app/api/dto/user.dart';
 import 'package:stocklist_app/entity/category.dart';
 
 import 'dto/shopping_list.dart';
@@ -40,6 +41,36 @@ class StocklistClient {
     return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, tokenStore: tokenStore, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI, shoppingListAPI: shoppingListAPI);
   }
 
+
+  Future<UserDTO> register({
+    required String email,
+    required String userName,
+    required String homeName,
+    required String password
+  }) async {
+    final body = {
+      'email': email,
+      'user_name': userName,
+      'home_name': homeName,
+      'password': password
+    };
+    final res = await http.post(Uri.parse('$baseURL/register/mobile'), body: jsonEncode(body));
+    handleError(res);
+    final Map<String, dynamic> decodeJson = jsonDecode(res.body);
+    final token = decodeJson['token'];
+    tokenStore.save(token);
+    return UserDTO.fromJson(decodeJson['user']);
+  }
+
+  Future<UserDTO> login({required String email, required String password}) async {
+    final body = { 'email': email, 'password': password };
+    final res = await http.post(Uri.parse('$baseURL/login/mobile'), body: jsonEncode(body));
+    handleError(res);
+    final Map<String, dynamic> decodeObject = jsonDecode(res.body);
+    final token = decodeObject['token'];
+    tokenStore.save(token);
+    return UserDTO.fromJson(decodeObject['user']);
+  }
 
 
 
