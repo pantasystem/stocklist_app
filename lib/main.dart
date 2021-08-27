@@ -11,9 +11,12 @@ import 'package:stocklist_app/screen/home_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
+import 'package:stocklist_app/screen/login_screen.dart';
+import 'package:stocklist_app/screen/register_screen.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
 import 'package:stocklist_app/screen/shopping_list_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
+import 'package:stocklist_app/store/account_store.dart';
 import 'package:stocklist_app/store/box_store.dart';
 import 'package:stocklist_app/store/category_store.dart';
 import 'package:stocklist_app/store/item_store.dart';
@@ -28,7 +31,7 @@ class SharedPreferenceTokenStore extends TokenStore{
   SharedPreferences? _pref;
   @override
   String? get() {
-    _pref?.getString('TOKEN');
+    return _pref?.getString('TOKEN');
   }
 
   @override
@@ -41,6 +44,19 @@ class SharedPreferenceTokenStore extends TokenStore{
   }
 }
 
+class ConstantTokenStore extends TokenStore {
+  @override
+  String? get() {
+    return '1|test-1';
+  }
+
+  @override
+  void save(String token) {
+
+  }
+
+}
+
 final TokenStore tokenStore = SharedPreferenceTokenStore();
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([], ref.read));
@@ -50,13 +66,12 @@ final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), tokenStore);
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
 final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore(ref.read));
+final accountStoreProvider = StateNotifierProvider((ref) => AccountStore());
 
 void main() {
-  if(tokenStore is SharedPreferenceTokenStore) {
-    (tokenStore as SharedPreferenceTokenStore).init();
-  }
   runApp(ProviderScope(child: StocklistApp()));
 }
+
 
 
 class StocklistApp extends StatelessWidget {
@@ -71,6 +86,8 @@ class StocklistApp extends StatelessWidget {
       primaryColor: Color.fromARGB(0xff, 0x00, 0x96, 0x88),
       accentColor: Color.fromARGB(0xff, 0x4c, 0xaf, 0x50),
     );
+
+
     return MaterialApp(
       initialRoute: '/home',
       theme: isDark ? ThemeData.dark() : normalTheme,
@@ -85,6 +102,8 @@ class StocklistApp extends StatelessWidget {
         '/categories': (BuildContext context) => CategoryScreen(),
         '/shopping-lists/detail': (BuildContext context) => ShoppingListDetailScreen(),
         '/shopping-lists': (BuildContext context) => ShoppingListScreen(),
+        '/register': (BuildContext context) => RegisterScreen(),
+        '/login': (BuildContext context) => LoginScreen(),
       }
     );
 
@@ -108,6 +127,24 @@ class MainScreen extends HookWidget {
     final selected = (int index) {
       selectedIndex.value = index;
     };
+    final accountState = useProvider(accountStoreProvider);
+    final accountStore = useProvider(accountStoreProvider.notifier);
+
+
+
+    useEffect((){
+      Future.microtask(()async{
+        if(tokenStore is SharedPreferenceTokenStore) {
+          await (tokenStore as SharedPreferenceTokenStore).init();
+        }
+      });
+      Future.microtask(() => accountStore.fetchMe());
+    },[]);
+
+    if(accountState.type == AccountStateType.UNAUTHORIZED) {
+      return LoginScreen();
+    }
+
     return Scaffold(
       body: screens[selectedIndex.value],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

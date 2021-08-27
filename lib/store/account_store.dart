@@ -33,7 +33,7 @@ class AccountStore extends StateNotifier<AccountState> {
     try {
       final dto = await stocklistClient.fetchMe();
       this.state = this.state.authorized(User(id: dto.id, homeId: dto.homeId, name: dto.name));
-    } on AuthorizationException {
+    } on AuthorizationException catch(_){
       this.state = this.state.unauthorized();
     }
   }

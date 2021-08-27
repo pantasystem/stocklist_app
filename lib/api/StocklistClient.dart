@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:http/http.dart';
@@ -59,7 +60,7 @@ class StocklistClient {
       'home_name': homeName,
       'password': password
     };
-    final res = await http.post(Uri.parse('$baseURL/register/mobile'), body: jsonEncode(body));
+    final res = await http.post(Uri.parse('${baseURL}api/register/mobile'), body: jsonEncode(body), headers: makeHeader(null));
     handleError(res);
     final Map<String, dynamic> decodeJson = jsonDecode(res.body);
     final token = decodeJson['token'];
@@ -69,7 +70,7 @@ class StocklistClient {
 
   Future<UserDTO> login({required String? email, required String? password}) async {
     final body = { 'email': email, 'password': password };
-    final res = await http.post(Uri.parse('$baseURL/login/mobile'), body: jsonEncode(body));
+    final res = await http.post(Uri.parse('${baseURL}api/login/mobile'), body: jsonEncode(body), headers: makeHeader(null));
     handleError(res);
     final Map<String, dynamic> decodeObject = jsonDecode(res.body);
     final token = decodeObject['token'];
