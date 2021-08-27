@@ -7,7 +7,6 @@ import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/screen/boxes_screen.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/filter_screen.dart';
-import 'package:stocklist_app/screen/home_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
@@ -51,7 +50,7 @@ class StocklistApp extends StatelessWidget {
       initialRoute: '/home',
       theme: isDark ? ThemeData.dark() : normalTheme,
       routes: <String, WidgetBuilder> {
-        '/home': (BuildContext context) => MainScreen(),
+        '/home': (BuildContext context) => HomeScreen(),
         '/items/create': (BuildContext context) => ItemEditorScreen(),
         '/items/show': (BuildContext context) => ItemDetailScreen(),
         '/items': (BuildContext context) => ItemsScreen(),
@@ -67,7 +66,7 @@ class StocklistApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends HookWidget {
+class HomeScreen extends HookWidget {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> screens = [
     HomeScreen(),
