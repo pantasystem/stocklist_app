@@ -41,12 +41,17 @@ class StocklistClient {
     return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, tokenStore: tokenStore, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI, shoppingListAPI: shoppingListAPI);
   }
 
+  Future<UserDTO> fetchMe() async{
+    final res = await http.get(Uri.parse('$baseURL/api/me'), headers: makeHeader(this.tokenStore.get()));
+    handleError(res);
+    return UserDTO.fromJson(jsonDecode(res.body));
+  }
 
   Future<UserDTO> register({
-    required String email,
-    required String userName,
-    required String homeName,
-    required String password
+    required String? email,
+    required String? userName,
+    required String? homeName,
+    required String? password
   }) async {
     final body = {
       'email': email,
@@ -62,7 +67,7 @@ class StocklistClient {
     return UserDTO.fromJson(decodeJson['user']);
   }
 
-  Future<UserDTO> login({required String email, required String password}) async {
+  Future<UserDTO> login({required String? email, required String? password}) async {
     final body = { 'email': email, 'password': password };
     final res = await http.post(Uri.parse('$baseURL/login/mobile'), body: jsonEncode(body));
     handleError(res);
