@@ -26,7 +26,8 @@ class RegisterScreen extends HookWidget {
             controller: homeName,
             decoration: InputDecoration(
               hintText: 'あなたが作成するグループの名称になります',
-              labelText: 'お家の名前'
+              labelText: 'お家の名前',
+              errorText: validationErrors.value?.safeGetErrorMessage('home_name')
             ),
           ),
           SizedBox(height: 8,),
@@ -34,23 +35,26 @@ class RegisterScreen extends HookWidget {
             controller: email,
             decoration: InputDecoration(
                 hintText: 'ログイン時にしようします',
-                labelText: 'メールアドレス'
+                labelText: 'メールアドレス',
+                errorText: validationErrors.value?.safeGetErrorMessage('email')
             ),
           ),
           SizedBox(height:8,),
           TextField(
             controller: userName,
             decoration: InputDecoration(
-                hintText: '他のメンバーに表示されます',
-                labelText: 'ユーザー名'
+              hintText: '他のメンバーに表示されます',
+              labelText: 'ユーザー名',
+              errorText: validationErrors.value?.safeGetErrorMessage('user_name')
             ),
           ),
           SizedBox(height: 8,),
           TextField(
               controller: password,
               decoration: InputDecoration(
-                  hintText: 'パスワード',
-                  labelText: 'パスワード'
+                hintText: 'パスワード',
+                labelText: 'パスワード',
+                errorText: validationErrors.value?.safeGetErrorMessage('password')
               )
           ),
           SizedBox(height: 8),
