@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/main.dart';
 
@@ -66,11 +66,12 @@ class RegisterScreen extends HookWidget {
                 homeName: homeName.value.text,
                 password: password.value.text
               ).then((value){
-                Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
               }).onError((error, stackTrace){
                 if(error is ValidationException) {
                   validationErrors.value = error;
                 }else{
+                  print(error);
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('エラー')));
                 }
               });
