@@ -15,25 +15,31 @@ import 'package:stocklist_app/entity/category.dart';
 import 'dto/shopping_list.dart';
 import 'dto/shopping_task.dart';
 
+abstract class TokenStore {
+  String get();
+}
+
 class StocklistClient {
   final String baseURL;
-  final String token;
   ItemAPI itemAPI;
   StockAPI stockAPI;
   CategoryAPI categoryAPI;
   BoxAPI boxAPI;
   ShoppingListAPI shoppingListAPI;
+  final TokenStore tokenStore;
 
-  StocklistClient.initial({required this.baseURL, required this.token, required this.itemAPI, required this.stockAPI, required this.categoryAPI, required this.boxAPI, required this.shoppingListAPI});
+  StocklistClient.initial({required this.baseURL, required this.tokenStore, required this.itemAPI, required this.stockAPI, required this.categoryAPI, required this.boxAPI, required this.shoppingListAPI});
 
-  factory StocklistClient(String baseURL, String token) {
-    final itemAPI = ItemAPI(baseURL: baseURL, token: token);
-    final stockAPI = StockAPI(baseURL, token);
-    final categoryAPI = CategoryAPI(baseURL, token);
-    final boxAPI = BoxAPI(baseURL, token);
-    final shoppingListAPI = ShoppingListAPI(baseURL, token);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, token: token, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI, shoppingListAPI: shoppingListAPI);
+  factory StocklistClient(String baseURL, TokenStore tokenStore) {
+    final itemAPI = ItemAPI(baseURL: baseURL, tokenStore: tokenStore);
+    final stockAPI = StockAPI(baseURL,tokenStore);
+    final categoryAPI = CategoryAPI(baseURL, tokenStore);
+    final boxAPI = BoxAPI(baseURL, tokenStore);
+    final shoppingListAPI = ShoppingListAPI(baseURL, tokenStore);
+    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, tokenStore: tokenStore, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI, shoppingListAPI: shoppingListAPI);
   }
+
+
 
 
 }
@@ -41,8 +47,8 @@ class StocklistClient {
 class ItemAPI {
 
   final String baseURL;
-  final String token;
-  ItemAPI({required this.baseURL, required this.token});
+  final TokenStore tokenStore;
+  ItemAPI({required this.baseURL, required this.tokenStore});
 
 
   Future<List<ItemDTO>> all({ DateTime? sinceUpdatedAt }) async{
@@ -54,7 +60,7 @@ class ItemAPI {
       };
     }
     
-    final res = await http.get(builder.uri, headers: makeHeader(token));
+    final res = await http.get(builder.uri, headers: makeHeader(tokenStore.get()));
     handleError(res);
     List<dynamic> parsed = json.decode(res.body) as List<dynamic>;
     return parsed.map((e) => ItemDTO.fromJson(e)).toList();
@@ -63,7 +69,7 @@ class ItemAPI {
   Future<ItemDTO> show(int itemId) async {
     final builder = Fluri.from(Fluri(baseURL))
       ..appendToPath('api/items/$itemId');
-    final res = await http.get(builder.uri, headers: makeHeader(token));
+    final res = await http.get(builder.uri, headers: makeHeader(tokenStore.get()));
     handleError(res);
     print(res.body);
     return ItemDTO.fromJson(json.decode(res.body));
@@ -80,7 +86,7 @@ class ItemAPI {
     if(categoryId != null) {
       request.fields['category_id'] = categoryId.toString();
     }
-    request.headers.addAll(makeHeader(token));
+    request.headers.addAll(makeHeader(tokenStore.get()));
     if(image != null) {
       request.files.add(await MultipartFile.fromPath('image', image.path));
     }
@@ -105,8 +111,8 @@ class ItemAPI {
 
 class StockAPI {
   final String baseURL;
-  final String token;
-  StockAPI(this.baseURL, this.token);
+  final TokenStore tokenStore;
+  StockAPI(this.baseURL, this.tokenStore);
   Future<List<StockDTO>> all({ int? itemId, int? boxId }) async {
     throw Exception();
   }
@@ -121,7 +127,7 @@ class StockAPI {
     final builder =  Fluri.from(Fluri(baseURL))
       ..appendToPath("api/stocks/$stockId");
 
-    final res = await http.put(builder.uri, headers: makeHeader(this.token), body: json.encode({
+    final res = await http.put(builder.uri, headers: makeHeader(this.tokenStore.get()), body: json.encode({
       'box_id': boxId,
       'item_id': itemId,
       'count': count,
@@ -135,7 +141,7 @@ class StockAPI {
     final builder =  Fluri.from(Fluri(baseURL))
     ..appendToPath("api/stocks");
 
-    final res = await http.post(builder.uri, headers: makeHeader(this.token), body: json.encode({
+    final res = await http.post(builder.uri, headers: makeHeader(this.tokenStore.get()), body: json.encode({
       'box_id': boxId,
       'count': count,
       'item_id': itemId,
@@ -149,11 +155,12 @@ class StockAPI {
 
 class CategoryAPI {
   final String baseURL;
-  final String token;
-  CategoryAPI(this.baseURL, this.token);
+
+  final TokenStore tokenStore;
+  CategoryAPI(this.baseURL, this.tokenStore);
 
   Future<List<Category>> all() async {
-    final res = await http.get(buildWithBaseURLAndPath(baseURL, "api/categories").uri, headers: makeHeader(this.token));
+    final res = await http.get(buildWithBaseURLAndPath(baseURL, "api/categories").uri, headers: makeHeader(this.tokenStore.get()));
     handleError(res);
     final list = json.decode(res.body) as List<dynamic>;
     return list.map((e) => Category.fromJson(e)).toList();
@@ -162,7 +169,7 @@ class CategoryAPI {
   Future<Category> create(String path) async {
     final res = await http.post(
       buildWithBaseURLAndPath(baseURL, "api/categories",).uri,
-      headers: makeHeader(this.token),
+      headers: makeHeader(this.tokenStore.get()),
       body: json.encode({
         'path': path
       })
@@ -174,7 +181,7 @@ class CategoryAPI {
   Future update(int categoryId, {required String path }) async {
     final res = await http.put(
       buildWithBaseURLAndPath(baseURL, "api/categories/$categoryId").uri,
-      headers: makeHeader(token),
+      headers: makeHeader(this.tokenStore.get()),
       body: json.encode(
         {'path': path}
       )
@@ -185,7 +192,7 @@ class CategoryAPI {
   Future delete(int categoryId) async {
     final res = await http.delete(
       buildWithBaseURLAndPath(baseURL, "api/categories/$categoryId").uri,
-      headers: makeHeader(token),
+      headers: makeHeader(this.tokenStore.get()),
     );
     handleError(res);
   }
@@ -196,13 +203,13 @@ class CategoryAPI {
 class BoxAPI {
 
   final String baseURL;
-  final String token;
-  BoxAPI(this.baseURL, this.token);
+  final TokenStore tokenStore;
+  BoxAPI(this.baseURL, this.tokenStore);
 
   Future<BoxDTO> create({ required String name, String? description }) async {
     final res = await http.post(
         buildWithBaseURLAndPath(this.baseURL, "api/boxes").uri,
-        headers: makeHeader(this.token),
+        headers: makeHeader(this.tokenStore.get()),
         body: json.encode(
             {
               'name': name,
@@ -218,7 +225,7 @@ class BoxAPI {
   Future update( int boxId ,{ required String name, String? description }) async {
     final res = await http.put(
         buildWithBaseURLAndPath(this.baseURL, "api/boxes/$boxId").uri,
-        headers: makeHeader(token),
+        headers: makeHeader(tokenStore.get()),
         body: json.encode(
             {
               'name': name,
@@ -233,7 +240,7 @@ class BoxAPI {
   Future<BoxDTO> show(int boxId) async {
     final res = await http.get(
         buildWithBaseURLAndPath(baseURL, 'api/boxes/$boxId').uri,
-        headers: makeHeader(token)
+        headers: makeHeader(this.tokenStore.get())
     );
     handleError(res);
     return BoxDTO.fromJson(json.decode(res.body));
@@ -242,7 +249,7 @@ class BoxAPI {
   Future<List<BoxDTO>> all() async {
     final res = await http.get(
         buildWithBaseURLAndPath(baseURL, 'api/boxes').uri,
-        headers: makeHeader(token)
+        headers: makeHeader(this.tokenStore.get())
     );
     handleError(res);
     final list = json.decode(res.body) as List<dynamic>;
@@ -253,13 +260,13 @@ class BoxAPI {
 
 class ShoppingListAPI {
   final String baseURL;
-  final String token;
-  ShoppingListAPI(this.baseURL, this.token);
+  final TokenStore tokenStore;
+  ShoppingListAPI(this.baseURL, this.tokenStore);
 
   Future<List<ShoppingListDTO>> all() async {
     final res = await http.get(
     buildWithBaseURLAndPath(baseURL, 'api/shopping-lists').uri,
-    headers: makeHeader(token)
+    headers: makeHeader(this.tokenStore.get())
     );
     handleError(res);
     final list = json.decode(res.body) as List<dynamic>;
@@ -270,7 +277,7 @@ class ShoppingListAPI {
   Future<ShoppingListDTO> show(int id) async {
     final res = await http.get(
         buildWithBaseURLAndPath(baseURL, 'api/shopping-lists/$id').uri,
-        headers: makeHeader(token)
+        headers: makeHeader(this.tokenStore.get())
     );
     handleError(res);
     return ShoppingListDTO.fromJson(json.decode(res.body));
@@ -279,7 +286,7 @@ class ShoppingListAPI {
   Future update(int id, {required String title, required int? userId }) async {
     final res = await http.put(
         buildWithBaseURLAndPath(this.baseURL, "api/shopping-lists/$id").uri,
-        headers: makeHeader(token),
+        headers: makeHeader(this.tokenStore.get()),
         body: json.encode(
             {
               'title': title,
@@ -295,7 +302,7 @@ class ShoppingListAPI {
     final builder =  Fluri.from(Fluri(baseURL))
       ..appendToPath("api/shopping-lists");
 
-    final res = await http.post(builder.uri, headers: makeHeader(this.token), body: json.encode({
+    final res = await http.post(builder.uri, headers: makeHeader(this.tokenStore.get()), body: json.encode({
       'title': title,
       if(userId != null)
         'user_id': userId
@@ -312,7 +319,7 @@ class ShoppingListAPI {
   }
 
   ShoppingTaskAPI tasks(int shoppingListId) {
-    return ShoppingTaskAPI(baseURL, token, shoppingListId);
+    return ShoppingTaskAPI(baseURL, this.tokenStore.get(), shoppingListId);
   }
 
 
