@@ -7,6 +7,7 @@ import 'package:stocklist_app/display_type.dart';
 import 'package:stocklist_app/screen/boxes_screen.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/filter_screen.dart';
+import 'package:stocklist_app/screen/home_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
@@ -19,17 +20,41 @@ import 'package:stocklist_app/store/item_store.dart';
 import 'package:stocklist_app/store/shopping_list_store.dart';
 import 'package:stocklist_app/store/stock_store.dart';
 import 'package:stocklist_app/store_adder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+
+
+class SharedPreferenceTokenStore extends TokenStore{
+  SharedPreferences? _pref;
+  @override
+  String? get() {
+    _pref?.getString('TOKEN');
+  }
+
+  @override
+  void save(String token) {
+    _pref?.setString('TOKEN', token);
+  }
+
+  Future init() async{
+    this._pref = await SharedPreferences.getInstance();
+  }
+}
+
+final TokenStore tokenStore = SharedPreferenceTokenStore();
 final StateNotifierProvider<DisplayTypeState, DisplayType> displayType = StateNotifierProvider((ref)=> DisplayTypeState(DisplayType.LIST));
 final itemsStateProvider = StateNotifierProvider((ref)=> ItemStore([], ref.read));
 final stocksStateProvider = StateNotifierProvider((ref)=> StockStore(ref.read));
 final boxesStateProvider = StateNotifierProvider((ref)=> BoxStore(ref.read));
 final storeAdder = Provider((ref)=> StoreAdder(ref.read));
-final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), '1|test-1');
+final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), tokenStore);
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
 final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore(ref.read));
 
 void main() {
+  if(tokenStore is SharedPreferenceTokenStore) {
+    (tokenStore as SharedPreferenceTokenStore).init();
+  }
   runApp(ProviderScope(child: StocklistApp()));
 }
 
@@ -50,7 +75,7 @@ class StocklistApp extends StatelessWidget {
       initialRoute: '/home',
       theme: isDark ? ThemeData.dark() : normalTheme,
       routes: <String, WidgetBuilder> {
-        '/home': (BuildContext context) => HomeScreen(),
+        '/home': (BuildContext context) => MainScreen(),
         '/items/create': (BuildContext context) => ItemEditorScreen(),
         '/items/show': (BuildContext context) => ItemDetailScreen(),
         '/items': (BuildContext context) => ItemsScreen(),
@@ -66,7 +91,7 @@ class StocklistApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends HookWidget {
+class MainScreen extends HookWidget {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> screens = [
     HomeScreen(),
@@ -86,34 +111,7 @@ class HomeScreen extends HookWidget {
     return Scaffold(
       body: screens[selectedIndex.value],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed("/items/create");
-        },
-        child: Container(
-          margin: EdgeInsets.all(15.0),
-          child: Icon(Icons.add),
-        ),
-        elevation: 4.0,
-      ),*/
-      /*bottomNavigationBar: BottomAppBar(
-        child: Container(
-          margin: EdgeInsets.only(left: 12.0, right: 12.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildItem(icon: Icons.home, onPressed: selected, index: 0, currentIndex: selectedIndex.value),
-              buildItem(icon: Icons.search, onPressed: selected, index: 1, currentIndex: selectedIndex.value),
-              SizedBox(width: 50.0),
-              buildItem(icon: Icons.storage, onPressed: selected, index: 2, currentIndex: selectedIndex.value),
-              buildItem(icon: Icons.category, onPressed: selected, index: 3, currentIndex: selectedIndex.value)
-            ],
-          )
-        ),
-        shape: CircularNotchedRectangle(),
-        color: Colors.white
-      )*/
+
 
       bottomNavigationBar: BottomNavigationBar(
         items: [
