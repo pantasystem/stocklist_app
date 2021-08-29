@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:http/http.dart';
@@ -14,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:stocklist_app/api/dto/user.dart';
 import 'package:stocklist_app/entity/category.dart';
 
+import 'dto/invitation.dart';
 import 'dto/shopping_list.dart';
 import 'dto/shopping_task.dart';
 
@@ -29,9 +29,19 @@ class StocklistClient {
   CategoryAPI categoryAPI;
   BoxAPI boxAPI;
   ShoppingListAPI shoppingListAPI;
+  InvitationAPI invitationAPI;
   final TokenStore tokenStore;
 
-  StocklistClient.initial({required this.baseURL, required this.tokenStore, required this.itemAPI, required this.stockAPI, required this.categoryAPI, required this.boxAPI, required this.shoppingListAPI});
+  StocklistClient.initial({
+    required this.baseURL,
+    required this.tokenStore,
+    required this.itemAPI,
+    required this.stockAPI,
+    required this.categoryAPI,
+    required this.boxAPI,
+    required this.shoppingListAPI,
+    required this.invitationAPI
+  });
 
   factory StocklistClient(String baseURL, TokenStore tokenStore) {
     final itemAPI = ItemAPI(baseURL: baseURL, tokenStore: tokenStore);
@@ -39,7 +49,17 @@ class StocklistClient {
     final categoryAPI = CategoryAPI(baseURL, tokenStore);
     final boxAPI = BoxAPI(baseURL, tokenStore);
     final shoppingListAPI = ShoppingListAPI(baseURL, tokenStore);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, tokenStore: tokenStore, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI, shoppingListAPI: shoppingListAPI);
+    final invitationAPI = InvitationAPI(tokenStore, baseURL);
+    return StocklistClient.initial(
+      baseURL: baseURL,
+      itemAPI: itemAPI,
+      tokenStore: tokenStore,
+      stockAPI: stockAPI,
+      categoryAPI: categoryAPI,
+      boxAPI: boxAPI,
+      shoppingListAPI: shoppingListAPI,
+      invitationAPI: invitationAPI
+    );
   }
 
   Future<UserDTO> fetchMe() async{
@@ -76,6 +96,18 @@ class StocklistClient {
     final token = decodeObject['token'];
     tokenStore.save(token);
     return UserDTO.fromJson(decodeObject['user']);
+  }
+
+  Future<UserDTO> join({required String? email, required String? password, required String? token}) async {
+    final body = {'email': email, 'password': password};
+    final res = await http.post(Uri.parse('${baseURL}api/invitations/$token/'), headers: makeHeader(tokenStore.get()), body: jsonEncode(body));
+    handleError(res);
+    final Map<String, dynamic> json = jsonDecode(res.body);
+    final userToken = json['token'];
+    tokenStore.save(userToken);
+    final user = UserDTO.fromJson(json['user']);
+
+    return user;
   }
 
 
@@ -446,6 +478,26 @@ class ShoppingTaskAPI {
       ..appendToPath('api/shopping-lists/$shoppingTaskId/tasks/$id/incomplete');
     final res = await http.post(builder.uri, headers: makeHeader(tokenStore.get()));
     handleError(res);
+  }
+}
+
+class InvitationAPI {
+  final TokenStore tokenStore;
+  final String baseURL;
+  InvitationAPI(this.tokenStore, this.baseURL);
+
+  Future<String> invite() async {
+    final res = await http.post(Uri.parse('${baseURL}api/invitations'), headers: makeHeader(tokenStore.get()));
+    handleError(res);
+    final Map<String, dynamic> json = jsonDecode(res.body);
+    return json['token'];
+  }
+
+  Future<List<Invitation>> all() async {
+    final res = await http.get(Uri.parse('${baseURL}api/invitations'), headers: makeHeader(tokenStore.get()));
+    handleError(res);
+    final List<dynamic> json = jsonDecode(res.body);
+    return json.map((e) => Invitation.fromJson(e)).toList();
   }
 }
 
