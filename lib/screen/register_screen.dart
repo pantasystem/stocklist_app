@@ -30,7 +30,9 @@ class RegisterScreen extends HookWidget {
               errorText: validationErrors.value?.safeGetErrorMessage('home_name')
             ),
           ),
-          SizedBox(height: 8,),
+          TextButton(onPressed: (){
+            Navigator.of(context).pushNamedAndRemoveUntil('/join', (route) => false);
+          }, child: Text('招待コードを持っています')),
           TextField(
             controller: email,
             decoration: InputDecoration(
