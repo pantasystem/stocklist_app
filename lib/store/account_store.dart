@@ -38,6 +38,17 @@ class AccountStore extends StateNotifier<AccountState> {
     }
   }
 
+  Future join({
+    required String token,
+    required String email,
+    required String name,
+    required String password
+  }) async {
+    final user = await stocklistClient.join(email: email, password: password, token: token, name: name);
+    final entity = User(id: user.id, homeId: user.homeId, name: user.name);
+    this.state = this.state.authorized(entity);
+  }
+
   Future login({required String? email, required String password}) async {
 
     final user = await stocklistClient.login(email: email, password: password);
@@ -54,5 +65,10 @@ class AccountStore extends StateNotifier<AccountState> {
     final dto = await stocklistClient.register(email: email, userName: userName, homeName: homeName, password: password);
     final user = User(id: dto.id, homeId: dto.homeId, name: dto.name);
     this.state = this.state.authorized(user);
+  }
+
+  void logout() {
+    tokenStore.save(null);
+    this.state = this.state.unauthorized();
   }
 }
