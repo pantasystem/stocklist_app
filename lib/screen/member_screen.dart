@@ -49,6 +49,6 @@ class InvitationCodeDialog extends HookWidget {
         );
       }
     );
-    
+
   }
 }

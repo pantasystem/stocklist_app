@@ -100,7 +100,7 @@ class StocklistClient {
 
   Future<UserDTO> join({required String? email, required String? password, required String? token, required String? name}) async {
     final body = {'email': email, 'password': password, 'name': name};
-    final res = await http.post(Uri.parse('${baseURL}api/invitations/$token/'), headers: makeHeader(tokenStore.get()), body: jsonEncode(body));
+    final res = await http.post(Uri.parse('${baseURL}api/invitations/$token/register'), headers: makeHeader(tokenStore.get()), body: jsonEncode(body));
     handleError(res);
     final Map<String, dynamic> json = jsonDecode(res.body);
     final userToken = json['token'];
