@@ -107,4 +107,8 @@ class ShoppingListStore extends StateNotifier<ShoppingListsState> {
     await stocklistClient.shoppingListAPI.tasks(shoppingListId).incomplete(taskId);
     await fetch(shoppingListId);
   }
+
+  void clear() {
+    this.state = ShoppingListsState(shoppingLists: []);
+  }
 }

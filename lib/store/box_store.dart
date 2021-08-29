@@ -51,4 +51,7 @@ class BoxStore extends StateNotifier<BoxesState> {
     reader(storeAdder).addBoxDTO(res);
   }
 
+  void clear() {
+    this.state = BoxesState(boxes: []);
+  }
 }

@@ -44,7 +44,21 @@ class HomeScreen extends HookWidget {
     }, []);
     return Scaffold(
       appBar: AppBar(
-        title: Text('ホーム')
+        title: Text('ホーム'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.supervised_user_circle),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/members');
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/account');
+            },
+          )
+        ]
       ),
       body: ListView(
         padding: EdgeInsets.all(8),

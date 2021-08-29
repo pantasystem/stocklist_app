@@ -53,5 +53,9 @@ class ItemStore extends StateNotifier<ItemsState> {
     reader(storeAdder).addItemDTO(itemDTO);
   }
 
+  void clear() {
+    this.state = ItemsState(items: []);
+  }
+
 
 }

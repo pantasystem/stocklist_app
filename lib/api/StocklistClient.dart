@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:http/http.dart';
@@ -14,12 +13,13 @@ import 'package:http/http.dart' as http;
 import 'package:stocklist_app/api/dto/user.dart';
 import 'package:stocklist_app/entity/category.dart';
 
+import 'dto/invitation.dart';
 import 'dto/shopping_list.dart';
 import 'dto/shopping_task.dart';
 
 abstract class TokenStore {
   String? get();
-  void save(String token);
+  void save(String? token);
 }
 
 class StocklistClient {
@@ -29,9 +29,19 @@ class StocklistClient {
   CategoryAPI categoryAPI;
   BoxAPI boxAPI;
   ShoppingListAPI shoppingListAPI;
+  InvitationAPI invitationAPI;
   final TokenStore tokenStore;
 
-  StocklistClient.initial({required this.baseURL, required this.tokenStore, required this.itemAPI, required this.stockAPI, required this.categoryAPI, required this.boxAPI, required this.shoppingListAPI});
+  StocklistClient.initial({
+    required this.baseURL,
+    required this.tokenStore,
+    required this.itemAPI,
+    required this.stockAPI,
+    required this.categoryAPI,
+    required this.boxAPI,
+    required this.shoppingListAPI,
+    required this.invitationAPI
+  });
 
   factory StocklistClient(String baseURL, TokenStore tokenStore) {
     final itemAPI = ItemAPI(baseURL: baseURL, tokenStore: tokenStore);
@@ -39,7 +49,17 @@ class StocklistClient {
     final categoryAPI = CategoryAPI(baseURL, tokenStore);
     final boxAPI = BoxAPI(baseURL, tokenStore);
     final shoppingListAPI = ShoppingListAPI(baseURL, tokenStore);
-    return StocklistClient.initial(baseURL: baseURL, itemAPI: itemAPI, tokenStore: tokenStore, stockAPI: stockAPI, categoryAPI: categoryAPI, boxAPI: boxAPI, shoppingListAPI: shoppingListAPI);
+    final invitationAPI = InvitationAPI(tokenStore, baseURL);
+    return StocklistClient.initial(
+      baseURL: baseURL,
+      itemAPI: itemAPI,
+      tokenStore: tokenStore,
+      stockAPI: stockAPI,
+      categoryAPI: categoryAPI,
+      boxAPI: boxAPI,
+      shoppingListAPI: shoppingListAPI,
+      invitationAPI: invitationAPI
+    );
   }
 
   Future<UserDTO> fetchMe() async{
@@ -76,6 +96,18 @@ class StocklistClient {
     final token = decodeObject['token'];
     tokenStore.save(token);
     return UserDTO.fromJson(decodeObject['user']);
+  }
+
+  Future<UserDTO> join({required String? email, required String? password, required String? token, required String? name}) async {
+    final body = {'email': email, 'password': password, 'name': name};
+    final res = await http.post(Uri.parse('${baseURL}api/invitations/$token/register'), headers: makeHeader(tokenStore.get()), body: jsonEncode(body));
+    handleError(res);
+    final Map<String, dynamic> json = jsonDecode(res.body);
+    final userToken = json['token'];
+    tokenStore.save(userToken);
+    final user = UserDTO.fromJson(json['user']);
+
+    return user;
   }
 
 
@@ -449,6 +481,26 @@ class ShoppingTaskAPI {
   }
 }
 
+class InvitationAPI {
+  final TokenStore tokenStore;
+  final String baseURL;
+  InvitationAPI(this.tokenStore, this.baseURL);
+
+  Future<String> invite() async {
+    final res = await http.post(Uri.parse('${baseURL}api/invitations'), headers: makeHeader(tokenStore.get()));
+    handleError(res);
+    final Map<String, dynamic> json = jsonDecode(res.body);
+    return json['token'];
+  }
+
+  Future<List<Invitation>> all() async {
+    final res = await http.get(Uri.parse('${baseURL}api/invitations'), headers: makeHeader(tokenStore.get()));
+    handleError(res);
+    final List<dynamic> json = jsonDecode(res.body);
+    return json.map((e) => Invitation.fromJson(e)).toList();
+  }
+}
+
 Map<String, String> makeHeader(String? token) {
   return {
     'Content-Type': 'application/json',
@@ -483,6 +535,12 @@ class ServerException implements Exception {
   String toString() => message;
 }
 
+class NotFoundException implements Exception {
+  final String message;
+  NotFoundException(this.message);
+  @override
+  String toString() => message;
+}
 class ValidationException implements Exception {
   final String message;
   ValidationException(this.message);
@@ -521,6 +579,9 @@ void handleError(Response res) {
   }
   if(res.statusCode == 422) {
     throw ValidationException(res.body);
+  }
+  if(res.statusCode == 404) {
+    throw NotFoundException(res.body);
   }
   throw Exception("http error status:${res.statusCode}, message:${res.body}");
 }

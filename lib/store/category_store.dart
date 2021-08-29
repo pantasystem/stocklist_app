@@ -59,4 +59,8 @@ class CategoryStore extends StateNotifier<CategoriesState> {
     final category = this.state.get(categoryId);
     this.add(category.copyWith(path: path));
   }
+
+  void clear() {
+    this.replaceAll([]);
+  }
 }

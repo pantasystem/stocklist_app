@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stocklist_app/api/StocklistClient.dart';
 import 'package:stocklist_app/display_type.dart';
+import 'package:stocklist_app/screen/account_screen.dart';
 import 'package:stocklist_app/screen/boxes_screen.dart';
 import 'package:stocklist_app/screen/category_screen.dart';
 import 'package:stocklist_app/screen/filter_screen.dart';
@@ -11,7 +12,9 @@ import 'package:stocklist_app/screen/home_screen.dart';
 import 'package:stocklist_app/screen/item_detail_screen.dart';
 import 'package:stocklist_app/screen/item_editor_screen.dart';
 import 'package:stocklist_app/screen/item_screen.dart';
+import 'package:stocklist_app/screen/join_screen.dart';
 import 'package:stocklist_app/screen/login_screen.dart';
+import 'package:stocklist_app/screen/member_screen.dart';
 import 'package:stocklist_app/screen/register_screen.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
 import 'package:stocklist_app/screen/shopping_list_screen.dart';
@@ -35,8 +38,8 @@ class SharedPreferenceTokenStore extends TokenStore{
   }
 
   @override
-  void save(String token) {
-    _pref?.setString('TOKEN', token);
+  void save(String? token) {
+    _pref?.setString('TOKEN', token ?? '');
   }
 
   Future init() async{
@@ -51,9 +54,7 @@ class ConstantTokenStore extends TokenStore {
   }
 
   @override
-  void save(String token) {
-
-  }
+  void save(String? token) {}
 
 }
 
@@ -66,7 +67,7 @@ final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), tokenStore);
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
 final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore(ref.read));
-final accountStoreProvider = StateNotifierProvider((ref) => AccountStore());
+final accountStoreProvider = StateNotifierProvider((ref) => AccountStore(ref.read));
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));
@@ -104,6 +105,9 @@ class StocklistApp extends StatelessWidget {
         '/shopping-lists': (BuildContext context) => ShoppingListScreen(),
         '/register': (BuildContext context) => RegisterScreen(),
         '/login': (BuildContext context) => LoginScreen(),
+        '/members': (BuildContext context) => MemberScreen(),
+        '/account': (BuildContext context) => AccountScreen(),
+        '/join': (BuildContext context) => JoinScreen(),
       }
     );
 

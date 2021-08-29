@@ -27,7 +27,8 @@ class AccountState {
 }
 
 class AccountStore extends StateNotifier<AccountState> {
-  AccountStore() : super(AccountState(type: AccountStateType.LOADING, user: null));
+  final Reader reader;
+  AccountStore(this.reader) : super(AccountState(type: AccountStateType.LOADING, user: null));
 
   Future fetchMe() async {
     try {
@@ -38,11 +39,26 @@ class AccountStore extends StateNotifier<AccountState> {
     }
   }
 
+  Future join({
+    required String token,
+    required String email,
+    required String name,
+    required String password
+  }) async {
+    final user = await stocklistClient.join(email: email, password: password, token: token, name: name);
+    final entity = User(id: user.id, homeId: user.homeId, name: user.name);
+    this.state = this.state.authorized(entity);
+    this.clearStores();
+
+  }
+
   Future login({required String? email, required String password}) async {
 
     final user = await stocklistClient.login(email: email, password: password);
     final e = User(id: user.id, homeId: user.homeId, name: user.name);
     this.state = this.state.authorized(e);
+    this.clearStores();
+
   }
 
   Future register({
@@ -54,5 +70,21 @@ class AccountStore extends StateNotifier<AccountState> {
     final dto = await stocklistClient.register(email: email, userName: userName, homeName: homeName, password: password);
     final user = User(id: dto.id, homeId: dto.homeId, name: dto.name);
     this.state = this.state.authorized(user);
+    this.clearStores();
+  }
+
+  void logout() {
+    tokenStore.save(null);
+    this.state = this.state.unauthorized();
+    this.clearStores();
+  }
+
+  void clearStores() {
+    this.reader.call(categoriesStateProvider.notifier).clear();
+    this.reader.call(boxesStateProvider.notifier).clear();
+    this.reader.call(stocksStateProvider.notifier).clear();
+    this.reader.call(itemsStateProvider.notifier).clear();
+    this.reader.call(shoppingListStoreProvider.notifier).clear();
+
   }
 }
