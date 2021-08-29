@@ -15,6 +15,8 @@ class JoinScreen extends HookWidget {
     final password = useTextEditingController();
     final validationErrors = useState<ValidationException?>(null);
 
+    final tokenNotFound = useState(false);
+
     final accountStore = useProvider(accountStoreProvider.notifier);
 
     return Scaffold(
@@ -27,6 +29,7 @@ class JoinScreen extends HookWidget {
             decoration: InputDecoration(
               hintText: '招待コード',
               labelText: '招待コード',
+              errorText: tokenNotFound.value ? '無効な招待コードです' : null,
             )
           ),
           TextButton(
@@ -68,7 +71,12 @@ class JoinScreen extends HookWidget {
           SizedBox(height: 8),
           ElevatedButton(
               onPressed: (){
-                accountStore.login(email: email.value.text, password: password.value.text).then((value){
+                accountStore.join(
+                  email: email.value.text,
+                  password: password.value.text,
+                  token: token.value.text,
+                  name: name.value.text
+                ).then((value){
                   Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                 }).onError((error, stackTrace){
                   if(error is ValidationException) {
@@ -78,6 +86,7 @@ class JoinScreen extends HookWidget {
                     print(error);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ログインエラー')));
                   }
+                  tokenNotFound.value = error is NotFoundException;
                 });
               },
               child: Text('登録')

@@ -67,7 +67,7 @@ final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), tokenStore);
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
 final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore(ref.read));
-final accountStoreProvider = StateNotifierProvider((ref) => AccountStore());
+final accountStoreProvider = StateNotifierProvider((ref) => AccountStore(ref.read));
 
 void main() {
   runApp(ProviderScope(child: StocklistApp()));

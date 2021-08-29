@@ -54,5 +54,9 @@ class StockStore extends StateNotifier<StocksState> {
     }
   }
 
+  void clear() {
+    this.state = StocksState(stocks: []);
+  }
+
 
 }
