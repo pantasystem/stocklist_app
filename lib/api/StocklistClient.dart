@@ -535,6 +535,12 @@ class ServerException implements Exception {
   String toString() => message;
 }
 
+class NotFoundException implements Exception {
+  final String message;
+  NotFoundException(this.message);
+  @override
+  String toString() => message;
+}
 class ValidationException implements Exception {
   final String message;
   ValidationException(this.message);
@@ -573,6 +579,9 @@ void handleError(Response res) {
   }
   if(res.statusCode == 422) {
     throw ValidationException(res.body);
+  }
+  if(res.statusCode == 404) {
+    throw NotFoundException(res.body);
   }
   throw Exception("http error status:${res.statusCode}, message:${res.body}");
 }
