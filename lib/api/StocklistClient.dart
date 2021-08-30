@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:stocklist_app/api/dto/box.dart';
+import 'package:stocklist_app/api/dto/home.dart';
 import 'package:stocklist_app/api/dto/item.dart';
 import 'package:stocklist_app/api/dto/stock.dart';
 import 'package:fluri/fluri.dart';
@@ -110,6 +111,11 @@ class StocklistClient {
     return user;
   }
 
+  Future<HomeDTO> fetchMyHome() async {
+    final res = await http.get(Uri.parse('${baseURL}api/homes'), headers: makeHeader(tokenStore.get()));
+    handleError(res);
+    return HomeDTO.fromJson(jsonDecode(res.body));
+  }
 
 
 }
