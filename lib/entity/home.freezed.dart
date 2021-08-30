@@ -16,10 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomeTearOff {
   const _$HomeTearOff();
 
-  _Home call({required int id, required String name}) {
+  _Home call(
+      {required int id, required String name, required List<User> members}) {
     return _Home(
       id: id,
       name: name,
+      members: members,
     );
   }
 }
@@ -31,6 +33,7 @@ const $Home = _$HomeTearOff();
 mixin _$Home {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  List<User> get members => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeCopyWith<Home> get copyWith => throw _privateConstructorUsedError;
@@ -40,7 +43,7 @@ mixin _$Home {
 abstract class $HomeCopyWith<$Res> {
   factory $HomeCopyWith(Home value, $Res Function(Home) then) =
       _$HomeCopyWithImpl<$Res>;
-  $Res call({int id, String name});
+  $Res call({int id, String name, List<User> members});
 }
 
 /// @nodoc
@@ -55,6 +58,7 @@ class _$HomeCopyWithImpl<$Res> implements $HomeCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? members = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -65,6 +69,10 @@ class _$HomeCopyWithImpl<$Res> implements $HomeCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      members: members == freezed
+          ? _value.members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<User>,
     ));
   }
 }
@@ -74,7 +82,7 @@ abstract class _$HomeCopyWith<$Res> implements $HomeCopyWith<$Res> {
   factory _$HomeCopyWith(_Home value, $Res Function(_Home) then) =
       __$HomeCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name});
+  $Res call({int id, String name, List<User> members});
 }
 
 /// @nodoc
@@ -90,6 +98,7 @@ class __$HomeCopyWithImpl<$Res> extends _$HomeCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? members = freezed,
   }) {
     return _then(_Home(
       id: id == freezed
@@ -100,6 +109,10 @@ class __$HomeCopyWithImpl<$Res> extends _$HomeCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      members: members == freezed
+          ? _value.members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<User>,
     ));
   }
 }
@@ -107,16 +120,18 @@ class __$HomeCopyWithImpl<$Res> extends _$HomeCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Home implements _Home {
-  _$_Home({required this.id, required this.name});
+  _$_Home({required this.id, required this.name, required this.members});
 
   @override
   final int id;
   @override
   final String name;
+  @override
+  final List<User> members;
 
   @override
   String toString() {
-    return 'Home(id: $id, name: $name)';
+    return 'Home(id: $id, name: $name, members: $members)';
   }
 
   @override
@@ -126,14 +141,17 @@ class _$_Home implements _Home {
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.members, members) ||
+                const DeepCollectionEquality().equals(other.members, members)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name);
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(members);
 
   @JsonKey(ignore: true)
   @override
@@ -142,12 +160,17 @@ class _$_Home implements _Home {
 }
 
 abstract class _Home implements Home {
-  factory _Home({required int id, required String name}) = _$_Home;
+  factory _Home(
+      {required int id,
+      required String name,
+      required List<User> members}) = _$_Home;
 
   @override
   int get id => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
+  @override
+  List<User> get members => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$HomeCopyWith<_Home> get copyWith => throw _privateConstructorUsedError;
