@@ -85,6 +85,7 @@ class AccountStore extends StateNotifier<AccountState> {
     this.reader.call(stocksStateProvider.notifier).clear();
     this.reader.call(itemsStateProvider.notifier).clear();
     this.reader.call(shoppingListStoreProvider.notifier).clear();
+    this.reader.call(homeStoreProvider.notifier).clear();
 
   }
 }
