@@ -19,6 +19,7 @@ import 'package:stocklist_app/screen/register_screen.dart';
 import 'package:stocklist_app/screen/shopping_list_detail_screen.dart';
 import 'package:stocklist_app/screen/shopping_list_screen.dart';
 import 'package:stocklist_app/screen/stock_editor_screen.dart';
+import 'package:stocklist_app/store/HomeStore.dart';
 import 'package:stocklist_app/store/account_store.dart';
 import 'package:stocklist_app/store/box_store.dart';
 import 'package:stocklist_app/store/category_store.dart';
@@ -67,6 +68,7 @@ final storeAdder = Provider((ref)=> StoreAdder(ref.read));
 final stocklistClient = StocklistClient(const String.fromEnvironment('API_BASE_URL'), tokenStore);
 final categoriesStateProvider = StateNotifierProvider((ref)=> CategoryStore());
 final shoppingListStoreProvider = StateNotifierProvider((ref) => ShoppingListStore(ref.read));
+final homeStoreProvider = StateNotifierProvider((ref) => HomeStore());
 final accountStoreProvider = StateNotifierProvider((ref) => AccountStore(ref.read));
 
 void main() {

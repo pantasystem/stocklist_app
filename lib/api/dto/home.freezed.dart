@@ -12,47 +12,56 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-/// @nodoc
-class _$HomeTearOff {
-  const _$HomeTearOff();
+HomeDTO _$HomeDTOFromJson(Map<String, dynamic> json) {
+  return _HomeDTO.fromJson(json);
+}
 
-  _Home call(
-      {required int id, required String name, required List<User> members}) {
-    return _Home(
+/// @nodoc
+class _$HomeDTOTearOff {
+  const _$HomeDTOTearOff();
+
+  _HomeDTO call(
+      {required int id, required String name, required List<UserDTO> members}) {
+    return _HomeDTO(
       id: id,
       name: name,
       members: members,
     );
   }
+
+  HomeDTO fromJson(Map<String, Object> json) {
+    return HomeDTO.fromJson(json);
+  }
 }
 
 /// @nodoc
-const $Home = _$HomeTearOff();
+const $HomeDTO = _$HomeDTOTearOff();
 
 /// @nodoc
-mixin _$Home {
+mixin _$HomeDTO {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<User> get members => throw _privateConstructorUsedError;
+  List<UserDTO> get members => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $HomeCopyWith<Home> get copyWith => throw _privateConstructorUsedError;
+  $HomeDTOCopyWith<HomeDTO> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HomeCopyWith<$Res> {
-  factory $HomeCopyWith(Home value, $Res Function(Home) then) =
-      _$HomeCopyWithImpl<$Res>;
-  $Res call({int id, String name, List<User> members});
+abstract class $HomeDTOCopyWith<$Res> {
+  factory $HomeDTOCopyWith(HomeDTO value, $Res Function(HomeDTO) then) =
+      _$HomeDTOCopyWithImpl<$Res>;
+  $Res call({int id, String name, List<UserDTO> members});
 }
 
 /// @nodoc
-class _$HomeCopyWithImpl<$Res> implements $HomeCopyWith<$Res> {
-  _$HomeCopyWithImpl(this._value, this._then);
+class _$HomeDTOCopyWithImpl<$Res> implements $HomeDTOCopyWith<$Res> {
+  _$HomeDTOCopyWithImpl(this._value, this._then);
 
-  final Home _value;
+  final HomeDTO _value;
   // ignore: unused_field
-  final $Res Function(Home) _then;
+  final $Res Function(HomeDTO) _then;
 
   @override
   $Res call({
@@ -72,27 +81,27 @@ class _$HomeCopyWithImpl<$Res> implements $HomeCopyWith<$Res> {
       members: members == freezed
           ? _value.members
           : members // ignore: cast_nullable_to_non_nullable
-              as List<User>,
+              as List<UserDTO>,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$HomeCopyWith<$Res> implements $HomeCopyWith<$Res> {
-  factory _$HomeCopyWith(_Home value, $Res Function(_Home) then) =
-      __$HomeCopyWithImpl<$Res>;
+abstract class _$HomeDTOCopyWith<$Res> implements $HomeDTOCopyWith<$Res> {
+  factory _$HomeDTOCopyWith(_HomeDTO value, $Res Function(_HomeDTO) then) =
+      __$HomeDTOCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, List<User> members});
+  $Res call({int id, String name, List<UserDTO> members});
 }
 
 /// @nodoc
-class __$HomeCopyWithImpl<$Res> extends _$HomeCopyWithImpl<$Res>
-    implements _$HomeCopyWith<$Res> {
-  __$HomeCopyWithImpl(_Home _value, $Res Function(_Home) _then)
-      : super(_value, (v) => _then(v as _Home));
+class __$HomeDTOCopyWithImpl<$Res> extends _$HomeDTOCopyWithImpl<$Res>
+    implements _$HomeDTOCopyWith<$Res> {
+  __$HomeDTOCopyWithImpl(_HomeDTO _value, $Res Function(_HomeDTO) _then)
+      : super(_value, (v) => _then(v as _HomeDTO));
 
   @override
-  _Home get _value => super._value as _Home;
+  _HomeDTO get _value => super._value as _HomeDTO;
 
   @override
   $Res call({
@@ -100,7 +109,7 @@ class __$HomeCopyWithImpl<$Res> extends _$HomeCopyWithImpl<$Res>
     Object? name = freezed,
     Object? members = freezed,
   }) {
-    return _then(_Home(
+    return _then(_HomeDTO(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -112,32 +121,35 @@ class __$HomeCopyWithImpl<$Res> extends _$HomeCopyWithImpl<$Res>
       members: members == freezed
           ? _value.members
           : members // ignore: cast_nullable_to_non_nullable
-              as List<User>,
+              as List<UserDTO>,
     ));
   }
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$_HomeDTO implements _HomeDTO {
+  _$_HomeDTO({required this.id, required this.name, required this.members});
 
-class _$_Home implements _Home {
-  _$_Home({required this.id, required this.name, required this.members});
+  factory _$_HomeDTO.fromJson(Map<String, dynamic> json) =>
+      _$_$_HomeDTOFromJson(json);
 
   @override
   final int id;
   @override
   final String name;
   @override
-  final List<User> members;
+  final List<UserDTO> members;
 
   @override
   String toString() {
-    return 'Home(id: $id, name: $name, members: $members)';
+    return 'HomeDTO(id: $id, name: $name, members: $members)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Home &&
+        (other is _HomeDTO &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
@@ -155,23 +167,31 @@ class _$_Home implements _Home {
 
   @JsonKey(ignore: true)
   @override
-  _$HomeCopyWith<_Home> get copyWith =>
-      __$HomeCopyWithImpl<_Home>(this, _$identity);
+  _$HomeDTOCopyWith<_HomeDTO> get copyWith =>
+      __$HomeDTOCopyWithImpl<_HomeDTO>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_HomeDTOToJson(this);
+  }
 }
 
-abstract class _Home implements Home {
-  factory _Home(
+abstract class _HomeDTO implements HomeDTO {
+  factory _HomeDTO(
       {required int id,
       required String name,
-      required List<User> members}) = _$_Home;
+      required List<UserDTO> members}) = _$_HomeDTO;
+
+  factory _HomeDTO.fromJson(Map<String, dynamic> json) = _$_HomeDTO.fromJson;
 
   @override
   int get id => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
   @override
-  List<User> get members => throw _privateConstructorUsedError;
+  List<UserDTO> get members => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$HomeCopyWith<_Home> get copyWith => throw _privateConstructorUsedError;
+  _$HomeDTOCopyWith<_HomeDTO> get copyWith =>
+      throw _privateConstructorUsedError;
 }
